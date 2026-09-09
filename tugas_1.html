@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Business Understanding &#8212; Pemrosesan Data Sains</title>
+    <title>1. Business Understanding &#8212; Pemrosesan Data Sains</title>
   
   
   
@@ -212,7 +212,17 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Business Understanding</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Business Understanding</a></li>
+
+
+
+
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="tugas_2.html">Statistik Data Kualitas Udara Menggunakan KNIME</a></li>
 
@@ -357,7 +367,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Business Understanding</h1>
+    <h1>1. Business Understanding</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -367,18 +377,30 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Business Understanding</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan">Tujuan:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat">Manfaat:</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Business Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">2. Data Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-data">3. Pemeriksaan Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penyederhanaan-data">4. Penyederhanaan Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-carbon-monoxide-co">5. Visualisasi Carbon Monoxide (CO)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-co">Interpretasi CO</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">data understanding</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explorasi-data-seluas-luasnya">explorasi data seluas luasnya</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-setiap-polutan">Penjelasan Setiap Polutan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-nitrogen-dioxide-no2">6. Visualisasi Nitrogen Dioxide (NO₂)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-no2">Interpretasi NO₂</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-sulfur-dioxide-so2">7. Visualisasi Sulfur Dioxide (SO₂)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-so2">Interpretasi SO₂</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-methane-ch4">8. Visualisasi Methane (CH₄)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-ch4">Interpretasi CH₄</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif">9. Statistik Deskriptif</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-missing-value">10. Pemeriksaan Missing Value</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-nilai-rata-rata">11. Perbandingan Nilai Rata-rata</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">12. Kesimpulan</a></li>
 </ul>
 
             </nav>
@@ -391,210 +413,385 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
-
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">"ignore"</span><span class="p">)</span>
-
-<span class="c1"># Koordinat representatif wilayah Klampis</span>
-<span class="n">LATITUDE</span> <span class="o">=</span> <span class="o">-</span><span class="mf">7.0615</span>
-<span class="n">LONGITUDE</span> <span class="o">=</span> <span class="mf">112.7393</span>
-
-<span class="n">polutan_semua</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"pm2_5"</span><span class="p">,</span>
-    <span class="s2">"pm10"</span><span class="p">,</span>
-    <span class="s2">"carbon_monoxide"</span><span class="p">,</span>
-    <span class="s2">"nitrogen_dioxide"</span><span class="p">,</span>
-    <span class="s2">"sulphur_dioxide"</span><span class="p">,</span>
-    <span class="s2">"ozone"</span><span class="p">,</span>
-<span class="p">]</span>
-
-<span class="n">polutan_grafik</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"carbon_monoxide"</span><span class="p">,</span>
-    <span class="s2">"nitrogen_dioxide"</span><span class="p">,</span>
-    <span class="s2">"sulphur_dioxide"</span><span class="p">,</span>
-    <span class="s2">"ozone"</span><span class="p">,</span>
-<span class="p">]</span>
-
-<span class="n">nama_polutan</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"carbon_monoxide"</span><span class="p">:</span> <span class="s2">"CO"</span><span class="p">,</span>
-    <span class="s2">"nitrogen_dioxide"</span><span class="p">:</span> <span class="s2">"NO₂"</span><span class="p">,</span>
-    <span class="s2">"sulphur_dioxide"</span><span class="p">:</span> <span class="s2">"SO₂"</span><span class="p">,</span>
-    <span class="s2">"ozone"</span><span class="p">:</span> <span class="s2">"O₃"</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="c1"># Polygon yang valid dan konsisten untuk wilayah Klampis.</span>
-<span class="c1"># Urutan titik harus tertutup dan tidak saling bersilangan.</span>
-<span class="n">polygon</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span><span class="mf">112.7100</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0800</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">112.7600</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0800</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">112.7600</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0500</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">112.7200</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0450</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">112.7000</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0550</span><span class="p">],</span>
-    <span class="p">[</span><span class="mf">112.7100</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.0800</span><span class="p">],</span>
-<span class="p">]</span>
-
-<span class="n">geojson</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"FeatureCollection"</span><span class="p">,</span>
-    <span class="s2">"features"</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span>
-            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Feature"</span><span class="p">,</span>
-            <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Wilayah Klampis"</span><span class="p">},</span>
-            <span class="s2">"geometry"</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Polygon"</span><span class="p">,</span>
-                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">[</span><span class="n">polygon</span><span class="p">],</span>
-            <span class="p">},</span>
-        <span class="p">}</span>
-    <span class="p">],</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</details>
-</div>
-<section class="tex2jax_ignore mathjax_ignore" id="business-understanding">
-<h1>Business Understanding<a class="headerlink" href="#business-understanding" title="Link to this heading">#</a></h1>
-<section id="tujuan">
-<h2>Tujuan:<a class="headerlink" href="#tujuan" title="Link to this heading">#</a></h2>
-<p>Mengetahui dan menganalisis kondisi serta perubahan kualitas udara di Kecamatan Klampis, Kabupaten Bangkalan, berdasarkan data konsentrasi polutan selama periode pengamatan.</p>
-</section>
-<section id="manfaat">
-<h2>Manfaat:<a class="headerlink" href="#manfaat" title="Link to this heading">#</a></h2>
-<p>Memberikan gambaran mengenai kondisi dan pola perubahan kualitas udara di Kecamatan Klampis dari waktu ke waktu, serta menjadi dasar untuk melakukan analisis kualitas udara lebih lanjut.</p>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
-<h1>data understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
-<section id="explorasi-data-seluas-luasnya">
-<h2>explorasi data seluas luasnya<a class="headerlink" href="#explorasi-data-seluas-luasnya" title="Link to this heading">#</a></h2>
-<p>Eksplorasi data dilakukan untuk memahami karakteristik data kualitas udara di Kecamatan Klampis, Kabupaten Bangkalan. Analisis yang dilakukan meliputi:</p>
+  <section id="business-understanding">
+<h1>1. Business Understanding<a class="headerlink" href="#business-understanding" title="Link to this heading">#</a></h1>
+<p>Kualitas udara merupakan salah satu aspek penting dalam pengamatan kondisi lingkungan. Data penginderaan jauh dapat digunakan untuk memperoleh informasi mengenai berbagai parameter atmosfer.</p>
+<p>Pada analisis ini digunakan data dari <strong>Copernicus Data Space Ecosystem</strong>. Wilayah pengamatan difokuskan pada <strong>Klampis, Kabupaten Bangkalan, Jawa Timur</strong>.</p>
+<p>Parameter yang digunakan adalah:</p>
 <ul class="simple">
-<li><p>Melihat jumlah baris dan kolom dataset.</p></li>
-<li><p>Memeriksa tipe data setiap fitur.</p></li>
-<li><p>Memeriksa missing value dan data duplikat.</p></li>
-<li><p>Melihat statistik deskriptif seperti nilai minimum, maksimum, rata-rata, dan median.</p></li>
-<li><p>Melihat distribusi data dan mendeteksi kemungkinan outlier.</p></li>
-<li><p>Menganalisis perubahan konsentrasi polutan dari waktu ke waktu menggunakan grafik time series.</p></li>
+<li><p>Carbon Monoxide (CO)</p></li>
+<li><p>Nitrogen Dioxide (NO₂)</p></li>
+<li><p>Sulfur Dioxide (SO₂)</p></li>
+<li><p>Methane (CH₄)</p></li>
 </ul>
-<blockquote>
-<div><p><strong>Catatan:</strong> GeoJSON berfungsi sebagai batas geografis wilayah penelitian, sedangkan data kualitas udara yang diperoleh API merepresentasikan kondisi pada koordinat yang digunakan.</p>
-</div></blockquote>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
+<p>Data digunakan untuk melihat karakteristik dan perubahan nilai parameter atmosfer berdasarkan waktu.</p>
+</section>
+<section id="data-understanding">
+<h1>2. Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+<p>Data diperoleh melalui <strong>Copernicus Browser</strong></p>
+<p>Area pengamatan ditentukan menggunakan <strong>Area of Interest (AOI)</strong> pada wilayah Klampis, Kabupaten Bangkalan.</p>
+<p>Data hasil pengamatan diekspor dalam format CSV melalui fitur <strong>Time Series</strong>.</p>
+<p>Setiap file hasil ekspor memiliki beberapa informasi statistik:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">date</span></code> → tanggal pengamatan</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">min</span></code> → nilai minimum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max</span></code> → nilai maksimum</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mean</span></code> → nilai rata-rata</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stDev</span></code> → standar deviasi</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sampleCount</span></code> → jumlah sampel</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">noDataCount</span></code> → jumlah data yang tidak tersedia</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">median</span></code> → median</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p10</span></code> → persentil 10%</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p90</span></code> → persentil 90%</p></li>
+</ul>
+<p>Jumlah observasi setiap parameter dapat berbeda karena ketersediaan data satelit tidak selalu sama pada setiap tanggal.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">"https://air-quality-api.open-meteo.com/v1/air-quality"</span>
-<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"latitude"</span><span class="p">:</span> <span class="n">LATITUDE</span><span class="p">,</span>
-    <span class="s2">"longitude"</span><span class="p">:</span> <span class="n">LONGITUDE</span><span class="p">,</span>
-    <span class="s2">"hourly"</span><span class="p">:</span> <span class="s2">","</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">polutan_semua</span><span class="p">),</span>
-    <span class="s2">"start_date"</span><span class="p">:</span> <span class="s2">"2025-09-01"</span><span class="p">,</span>
-    <span class="s2">"end_date"</span><span class="p">:</span> <span class="s2">"2026-08-28"</span><span class="p">,</span>
-    <span class="s2">"timezone"</span><span class="p">:</span> <span class="s2">"Asia/Jakarta"</span><span class="p">,</span>
-<span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">google.colab</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Upload 4 file CSV dari Copernicus:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"CO, NO2, SO2, dan CH4"</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-    <span class="k">if</span> <span class="s2">"hourly"</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s2">"time"</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">"hourly"</span><span class="p">]:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"hourly"</span><span class="p">])</span>
-        <span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span>
+<span class="n">uploaded</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">upload</span><span class="p">()</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">content</span> <span class="ow">in</span> <span class="n">uploaded</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">nama</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="s2">"SENTINEL-5P_CO"</span> <span class="ow">in</span> <span class="n">nama</span><span class="p">:</span>
+        <span class="n">polutan</span> <span class="o">=</span> <span class="s2">"CO"</span>
+
+    <span class="k">elif</span> <span class="s2">"SENTINEL-5P_NO2"</span> <span class="ow">in</span> <span class="n">nama</span><span class="p">:</span>
+        <span class="n">polutan</span> <span class="o">=</span> <span class="s2">"NO2"</span>
+
+    <span class="k">elif</span> <span class="s2">"SENTINEL-5P_SO2"</span> <span class="ow">in</span> <span class="n">nama</span><span class="p">:</span>
+        <span class="n">polutan</span> <span class="o">=</span> <span class="s2">"SO2"</span>
+
+    <span class="k">elif</span> <span class="s2">"SENTINEL-5P_CH4"</span> <span class="ow">in</span> <span class="n">nama</span><span class="p">:</span>
+        <span class="n">polutan</span> <span class="o">=</span> <span class="s2">"CH4"</span>
+
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Struktur data API tidak sesuai"</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">tanggal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">"2025-09-01"</span><span class="p">,</span> <span class="s2">"2026-08-28"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"D"</span><span class="p">)</span>
-    <span class="n">rng</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tanggal</span><span class="p">)))</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s2">"time"</span><span class="p">:</span> <span class="n">tanggal</span><span class="p">,</span>
-        <span class="s2">"pm2_5"</span><span class="p">:</span> <span class="mi">20</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">rng</span> <span class="o">%</span> <span class="mi">7</span><span class="p">),</span>
-        <span class="s2">"pm10"</span><span class="p">:</span> <span class="mi">35</span> <span class="o">+</span> <span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="n">rng</span> <span class="o">%</span> <span class="mi">9</span><span class="p">),</span>
-        <span class="s2">"carbon_monoxide"</span><span class="p">:</span> <span class="mi">250</span> <span class="o">+</span> <span class="mi">150</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">rng</span> <span class="o">%</span> <span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="s2">"nitrogen_dioxide"</span><span class="p">:</span> <span class="mi">22</span> <span class="o">+</span> <span class="mi">15</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">rng</span> <span class="o">%</span> <span class="mi">6</span><span class="p">))</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="s2">"sulphur_dioxide"</span><span class="p">:</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">rng</span> <span class="o">%</span> <span class="mi">4</span><span class="p">))</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">"ozone"</span><span class="p">:</span> <span class="mi">30</span> <span class="o">+</span> <span class="mi">18</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">rng</span> <span class="o">%</span> <span class="mi">7</span><span class="p">))</span> <span class="o">/</span> <span class="mi">7</span><span class="p">,</span>
-    <span class="p">})</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File dilewati: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">continue</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah baris data:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah kolom data:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Rentang waktu:"</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="s2">"sampai"</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">content</span><span class="p">))</span>
 
-<span class="n">df</span><span class="p">[</span><span class="s2">"wilayah"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Wilayah Klampis, Kabupaten Bangkalan"</span>
-<span class="n">df</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LATITUDE</span>
-<span class="n">df</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">LONGITUDE</span>
+    <span class="c1"># Bersihkan nama kolom</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"wilayah"</span><span class="p">,</span> <span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">,</span> <span class="o">*</span><span class="n">polutan_semua</span><span class="p">]]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"time"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="c1"># Pastikan tanggal terbaca</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">],</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">,</span>
+        <span class="n">utc</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 
-<span class="n">peta</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">LATITUDE</span><span class="p">,</span> <span class="n">LONGITUDE</span><span class="p">],</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span><span class="n">geojson</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Batas Wilayah Klampis"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
-<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">([</span><span class="n">LATITUDE</span><span class="p">,</span> <span class="n">LONGITUDE</span><span class="p">],</span> <span class="n">popup</span><span class="o">=</span><span class="s2">"Klampis, Bangkalan"</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="s2">"Klampis"</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
+    <span class="c1"># Hilangkan timezone</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
-<span class="n">df_harian</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">df_harian</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_harian</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
-<span class="n">df_harian</span> <span class="o">=</span> <span class="n">df_harian</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"tanggal"</span><span class="p">)[</span><span class="n">polutan_semua</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-<span class="n">df_harian</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_harian</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Data rata-rata harian:"</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df_harian</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="c1"># Hapus tanggal yang tidak valid</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">])</span>
 
-<span class="n">penjelasan_grafik</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"carbon_monoxide"</span><span class="p">:</span> <span class="s2">"""</span>
-<span class="s2">### Penjelasan Grafik CO</span>
-<span class="s2">Konsentrasi CO menunjukkan fluktuasi yang cukup nyata. Nilai cenderung lebih tinggi pada beberapa periode tertentu, menandakan adanya variasi sumber emisi dan kondisi atmosfer yang memengaruhi konsentrasi gas.</span>
-<span class="s2">"""</span><span class="p">,</span>
-    <span class="s2">"nitrogen_dioxide"</span><span class="p">:</span> <span class="s2">"""</span>
-<span class="s2">### Penjelasan Grafik NO₂</span>
-<span class="s2">NO₂ bervariasi sepanjang periode. Pada beberapa hari terlihat puncak konsentrasi, yang dapat terkait dengan aktivitas kendaraan dan pembakaran di wilayah sekitar.</span>
-<span class="s2">"""</span><span class="p">,</span>
-    <span class="s2">"sulphur_dioxide"</span><span class="p">:</span> <span class="s2">"""</span>
-<span class="s2">### Penjelasan Grafik SO₂</span>
-<span class="s2">SO₂ cenderung lebih stabil dibanding polutan lainnya, namun tetap menunjukkan variasi yang dapat dipengaruhi oleh aktivitas industri dan pembakaran bahan bakar.</span>
-<span class="s2">"""</span><span class="p">,</span>
-    <span class="s2">"ozone"</span><span class="p">:</span> <span class="s2">"""</span>
-<span class="s2">### Penjelasan Grafik O₃</span>
-<span class="s2">O₃ menunjukkan pola yang berbeda, dengan fluktuasi yang tergantung pada kondisi sinar matahari, reaksi kimia atmosfer, dan konsentrasi precursor seperti NOₓ.</span>
-<span class="s2">"""</span><span class="p">,</span>
-<span class="p">}</span>
+    <span class="c1"># Urutkan berdasarkan tanggal</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"C0/date"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">kolom</span> <span class="ow">in</span> <span class="n">polutan_grafik</span><span class="p">:</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_harian</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">],</span> <span class="n">df_harian</span><span class="p">[</span><span class="n">kolom</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"tab:blue"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Time Series </span><span class="si">{</span><span class="n">nama_polutan</span><span class="p">[</span><span class="n">kolom</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">Wilayah Klampis, Kabupaten Bangkalan"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Konsentrasi (µg/m³)"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">penjelasan_grafik</span><span class="p">[</span><span class="n">kolom</span><span class="p">]))</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">polutan</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Parameter : </span><span class="si">{</span><span class="n">polutan</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File      : </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Jumlah baris : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Periode     : </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'C0/date'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> sampai </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'C0/date'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah baris data: 8688
-Jumlah kolom data: 7
-Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Upload 4 file CSV dari Copernicus:
+CO, NO2, SO2, dan CH4
 </pre></div>
 </div>
-<div class="output text_html"><div>
+<div class="output text_html">
+     <input type="file" id="files-186eab02-034a-4348-b3b9-a18eafbec752" name="files[]" multiple disabled
+        style="border:none" />
+     <output id="result-186eab02-034a-4348-b3b9-a18eafbec752">
+      Upload widget is only available when the cell has been executed in the
+      current browser session. Please rerun this cell to enable.
+      </output>
+      <script>// Copyright 2017 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ * @fileoverview Helpers for google.colab Python module.
+ */
+(function(scope) {
+function span(text, styleAttributes = {}) {
+  const element = document.createElement('span');
+  element.textContent = text;
+  for (const key of Object.keys(styleAttributes)) {
+    element.style[key] = styleAttributes[key];
+  }
+  return element;
+}
+
+// Max number of bytes which will be uploaded at a time.
+const MAX_PAYLOAD_SIZE = 100 * 1024;
+
+function _uploadFiles(inputId, outputId) {
+  const steps = uploadFilesStep(inputId, outputId);
+  const outputElement = document.getElementById(outputId);
+  // Cache steps on the outputElement to make it available for the next call
+  // to uploadFilesContinue from Python.
+  outputElement.steps = steps;
+
+  return _uploadFilesContinue(outputId);
+}
+
+// This is roughly an async generator (not supported in the browser yet),
+// where there are multiple asynchronous steps and the Python side is going
+// to poll for completion of each step.
+// This uses a Promise to block the python side on completion of each step,
+// then passes the result of the previous step as the input to the next step.
+function _uploadFilesContinue(outputId) {
+  const outputElement = document.getElementById(outputId);
+  const steps = outputElement.steps;
+
+  const next = steps.next(outputElement.lastPromiseValue);
+  return Promise.resolve(next.value.promise).then((value) => {
+    // Cache the last promise value to make it available to the next
+    // step of the generator.
+    outputElement.lastPromiseValue = value;
+    return next.value.response;
+  });
+}
+
+/**
+ * Generator function which is called between each async step of the upload
+ * process.
+ * @param {string} inputId Element ID of the input file picker element.
+ * @param {string} outputId Element ID of the output display.
+ * @return {!Iterable<!Object>} Iterable of next steps.
+ */
+function* uploadFilesStep(inputId, outputId) {
+  const inputElement = document.getElementById(inputId);
+  inputElement.disabled = false;
+
+  const outputElement = document.getElementById(outputId);
+  outputElement.innerHTML = '';
+
+  const pickedPromise = new Promise((resolve) => {
+    inputElement.addEventListener('change', (e) => {
+      resolve(e.target.files);
+    });
+  });
+
+  const cancel = document.createElement('button');
+  inputElement.parentElement.appendChild(cancel);
+  cancel.textContent = 'Cancel upload';
+  const cancelPromise = new Promise((resolve) => {
+    cancel.onclick = () => {
+      resolve(null);
+    };
+  });
+
+  // Wait for the user to pick the files.
+  const files = yield {
+    promise: Promise.race([pickedPromise, cancelPromise]),
+    response: {
+      action: 'starting',
+    }
+  };
+
+  cancel.remove();
+
+  // Disable the input element since further picks are not allowed.
+  inputElement.disabled = true;
+
+  if (!files) {
+    return {
+      response: {
+        action: 'complete',
+      }
+    };
+  }
+
+  for (const file of files) {
+    const li = document.createElement('li');
+    li.append(span(file.name, {fontWeight: 'bold'}));
+    li.append(span(
+        `(${file.type || 'n/a'}) - ${file.size} bytes, ` +
+        `last modified: ${
+            file.lastModifiedDate ? file.lastModifiedDate.toLocaleDateString() :
+                                    'n/a'} - `));
+    const percent = span('0% done');
+    li.appendChild(percent);
+
+    outputElement.appendChild(li);
+
+    const fileDataPromise = new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        resolve(e.target.result);
+      };
+      reader.readAsArrayBuffer(file);
+    });
+    // Wait for the data to be ready.
+    let fileData = yield {
+      promise: fileDataPromise,
+      response: {
+        action: 'continue',
+      }
+    };
+
+    // Use a chunked sending to avoid message size limits. See b/62115660.
+    let position = 0;
+    do {
+      const length = Math.min(fileData.byteLength - position, MAX_PAYLOAD_SIZE);
+      const chunk = new Uint8Array(fileData, position, length);
+      position += length;
+
+      const base64 = btoa(String.fromCharCode.apply(null, chunk));
+      yield {
+        response: {
+          action: 'append',
+          file: file.name,
+          data: base64,
+        },
+      };
+
+      let percentDone = fileData.byteLength === 0 ?
+          100 :
+          Math.round((position / fileData.byteLength) * 100);
+      percent.textContent = `${percentDone}% done`;
+
+    } while (position < fileData.byteLength);
+  }
+
+  // All done.
+  yield {
+    response: {
+      action: 'complete',
+    }
+  };
+}
+
+scope.google = scope.google || {};
+scope.google.colab = scope.google.colab || {};
+scope.google.colab._files = {
+  _uploadFiles,
+  _uploadFilesContinue,
+};
+})(self);
+</script> </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saving Sentinel-5P_CH4-CH4_VISUALIZED-2025-08-31T00_00_00_000Z-2026-08-31T23_59_59_999Z.csv to Sentinel-5P_CH4-CH4_VISUALIZED-2025-08-31T00_00_00_000Z-2026-08-31T23_59_59_999Z (3).csv
+Saving Sentinel-5P_SO2-SO2_VISUALIZED-2026-02-10T00_00_00_000Z-2026-08-10T23_59_59_999Z.csv to Sentinel-5P_SO2-SO2_VISUALIZED-2026-02-10T00_00_00_000Z-2026-08-10T23_59_59_999Z (3).csv
+Saving Sentinel-5P_NO2-NO2_VISUALIZED-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z.csv to Sentinel-5P_NO2-NO2_VISUALIZED-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z (3).csv
+Saving Sentinel-5P_CO-Custom-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z.csv to Sentinel-5P_CO-Custom-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z (3).csv
+
+============================================================
+Parameter : CH4
+File      : Sentinel-5P_CH4-CH4_VISUALIZED-2025-08-31T00_00_00_000Z-2026-08-31T23_59_59_999Z (3).csv
+Jumlah baris : 14
+Periode     : 2025-09-23 00:00:00 sampai 2026-08-26 00:00:00
+
+============================================================
+Parameter : SO2
+File      : Sentinel-5P_SO2-SO2_VISUALIZED-2026-02-10T00_00_00_000Z-2026-08-10T23_59_59_999Z (3).csv
+Jumlah baris : 125
+Periode     : 2026-02-12 00:00:00 sampai 2026-08-10 00:00:00
+
+============================================================
+Parameter : NO2
+File      : Sentinel-5P_NO2-NO2_VISUALIZED-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z (3).csv
+Jumlah baris : 176
+Periode     : 2025-02-01 00:00:00 sampai 2026-01-26 00:00:00
+
+============================================================
+Parameter : CO
+File      : Sentinel-5P_CO-Custom-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z (3).csv
+Jumlah baris : 184
+Periode     : 2025-01-29 00:00:00 sampai 2026-01-26 00:00:00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pemeriksaan-data">
+<h1>3. Pemeriksaan Data<a class="headerlink" href="#pemeriksaan-data" title="Link to this heading">#</a></h1>
+<p>Pemeriksaan dilakukan untuk mengetahui jumlah observasi, periode pengamatan, struktur kolom, dan kondisi data dari masing-masing parameter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">polutan</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">polutan</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah baris :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah kolom :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Kolom:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Periode:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Awal  :"</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Akhir :"</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Missing value:"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">5 data pertama:"</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+CH4
+============================================================
+Jumlah baris : 14
+Jumlah kolom : 10
+
+Kolom:
+['C0/date', 'C0/min', 'C0/max', 'C0/mean', 'C0/stDev', 'C0/sampleCount', 'C0/noDataCount', 'C0/median', 'C0/p10', 'C0/p90']
+
+Periode:
+Awal  : 2025-09-23 00:00:00
+Akhir : 2026-08-26 00:00:00
+
+Missing value:
+C0/date           0
+C0/min            0
+C0/max            0
+C0/mean           0
+C0/stDev          0
+C0/sampleCount    0
+C0/noDataCount    0
+C0/median         0
+C0/p10            0
+C0/p90            0
+dtype: int64
+
+5 data pertama:
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-2af35118-fec0-48c4-8ed6-52bf87e0acdc" class="colab-df-container">
+    <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -612,152 +809,1697 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>time</th>
-      <th>wilayah</th>
-      <th>latitude</th>
-      <th>longitude</th>
-      <th>pm2_5</th>
-      <th>pm10</th>
-      <th>carbon_monoxide</th>
-      <th>nitrogen_dioxide</th>
-      <th>sulphur_dioxide</th>
-      <th>ozone</th>
+      <th>C0/date</th>
+      <th>C0/min</th>
+      <th>C0/max</th>
+      <th>C0/mean</th>
+      <th>C0/stDev</th>
+      <th>C0/sampleCount</th>
+      <th>C0/noDataCount</th>
+      <th>C0/median</th>
+      <th>C0/p10</th>
+      <th>C0/p90</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>2025-09-01 00:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>30.9</td>
-      <td>31.5</td>
-      <td>277.0</td>
-      <td>22.3</td>
-      <td>5.9</td>
-      <td>52.0</td>
+      <td>2025-09-23</td>
+      <td>1880.062134</td>
+      <td>1880.062134</td>
+      <td>1880.062134</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1880.062134</td>
+      <td>1880.062134</td>
+      <td>1880.062134</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2025-09-01 01:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>31.3</td>
-      <td>32.2</td>
-      <td>269.0</td>
-      <td>22.1</td>
-      <td>5.8</td>
-      <td>50.0</td>
+      <td>2026-01-30</td>
+      <td>1942.427246</td>
+      <td>1957.402832</td>
+      <td>1949.463460</td>
+      <td>5.394262</td>
+      <td>6</td>
+      <td>0</td>
+      <td>1951.507812</td>
+      <td>1942.427246</td>
+      <td>1957.402832</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2025-09-01 02:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>32.7</td>
-      <td>34.2</td>
-      <td>286.0</td>
-      <td>22.1</td>
-      <td>5.9</td>
-      <td>45.0</td>
+      <td>2026-04-20</td>
+      <td>1864.500122</td>
+      <td>1864.500122</td>
+      <td>1864.500122</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>1864.500122</td>
+      <td>1864.500122</td>
+      <td>1864.500122</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2025-09-01 03:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>35.0</td>
-      <td>36.9</td>
-      <td>326.0</td>
-      <td>22.4</td>
-      <td>6.3</td>
-      <td>40.0</td>
+      <td>2026-06-02</td>
+      <td>1900.692871</td>
+      <td>1900.692871</td>
+      <td>1900.692871</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>4</td>
+      <td>1900.692871</td>
+      <td>1900.692871</td>
+      <td>1900.692871</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2025-09-01 04:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>39.3</td>
-      <td>41.3</td>
-      <td>406.0</td>
-      <td>24.1</td>
-      <td>7.0</td>
-      <td>38.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>2025-09-01 05:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>46.7</td>
-      <td>48.9</td>
-      <td>589.0</td>
-      <td>29.5</td>
-      <td>8.6</td>
-      <td>39.0</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>2025-09-01 06:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>59.4</td>
-      <td>61.9</td>
-      <td>813.0</td>
-      <td>36.1</td>
-      <td>10.6</td>
-      <td>44.0</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>2025-09-01 07:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>36.1</td>
-      <td>38.2</td>
-      <td>908.0</td>
-      <td>29.7</td>
-      <td>9.9</td>
-      <td>57.0</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>2025-09-01 08:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>24.9</td>
-      <td>28.3</td>
-      <td>751.0</td>
-      <td>23.4</td>
-      <td>8.6</td>
-      <td>81.0</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>2025-09-01 09:00:00</td>
-      <td>Wilayah Klampis, Kabupaten Bangkalan</td>
-      <td>-7.0615</td>
-      <td>112.7393</td>
-      <td>21.4</td>
-      <td>25.2</td>
-      <td>464.0</td>
-      <td>14.8</td>
-      <td>6.9</td>
-      <td>113.0</td>
+      <td>2026-06-07</td>
+      <td>1868.984253</td>
+      <td>1868.984253</td>
+      <td>1868.984253</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>2</td>
+      <td>1868.984253</td>
+      <td>1868.984253</td>
+      <td>1868.984253</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output text_html"><div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-2af35118-fec0-48c4-8ed6-52bf87e0acdc')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-2af35118-fec0-48c4-8ed6-52bf87e0acdc button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-2af35118-fec0-48c4-8ed6-52bf87e0acdc');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+SO2
+============================================================
+Jumlah baris : 125
+Jumlah kolom : 10
+
+Kolom:
+['C0/date', 'C0/min', 'C0/max', 'C0/mean', 'C0/stDev', 'C0/sampleCount', 'C0/noDataCount', 'C0/median', 'C0/p10', 'C0/p90']
+
+Periode:
+Awal  : 2026-02-12 00:00:00
+Akhir : 2026-08-10 00:00:00
+
+Missing value:
+C0/date           0
+C0/min            0
+C0/max            0
+C0/mean           0
+C0/stDev          0
+C0/sampleCount    0
+C0/noDataCount    0
+C0/median         0
+C0/p10            0
+C0/p90            0
+dtype: int64
+
+5 data pertama:
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-d2abb9ae-839a-4af6-9529-342f64728dbb" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C0/date</th>
+      <th>C0/min</th>
+      <th>C0/max</th>
+      <th>C0/mean</th>
+      <th>C0/stDev</th>
+      <th>C0/sampleCount</th>
+      <th>C0/noDataCount</th>
+      <th>C0/median</th>
+      <th>C0/p10</th>
+      <th>C0/p90</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2026-02-12</td>
+      <td>-0.000272</td>
+      <td>-0.000105</td>
+      <td>-0.000172</td>
+      <td>0.000082</td>
+      <td>6</td>
+      <td>1</td>
+      <td>-0.000105</td>
+      <td>-0.000272</td>
+      <td>-0.000105</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2026-02-15</td>
+      <td>-0.000404</td>
+      <td>0.000059</td>
+      <td>-0.000111</td>
+      <td>0.000181</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0.000059</td>
+      <td>-0.000220</td>
+      <td>0.000059</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2026-02-16</td>
+      <td>0.000245</td>
+      <td>0.000245</td>
+      <td>0.000245</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>0.000245</td>
+      <td>0.000245</td>
+      <td>0.000245</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2026-02-18</td>
+      <td>-0.000203</td>
+      <td>-0.000203</td>
+      <td>-0.000203</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>-0.000203</td>
+      <td>-0.000203</td>
+      <td>-0.000203</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2026-02-20</td>
+      <td>-0.000115</td>
+      <td>0.000088</td>
+      <td>-0.000029</td>
+      <td>0.000086</td>
+      <td>6</td>
+      <td>0</td>
+      <td>-0.000059</td>
+      <td>-0.000115</td>
+      <td>0.000088</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-d2abb9ae-839a-4af6-9529-342f64728dbb')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-d2abb9ae-839a-4af6-9529-342f64728dbb button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-d2abb9ae-839a-4af6-9529-342f64728dbb');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+NO2
+============================================================
+Jumlah baris : 176
+Jumlah kolom : 10
+
+Kolom:
+['C0/date', 'C0/min', 'C0/max', 'C0/mean', 'C0/stDev', 'C0/sampleCount', 'C0/noDataCount', 'C0/median', 'C0/p10', 'C0/p90']
+
+Periode:
+Awal  : 2025-02-01 00:00:00
+Akhir : 2026-01-26 00:00:00
+
+Missing value:
+C0/date           0
+C0/min            0
+C0/max            0
+C0/mean           0
+C0/stDev          0
+C0/sampleCount    0
+C0/noDataCount    0
+C0/median         0
+C0/p10            0
+C0/p90            0
+dtype: int64
+
+5 data pertama:
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-1cea1c5e-9ea6-476e-b334-5d03234f972f" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C0/date</th>
+      <th>C0/min</th>
+      <th>C0/max</th>
+      <th>C0/mean</th>
+      <th>C0/stDev</th>
+      <th>C0/sampleCount</th>
+      <th>C0/noDataCount</th>
+      <th>C0/median</th>
+      <th>C0/p10</th>
+      <th>C0/p90</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-02-01</td>
+      <td>0.000009</td>
+      <td>0.000019</td>
+      <td>0.000017</td>
+      <td>0.000005</td>
+      <td>6</td>
+      <td>2</td>
+      <td>0.000019</td>
+      <td>0.000019</td>
+      <td>0.000019</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-03</td>
+      <td>0.000003</td>
+      <td>0.000003</td>
+      <td>0.000003</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>3</td>
+      <td>0.000003</td>
+      <td>0.000003</td>
+      <td>0.000003</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-04</td>
+      <td>0.000016</td>
+      <td>0.000016</td>
+      <td>0.000016</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>0.000016</td>
+      <td>0.000016</td>
+      <td>0.000016</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-05</td>
+      <td>0.000013</td>
+      <td>0.000028</td>
+      <td>0.000019</td>
+      <td>0.000005</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0.000020</td>
+      <td>0.000013</td>
+      <td>0.000028</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-06</td>
+      <td>0.000013</td>
+      <td>0.000020</td>
+      <td>0.000018</td>
+      <td>0.000003</td>
+      <td>6</td>
+      <td>0</td>
+      <td>0.000020</td>
+      <td>0.000013</td>
+      <td>0.000020</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-1cea1c5e-9ea6-476e-b334-5d03234f972f')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-1cea1c5e-9ea6-476e-b334-5d03234f972f button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-1cea1c5e-9ea6-476e-b334-5d03234f972f');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+CO
+============================================================
+Jumlah baris : 184
+Jumlah kolom : 10
+
+Kolom:
+['C0/date', 'C0/min', 'C0/max', 'C0/mean', 'C0/stDev', 'C0/sampleCount', 'C0/noDataCount', 'C0/median', 'C0/p10', 'C0/p90']
+
+Periode:
+Awal  : 2025-01-29 00:00:00
+Akhir : 2026-01-26 00:00:00
+
+Missing value:
+C0/date             0
+C0/min              0
+C0/max              0
+C0/mean             0
+C0/stDev            0
+C0/sampleCount      0
+C0/noDataCount      0
+C0/median         184
+C0/p10            184
+C0/p90            184
+dtype: int64
+
+5 data pertama:
+</pre></div>
+</div>
+<div class="output text_html">
+  <div id="df-f27f5bf4-4255-49e2-acb3-ccdd0353aaa6" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C0/date</th>
+      <th>C0/min</th>
+      <th>C0/max</th>
+      <th>C0/mean</th>
+      <th>C0/stDev</th>
+      <th>C0/sampleCount</th>
+      <th>C0/noDataCount</th>
+      <th>C0/median</th>
+      <th>C0/p10</th>
+      <th>C0/p90</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-01-29</td>
+      <td>0.026266</td>
+      <td>0.026266</td>
+      <td>0.026266</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>0.028865</td>
+      <td>0.028865</td>
+      <td>0.028865</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-04</td>
+      <td>0.029160</td>
+      <td>0.029160</td>
+      <td>0.029160</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-05</td>
+      <td>0.024384</td>
+      <td>0.036447</td>
+      <td>0.027979</td>
+      <td>0.005106</td>
+      <td>6</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-06</td>
+      <td>0.031698</td>
+      <td>0.031809</td>
+      <td>0.031754</td>
+      <td>0.000055</td>
+      <td>6</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-f27f5bf4-4255-49e2-acb3-ccdd0353aaa6')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-f27f5bf4-4255-49e2-acb3-ccdd0353aaa6 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-f27f5bf4-4255-49e2-acb3-ccdd0353aaa6');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section id="penyederhanaan-data">
+<h1>4. Penyederhanaan Data<a class="headerlink" href="#penyederhanaan-data" title="Link to this heading">#</a></h1>
+<p>Untuk visualisasi, digunakan nilai <code class="docutils literal notranslate"><span class="pre">mean</span></code> sebagai nilai utama setiap parameter pada setiap tanggal pengamatan.</p>
+<p>Kolom <code class="docutils literal notranslate"><span class="pre">C0/mean</span></code> akan digunakan sebagai nilai rata-rata hasil pengamatan pada AOI.</p>
+<p>Data lain seperti minimum, maximum, standard deviation, median, p10, dan p90 tetap tersedia pada data asli.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membuat data sederhana untuk visualisasi</span>
+
+<span class="n">data_plot</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">polutan</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">"C0/date"</span><span class="p">,</span> <span class="s2">"C0/mean"</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">temp</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"date"</span><span class="p">,</span> <span class="n">polutan</span><span class="p">]</span>
+
+    <span class="n">data_plot</span><span class="p">[</span><span class="n">polutan</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">polutan</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span><span class="si">}</span><span class="s2"> observasi"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CH4: 14 observasi
+SO2: 125 observasi
+NO2: 176 observasi
+CO: 184 observasi
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="visualisasi-carbon-monoxide-co">
+<h1>5. Visualisasi Carbon Monoxide (CO)<a class="headerlink" href="#visualisasi-carbon-monoxide-co" title="Link to this heading">#</a></h1>
+<p>Grafik berikut menunjukkan perubahan nilai rata-rata Carbon Monoxide (CO) berdasarkan tanggal pengamatan pada wilayah penelitian.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">"CO"</span> <span class="ow">in</span> <span class="n">data_plot</span><span class="p">:</span>
+
+    <span class="n">df_co</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_co</span><span class="p">[</span><span class="s2">"date"</span><span class="p">],</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"CO"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Time Series Carbon Monoxide (CO)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Data CO belum tersedia."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3586f75e01d63387f051d16fa125cbb4cd17ea1bea662e3b9d61f1fb4b6d3092.png" src="_images/3586f75e01d63387f051d16fa125cbb4cd17ea1bea662e3b9d61f1fb4b6d3092.png" />
+</div>
+</div>
+<section id="interpretasi-co">
+<h2>Interpretasi CO<a class="headerlink" href="#interpretasi-co" title="Link to this heading">#</a></h2>
+<p>Grafik digunakan untuk melihat perubahan nilai CO sepanjang periode pengamatan.</p>
+<p>Perubahan naik dan turun pada grafik menunjukkan adanya variasi nilai CO pada tanggal pengamatan yang tersedia. Karena data Sentinel-5P tidak selalu memiliki observasi valid pada setiap tanggal, jumlah titik pada grafik tidak harus sama dengan jumlah hari dalam satu tahun.</p>
+</section>
+</section>
+<section id="visualisasi-nitrogen-dioxide-no2">
+<h1>6. Visualisasi Nitrogen Dioxide (NO₂)<a class="headerlink" href="#visualisasi-nitrogen-dioxide-no2" title="Link to this heading">#</a></h1>
+<p>Grafik berikut menunjukkan perubahan nilai rata-rata Nitrogen Dioxide (NO₂) berdasarkan waktu.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">"NO2"</span> <span class="ow">in</span> <span class="n">data_plot</span><span class="p">:</span>
+
+    <span class="n">df_no2</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">"NO2"</span><span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_no2</span><span class="p">[</span><span class="s2">"date"</span><span class="p">],</span> <span class="n">df_no2</span><span class="p">[</span><span class="s2">"NO2"</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"NO₂"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Time Series Nitrogen Dioxide (NO₂)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Data NO₂ belum tersedia."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/da3c14e8dd8d8199c9bfe88c23ad50962ac98209ec1b37d86daa0a611acfe8b4.png" src="_images/da3c14e8dd8d8199c9bfe88c23ad50962ac98209ec1b37d86daa0a611acfe8b4.png" />
+</div>
+</div>
+<section id="interpretasi-no2">
+<h2>Interpretasi NO₂<a class="headerlink" href="#interpretasi-no2" title="Link to this heading">#</a></h2>
+<p>Grafik menunjukkan perubahan nilai rata-rata NO₂ pada tanggal pengamatan yang tersedia.</p>
+<p>Perbedaan nilai dari waktu ke waktu menunjukkan adanya variasi konsentrasi NO₂ pada wilayah AOI penelitian.</p>
+</section>
+</section>
+<section id="visualisasi-sulfur-dioxide-so2">
+<h1>7. Visualisasi Sulfur Dioxide (SO₂)<a class="headerlink" href="#visualisasi-sulfur-dioxide-so2" title="Link to this heading">#</a></h1>
+<p>Grafik berikut menunjukkan perubahan nilai rata-rata Sulfur Dioxide (SO₂) berdasarkan waktu.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">"SO2"</span> <span class="ow">in</span> <span class="n">data_plot</span><span class="p">:</span>
+
+    <span class="n">df_so2</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">"SO2"</span><span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_so2</span><span class="p">[</span><span class="s2">"date"</span><span class="p">],</span> <span class="n">df_so2</span><span class="p">[</span><span class="s2">"SO2"</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"SO₂"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Time Series Sulfur Dioxide (SO₂)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Data SO₂ belum tersedia."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/263ab524656fbb1899b7f1f159320011be362f8b7f9ac0c306a3ab90e0eb5812.png" src="_images/263ab524656fbb1899b7f1f159320011be362f8b7f9ac0c306a3ab90e0eb5812.png" />
+</div>
+</div>
+<section id="interpretasi-so2">
+<h2>Interpretasi SO₂<a class="headerlink" href="#interpretasi-so2" title="Link to this heading">#</a></h2>
+<p>Grafik digunakan untuk melihat perubahan nilai SO₂ berdasarkan waktu pada wilayah penelitian.</p>
+<p>Jumlah titik pengamatan bergantung pada ketersediaan data Sentinel-5P pada AOI dan periode yang digunakan.</p>
+</section>
+</section>
+<section id="visualisasi-methane-ch4">
+<h1>8. Visualisasi Methane (CH₄)<a class="headerlink" href="#visualisasi-methane-ch4" title="Link to this heading">#</a></h1>
+<p>Grafik berikut menunjukkan nilai rata-rata Methane (CH₄) berdasarkan tanggal pengamatan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s2">"CH4"</span> <span class="ow">in</span> <span class="n">data_plot</span><span class="p">:</span>
+
+    <span class="n">df_ch4</span> <span class="o">=</span> <span class="n">data_plot</span><span class="p">[</span><span class="s2">"CH4"</span><span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_ch4</span><span class="p">[</span><span class="s2">"date"</span><span class="p">],</span> <span class="n">df_ch4</span><span class="p">[</span><span class="s2">"CH4"</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"CH₄"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Time Series Methane (CH₄)"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Data CH₄ belum tersedia."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/bc013f7511e5767af0607d7e14243a40a1c3b05a9fd56f66a7c95528fc0f0c71.png" src="_images/bc013f7511e5767af0607d7e14243a40a1c3b05a9fd56f66a7c95528fc0f0c71.png" />
+</div>
+</div>
+<section id="interpretasi-ch4">
+<h2>Interpretasi CH₄<a class="headerlink" href="#interpretasi-ch4" title="Link to this heading">#</a></h2>
+<p>Grafik menunjukkan perubahan nilai rata-rata CH₄ berdasarkan pengamatan yang tersedia.</p>
+<p>Jumlah observasi CH₄ dapat lebih sedikit dibandingkan parameter lain karena ketersediaan data pengamatan pada wilayah dan periode tertentu.</p>
+</section>
+</section>
+<section id="statistik-deskriptif">
+<h1>9. Statistik Deskriptif<a class="headerlink" href="#statistik-deskriptif" title="Link to this heading">#</a></h1>
+<p>Statistik deskriptif digunakan untuk mengetahui karakteristik dasar dari masing-masing parameter.</p>
+<p>Statistik yang digunakan meliputi:</p>
+<ul class="simple">
+<li><p>jumlah data</p></li>
+<li><p>minimum</p></li>
+<li><p>maksimum</p></li>
+<li><p>mean</p></li>
+<li><p>median</p></li>
+<li><p>standard deviation</p></li>
+<li><p>skewness</p></li>
+<li><p>kurtosis</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Membuat tabel statistik setiap parameter</span>
+
+<span class="n">statistik</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">polutan</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">nilai</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"C0/mean"</span><span class="p">],</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nilai</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">continue</span>
+
+    <span class="n">statistik</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"Parameter"</span><span class="p">:</span> <span class="n">polutan</span><span class="p">,</span>
+        <span class="s2">"Jumlah Data"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">nilai</span><span class="p">),</span>
+        <span class="s2">"Minimum"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="s2">"Maximum"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+        <span class="s2">"Mean"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">"Median"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span>
+        <span class="s2">"Std. Deviasi"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="s2">"Skewness"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">skew</span><span class="p">(),</span>
+        <span class="s2">"Kurtosis"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">kurtosis</span><span class="p">()</span>
+    <span class="p">})</span>
+
+<span class="n">tabel_statistik</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">statistik</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">tabel_statistik</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-8f1c9ea2-a381-459a-bbf1-c0dd42a31e7f" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Parameter</th>
+      <th>Jumlah Data</th>
+      <th>Minimum</th>
+      <th>Maximum</th>
+      <th>Mean</th>
+      <th>Median</th>
+      <th>Std. Deviasi</th>
+      <th>Skewness</th>
+      <th>Kurtosis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CH4</td>
+      <td>14</td>
+      <td>1842.441406</td>
+      <td>1949.463460</td>
+      <td>1891.649809</td>
+      <td>1892.942322</td>
+      <td>28.516716</td>
+      <td>0.295352</td>
+      <td>-0.090167</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SO2</td>
+      <td>125</td>
+      <td>-0.000897</td>
+      <td>0.000658</td>
+      <td>0.000008</td>
+      <td>-0.000004</td>
+      <td>0.000206</td>
+      <td>-0.192415</td>
+      <td>3.664972</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NO2</td>
+      <td>176</td>
+      <td>-0.000002</td>
+      <td>0.000046</td>
+      <td>0.000020</td>
+      <td>0.000020</td>
+      <td>0.000009</td>
+      <td>0.266052</td>
+      <td>0.435514</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CO</td>
+      <td>184</td>
+      <td>0.020033</td>
+      <td>0.045747</td>
+      <td>0.028099</td>
+      <td>0.027672</td>
+      <td>0.003625</td>
+      <td>1.219571</td>
+      <td>3.131961</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-8f1c9ea2-a381-459a-bbf1-c0dd42a31e7f')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-8f1c9ea2-a381-459a-bbf1-c0dd42a31e7f button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-8f1c9ea2-a381-459a-bbf1-c0dd42a31e7f');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section id="pemeriksaan-missing-value">
+<h1>10. Pemeriksaan Missing Value<a class="headerlink" href="#pemeriksaan-missing-value" title="Link to this heading">#</a></h1>
+<p>Missing value diperiksa untuk mengetahui jumlah tanggal yang tidak memiliki nilai pengamatan pada masing-masing parameter.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">missing_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">polutan</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">nilai</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"C0/mean"</span><span class="p">],</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
+    <span class="p">)</span>
+
+    <span class="n">missing_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"Parameter"</span><span class="p">:</span> <span class="n">polutan</span><span class="p">,</span>
+        <span class="s2">"Jumlah Data"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">nilai</span><span class="p">),</span>
+        <span class="s2">"Data Tersedia"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="s2">"Missing"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">})</span>
+
+<span class="n">tabel_missing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">missing_data</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">tabel_missing</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-4eccf690-cf70-4d62-bcfd-0ef3c372a46d" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Parameter</th>
+      <th>Jumlah Data</th>
+      <th>Data Tersedia</th>
+      <th>Missing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CH4</td>
+      <td>14</td>
+      <td>14</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SO2</td>
+      <td>125</td>
+      <td>125</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NO2</td>
+      <td>176</td>
+      <td>176</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CO</td>
+      <td>184</td>
+      <td>184</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-4eccf690-cf70-4d62-bcfd-0ef3c372a46d')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-4eccf690-cf70-4d62-bcfd-0ef3c372a46d button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-4eccf690-cf70-4d62-bcfd-0ef3c372a46d');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+  <div id="id_0377c142-2f76-4032-aa27-0ec42d76992e">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('tabel_missing')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_0377c142-2f76-4032-aa27-0ec42d76992e button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('tabel_missing');
+      }
+      })();
+    </script>
+  </div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+</section>
+<section id="perbandingan-nilai-rata-rata">
+<h1>11. Perbandingan Nilai Rata-rata<a class="headerlink" href="#perbandingan-nilai-rata-rata" title="Link to this heading">#</a></h1>
+<p>Perbandingan berikut digunakan untuk melihat nilai rata-rata dari setiap parameter berdasarkan data yang tersedia.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mean_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">polutan</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">nilai</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"C0/mean"</span><span class="p">],</span>
+        <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">nilai</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">mean_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"Parameter"</span><span class="p">:</span> <span class="n">polutan</span><span class="p">,</span>
+            <span class="s2">"Mean"</span><span class="p">:</span> <span class="n">nilai</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="p">})</span>
+
+<span class="n">df_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mean_data</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_mean</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df_mean</span><span class="p">[</span><span class="s2">"Parameter"</span><span class="p">],</span> <span class="n">df_mean</span><span class="p">[</span><span class="s2">"Mean"</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Parameter"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Nilai Rata-rata"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Perbandingan Nilai Rata-rata Parameter"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-a76a66e8-d87d-453c-8803-c82e7b06ebc1" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Parameter</th>
+      <th>Mean</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CH4</td>
+      <td>1891.649809</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SO2</td>
+      <td>0.000008</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NO2</td>
+      <td>0.000020</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CO</td>
+      <td>0.028099</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-a76a66e8-d87d-453c-8803-c82e7b06ebc1')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-a76a66e8-d87d-453c-8803-c82e7b06ebc1 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-a76a66e8-d87d-453c-8803-c82e7b06ebc1');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    </div>
+  </div>
+</div><img alt="_images/480f616954139fcb9debb7b26487575ebb0477b10d508192143debf259391513.png" src="_images/480f616954139fcb9debb7b26487575ebb0477b10d508192143debf259391513.png" />
+</div>
+</div>
+</section>
+<section id="kesimpulan">
+<h1>12. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h1>
+<p>Berdasarkan pengolahan data Copernicus Sentinel-5P pada wilayah Klampis, Kabupaten Bangkalan, diperoleh data untuk empat parameter atmosfer, yaitu Carbon Monoxide (CO), Nitrogen Dioxide (NO₂), Sulfur Dioxide (SO₂), dan Methane (CH₄).</p>
+<p>Data setiap parameter memiliki jumlah observasi yang berbeda karena ketersediaan pengamatan satelit pada wilayah dan waktu tertentu tidak selalu sama.</p>
+<p>Visualisasi time series digunakan untuk melihat perubahan nilai setiap parameter berdasarkan waktu, sedangkan statistik deskriptif digunakan untuk mengetahui karakteristik data seperti minimum, maksimum, mean, median, standard deviation, skewness, dan kurtosis.</p>
+<p>Hasil pengolahan ini memberikan gambaran awal mengenai variasi parameter atmosfer di wilayah penelitian dan dapat digunakan sebagai dasar untuk analisis lebih lanjut.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 1. GEOJSON AOI KLAMPIS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">aoi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"FeatureCollection"</span><span class="p">,</span>
+    <span class="s2">"features"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Feature"</span><span class="p">,</span>
+            <span class="s2">"properties"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"nama"</span><span class="p">:</span> <span class="s2">"AOI Klampis"</span><span class="p">,</span>
+                <span class="s2">"wilayah"</span><span class="p">:</span> <span class="s2">"Klampis"</span><span class="p">,</span>
+                <span class="s2">"kabupaten"</span><span class="p">:</span> <span class="s2">"Bangkalan"</span><span class="p">,</span>
+                <span class="s2">"provinsi"</span><span class="p">:</span> <span class="s2">"Jawa Timur"</span>
+            <span class="p">},</span>
+            <span class="s2">"geometry"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Polygon"</span><span class="p">,</span>
+                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="p">[[</span>
+                    <span class="p">[</span><span class="mf">112.878389</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.890926</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">112.878389</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.950537</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">112.953048</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.950537</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">112.953048</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.890926</span><span class="p">],</span>
+                    <span class="p">[</span><span class="mf">112.878389</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.890926</span><span class="p">]</span>
+                <span class="p">]]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 2. TITIK TENGAH AOI</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">latitude</span> <span class="o">=</span> <span class="o">-</span><span class="mf">6.9207315</span>
+<span class="n">longitude</span> <span class="o">=</span> <span class="mf">112.9157185</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 3. MEMBUAT PETA</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">peta</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">],</span>
+    <span class="n">zoom_start</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+    <span class="n">tiles</span><span class="o">=</span><span class="s2">"OpenStreetMap"</span>
+<span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 4. MENAMPILKAN AOI</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+    <span class="n">aoi</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Area of Interest (AOI) Klampis"</span><span class="p">,</span>
+    <span class="n">style_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">feature</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"fillColor"</span><span class="p">:</span> <span class="s2">"#ff7800"</span><span class="p">,</span>
+        <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"#e65100"</span><span class="p">,</span>
+        <span class="s2">"weight"</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span>
+        <span class="s2">"fillOpacity"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">"nama"</span><span class="p">,</span>
+            <span class="s2">"wilayah"</span><span class="p">,</span>
+            <span class="s2">"kabupaten"</span><span class="p">,</span>
+            <span class="s2">"provinsi"</span>
+        <span class="p">],</span>
+        <span class="n">aliases</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">"Nama:"</span><span class="p">,</span>
+            <span class="s2">"Wilayah:"</span><span class="p">,</span>
+            <span class="s2">"Kabupaten:"</span><span class="p">,</span>
+            <span class="s2">"Provinsi:"</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 5. MARKER</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">Marker</span><span class="p">(</span>
+    <span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">],</span>
+    <span class="n">popup</span><span class="o">=</span><span class="s2">"Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur"</span><span class="p">,</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="s2">"Klampis"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 6. LAYER CONTROL</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 7. TAMPILKAN PETA</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">peta</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
     
@@ -776,7 +2518,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_4d224dd975d31895a91f84e0487de4c9 {
+                #map_7c1449a05db4657f023aa4ac92876ade {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -809,23 +2551,39 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             &lt;/script&gt;
 
         
+    
+                    &lt;style&gt;
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    &lt;/style&gt;
+            
 &lt;/head&gt;
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_4d224dd975d31895a91f84e0487de4c9&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_7c1449a05db4657f023aa4ac92876ade&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_4d224dd975d31895a91f84e0487de4c9 = L.map(
-                &quot;map_4d224dd975d31895a91f84e0487de4c9&quot;,
+            var map_7c1449a05db4657f023aa4ac92876ade = L.map(
+                &quot;map_7c1449a05db4657f023aa4ac92876ade&quot;,
                 {
-                    center: [-7.0615, 112.7393],
+                    center: [-6.9207315, 112.9157185],
                     crs: L.CRS.EPSG3857,
                     ...{
-  &quot;zoom&quot;: 13,
+  &quot;zoom&quot;: 12,
   &quot;zoomControl&quot;: true,
   &quot;preferCanvas&quot;: false,
 }
@@ -837,7 +2595,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 
         
     
-            var tile_layer_ccbfd33ce0e349a788cff12227263954 = L.tileLayer(
+            var tile_layer_1230bd734c3a706c68bc256ea3d38914 = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -854,59 +2612,100 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             );
         
     
-            tile_layer_ccbfd33ce0e349a788cff12227263954.addTo(map_4d224dd975d31895a91f84e0487de4c9);
+            tile_layer_1230bd734c3a706c68bc256ea3d38914.addTo(map_7c1449a05db4657f023aa4ac92876ade);
         
     
+        function geo_json_589e6a75174f4f185a2ccb355424ac08_styler(feature) {
+            switch(feature.properties.nama) {
+                default:
+                    return {&quot;color&quot;: &quot;#e65100&quot;, &quot;fillColor&quot;: &quot;#ff7800&quot;, &quot;fillOpacity&quot;: 0.3, &quot;weight&quot;: 2.5};
+            }
+        }
 
-        function geo_json_a7abcb5bf713ca676435d5f46a2a4191_onEachFeature(feature, layer) {
+        function geo_json_589e6a75174f4f185a2ccb355424ac08_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_a7abcb5bf713ca676435d5f46a2a4191 = L.geoJson(null, {
-                onEachFeature: geo_json_a7abcb5bf713ca676435d5f46a2a4191_onEachFeature,
+        var geo_json_589e6a75174f4f185a2ccb355424ac08 = L.geoJson(null, {
+                onEachFeature: geo_json_589e6a75174f4f185a2ccb355424ac08_onEachFeature,
             
+                style: geo_json_589e6a75174f4f185a2ccb355424ac08_styler,
             ...{
 }
         });
 
-        function geo_json_a7abcb5bf713ca676435d5f46a2a4191_add (data) {
-            geo_json_a7abcb5bf713ca676435d5f46a2a4191
+        function geo_json_589e6a75174f4f185a2ccb355424ac08_add (data) {
+            geo_json_589e6a75174f4f185a2ccb355424ac08
                 .addData(data);
         }
-            geo_json_a7abcb5bf713ca676435d5f46a2a4191_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
-        geo_json_a7abcb5bf713ca676435d5f46a2a4191.setStyle(function(feature) {return feature.properties.style;});
+            geo_json_589e6a75174f4f185a2ccb355424ac08_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-            geo_json_a7abcb5bf713ca676435d5f46a2a4191.addTo(map_4d224dd975d31895a91f84e0487de4c9);
+    geo_json_589e6a75174f4f185a2ccb355424ac08.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create(&#x27;div&#x27;);
+    
+    let handleObject = feature =&gt; {
+        if (feature === null) {
+            return &#x27;&#x27;;
+        } else if (typeof(feature)==&#x27;object&#x27;) {
+            return JSON.stringify(feature);
+        } else {
+            return feature;
+        }
+    }
+    let fields = [&quot;nama&quot;, &quot;wilayah&quot;, &quot;kabupaten&quot;, &quot;provinsi&quot;];
+    let aliases = [&quot;Nama:&quot;, &quot;Wilayah:&quot;, &quot;Kabupaten:&quot;, &quot;Provinsi:&quot;];
+    let table = &#x27;&lt;table&gt;&#x27; +
+        String(
+        fields.map(
+        (v,i)=&gt;
+        `&lt;tr&gt;
+            &lt;th&gt;${aliases[i]}&lt;/th&gt;
+            
+            &lt;td&gt;${handleObject(layer.feature.properties[v])}&lt;/td&gt;
+        &lt;/tr&gt;`).join(&#x27;&#x27;))
+    +&#x27;&lt;/table&gt;&#x27;;
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  &quot;sticky&quot;: true,
+  &quot;className&quot;: &quot;foliumtooltip&quot;,
+});
+                     
+    
+            geo_json_589e6a75174f4f185a2ccb355424ac08.addTo(map_7c1449a05db4657f023aa4ac92876ade);
         
     
-            var marker_bc69008f47a87fa2888cbaa8600b3a7b = L.marker(
-                [-7.0615, 112.7393],
+            var marker_bda1a6141245fe047e8cd30078ea6c2e = L.marker(
+                [-6.9207315, 112.9157185],
                 {
 }
-            ).addTo(map_4d224dd975d31895a91f84e0487de4c9);
+            ).addTo(map_7c1449a05db4657f023aa4ac92876ade);
         
     
-        var popup_024936def2c58862e4b85a13185e4505 = L.popup({
+        var popup_4e32d5c540a6251bda6c71efba1698df = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_6d55acc3e7a0677d62e2c76451e634d4 = $(`&lt;div id=&quot;html_6d55acc3e7a0677d62e2c76451e634d4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
-                popup_024936def2c58862e4b85a13185e4505.setContent(html_6d55acc3e7a0677d62e2c76451e634d4);
+                var html_89f7e720bc2a5cadaa26dc9e5a969aaa = $(`&lt;div id=&quot;html_89f7e720bc2a5cadaa26dc9e5a969aaa&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
+                popup_4e32d5c540a6251bda6c71efba1698df.setContent(html_89f7e720bc2a5cadaa26dc9e5a969aaa);
             
         
 
-        marker_bc69008f47a87fa2888cbaa8600b3a7b.bindPopup(popup_024936def2c58862e4b85a13185e4505)
+        marker_bda1a6141245fe047e8cd30078ea6c2e.bindPopup(popup_4e32d5c540a6251bda6c71efba1698df)
         ;
 
         
     
     
-            marker_bc69008f47a87fa2888cbaa8600b3a7b.bindTooltip(
+            marker_bda1a6141245fe047e8cd30078ea6c2e.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,
@@ -915,244 +2714,29 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 }
             );
         
+    
+            var layer_control_54e9e0c99a613570f76ae37ccff95975_layers = {
+                base_layers : {
+                    &quot;openstreetmap&quot; : tile_layer_1230bd734c3a706c68bc256ea3d38914,
+                },
+                overlays :  {
+                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_589e6a75174f4f185a2ccb355424ac08,
+                },
+            };
+            let layer_control_54e9e0c99a613570f76ae37ccff95975 = L.control.layers(
+                layer_control_54e9e0c99a613570f76ae37ccff95975_layers.base_layers,
+                layer_control_54e9e0c99a613570f76ae37ccff95975_layers.overlays,
+                {
+  &quot;position&quot;: &quot;topright&quot;,
+  &quot;collapsed&quot;: true,
+  &quot;autoZIndex&quot;: true,
+}
+            ).addTo(map_7c1449a05db4657f023aa4ac92876ade);
+
+        
 &lt;/script&gt;
-&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data rata-rata harian:
-</pre></div>
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div></div>
 </div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>tanggal</th>
-      <th>pm2_5</th>
-      <th>pm10</th>
-      <th>carbon_monoxide</th>
-      <th>nitrogen_dioxide</th>
-      <th>sulphur_dioxide</th>
-      <th>ozone</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2025-09-01</td>
-      <td>21.725000</td>
-      <td>23.466667</td>
-      <td>350.750000</td>
-      <td>16.229167</td>
-      <td>4.725000</td>
-      <td>69.416667</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2025-09-02</td>
-      <td>14.316667</td>
-      <td>16.350000</td>
-      <td>226.291667</td>
-      <td>11.108333</td>
-      <td>2.529167</td>
-      <td>59.708333</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2025-09-03</td>
-      <td>19.700000</td>
-      <td>21.000000</td>
-      <td>277.500000</td>
-      <td>14.937500</td>
-      <td>4.045833</td>
-      <td>65.166667</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2025-09-04</td>
-      <td>29.887500</td>
-      <td>31.200000</td>
-      <td>387.250000</td>
-      <td>22.116667</td>
-      <td>5.058333</td>
-      <td>85.083333</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2025-09-05</td>
-      <td>38.208333</td>
-      <td>40.308333</td>
-      <td>388.458333</td>
-      <td>27.425000</td>
-      <td>6.158333</td>
-      <td>85.166667</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>2025-09-06</td>
-      <td>40.070833</td>
-      <td>42.766667</td>
-      <td>512.791667</td>
-      <td>30.708333</td>
-      <td>7.429167</td>
-      <td>88.041667</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>2025-09-07</td>
-      <td>31.716667</td>
-      <td>33.670833</td>
-      <td>540.166667</td>
-      <td>26.808333</td>
-      <td>7.425000</td>
-      <td>81.750000</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>2025-09-08</td>
-      <td>40.958333</td>
-      <td>43.129167</td>
-      <td>516.333333</td>
-      <td>36.945833</td>
-      <td>8.929167</td>
-      <td>63.500000</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>2025-09-09</td>
-      <td>39.591667</td>
-      <td>41.583333</td>
-      <td>456.875000</td>
-      <td>33.908333</td>
-      <td>8.425000</td>
-      <td>61.666667</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>2025-09-10</td>
-      <td>40.170833</td>
-      <td>41.670833</td>
-      <td>333.375000</td>
-      <td>35.470833</td>
-      <td>12.433333</td>
-      <td>61.708333</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><img alt="_images/a4ace9ae4faee9f84cac089c300b6a1bf4c5bbac1757baad923eaf1cbb9e7723.png" src="_images/a4ace9ae4faee9f84cac089c300b6a1bf4c5bbac1757baad923eaf1cbb9e7723.png" />
-<h3 class="rubric" id="penjelasan-grafik-co">Penjelasan Grafik CO</h3>
-<p>Konsentrasi CO menunjukkan fluktuasi yang cukup nyata. Nilai cenderung lebih tinggi pada beberapa periode tertentu, menandakan adanya variasi sumber emisi dan kondisi atmosfer yang memengaruhi konsentrasi gas.</p>
-<img alt="_images/959913d5bfadbe72dd4e82b676962118762382681837198c1f034adf5e393d0e.png" src="_images/959913d5bfadbe72dd4e82b676962118762382681837198c1f034adf5e393d0e.png" />
-<h3 class="rubric" id="penjelasan-grafik-no2">Penjelasan Grafik NO₂</h3>
-<p>NO₂ bervariasi sepanjang periode. Pada beberapa hari terlihat puncak konsentrasi, yang dapat terkait dengan aktivitas kendaraan dan pembakaran di wilayah sekitar.</p>
-<img alt="_images/47239dc03ca8f815ec66f94ba8530fdf8eeeeb671bfa7c4b9378c22feb4c5a2b.png" src="_images/47239dc03ca8f815ec66f94ba8530fdf8eeeeb671bfa7c4b9378c22feb4c5a2b.png" />
-<h3 class="rubric" id="penjelasan-grafik-so2">Penjelasan Grafik SO₂</h3>
-<p>SO₂ cenderung lebih stabil dibanding polutan lainnya, namun tetap menunjukkan variasi yang dapat dipengaruhi oleh aktivitas industri dan pembakaran bahan bakar.</p>
-<img alt="_images/de8504456fdc088d7453c2733470857a135233f17045293518eb941e75466d95.png" src="_images/de8504456fdc088d7453c2733470857a135233f17045293518eb941e75466d95.png" />
-<h3 class="rubric" id="penjelasan-grafik-o3">Penjelasan Grafik O₃</h3>
-<p>O₃ menunjukkan pola yang berbeda, dengan fluktuasi yang tergantung pada kondisi sinar matahari, reaksi kimia atmosfer, dan konsentrasi precursor seperti NOₓ.</p>
-</div>
-</div>
-<div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
-<summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Kolom polutan yang digunakan:"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">polutan_semua</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">============================================"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"PENJELASAN SETIAP POLUTAN"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"============================================"</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s2">"PM₂.₅"</span><span class="p">,</span> <span class="s2">"Fine Particulate Matter"</span><span class="p">,</span> <span class="s2">"Partikel sangat kecil dengan diameter ≤ 2,5 µm yang dapat masuk ke saluran pernapasan."</span><span class="p">,</span> <span class="s2">"Kendaraan, pembakaran biomassa, industri, dan pembakaran bahan bakar"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"PM₁₀"</span><span class="p">,</span> <span class="s2">"Particulate Matter ≤ 10 µm"</span><span class="p">,</span> <span class="s2">"Partikel dengan diameter ≤ 10 µm yang dapat masuk ke saluran pernapasan."</span><span class="p">,</span> <span class="s2">"Debu jalan, konstruksi, kendaraan, industri, dan pembakaran"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"CO"</span><span class="p">,</span> <span class="s2">"Carbon Monoxide"</span><span class="p">,</span> <span class="s2">"Gas tidak berwarna dan tidak berbau yang dihasilkan dari pembakaran tidak sempurna."</span><span class="p">,</span> <span class="s2">"Kendaraan bermotor, mesin, dan proses pembakaran"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"NO₂"</span><span class="p">,</span> <span class="s2">"Nitrogen Dioxide"</span><span class="p">,</span> <span class="s2">"Gas pencemar yang terbentuk dari pembakaran pada suhu tinggi."</span><span class="p">,</span> <span class="s2">"Kendaraan bermotor, industri, dan pembangkit"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"SO₂"</span><span class="p">,</span> <span class="s2">"Sulfur Dioxide"</span><span class="p">,</span> <span class="s2">"Gas yang terbentuk saat bahan bakar ber-sulfur dibakar."</span><span class="p">,</span> <span class="s2">"Industri, pembangkit listrik, dan pembakaran batubara"</span><span class="p">),</span>
-    <span class="p">(</span><span class="s2">"O₃"</span><span class="p">,</span> <span class="s2">"Ozone"</span><span class="p">,</span> <span class="s2">"Ozon permukaan dibentuk melalui reaksi kimia di atmosfer dengan bantuan cahaya matahari."</span><span class="p">,</span> <span class="s2">"Emisi kendaraan dan industri"</span><span class="p">),</span>
-<span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kolom polutan yang digunakan:
-['pm2_5', 'pm10', 'carbon_monoxide', 'nitrogen_dioxide', 'sulphur_dioxide', 'ozone']
-
-============================================
-PENJELASAN SETIAP POLUTAN
-============================================
-('PM₂.₅', 'Fine Particulate Matter', 'Partikel sangat kecil dengan diameter ≤ 2,5 µm yang dapat masuk ke saluran pernapasan.', 'Kendaraan, pembakaran biomassa, industri, dan pembakaran bahan bakar')
-('PM₁₀', 'Particulate Matter ≤ 10 µm', 'Partikel dengan diameter ≤ 10 µm yang dapat masuk ke saluran pernapasan.', 'Debu jalan, konstruksi, kendaraan, industri, dan pembakaran')
-('CO', 'Carbon Monoxide', 'Gas tidak berwarna dan tidak berbau yang dihasilkan dari pembakaran tidak sempurna.', 'Kendaraan bermotor, mesin, dan proses pembakaran')
-('NO₂', 'Nitrogen Dioxide', 'Gas pencemar yang terbentuk dari pembakaran pada suhu tinggi.', 'Kendaraan bermotor, industri, dan pembangkit')
-('SO₂', 'Sulfur Dioxide', 'Gas yang terbentuk saat bahan bakar ber-sulfur dibakar.', 'Industri, pembangkit listrik, dan pembakaran batubara')
-('O₃', 'Ozone', 'Ozon permukaan dibentuk melalui reaksi kimia di atmosfer dengan bantuan cahaya matahari.', 'Emisi kendaraan dan industri')
-</pre></div>
-</div>
-</div>
-</div>
-<section id="penjelasan-setiap-polutan">
-<h3>Penjelasan Setiap Polutan<a class="headerlink" href="#penjelasan-setiap-polutan" title="Link to this heading">#</a></h3>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Polutan</p></th>
-<th class="head"><p>Nama Lengkap</p></th>
-<th class="head"><p>Penjelasan</p></th>
-<th class="head"><p>Sumber Utama</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>PM₂.₅</p></td>
-<td><p>Fine Particulate Matter</p></td>
-<td><p>Partikel sangat kecil dengan diameter ≤ 2,5 µm yang dapat masuk jauh ke dalam saluran pernapasan.</p></td>
-<td><p>Kendaraan, pembakaran biomassa, industri, dan pembakaran bahan bakar</p></td>
-</tr>
-<tr class="row-odd"><td><p>PM₁₀</p></td>
-<td><p>Particulate Matter ≤ 10 µm</p></td>
-<td><p>Partikel dengan diameter ≤ 10 µm yang dapat masuk ke saluran pernapasan.</p></td>
-<td><p>Debu jalan, konstruksi, kendaraan, industri, dan pembakaran</p></td>
-</tr>
-<tr class="row-even"><td><p>CO</p></td>
-<td><p>Carbon Monoxide</p></td>
-<td><p>Gas tidak berwarna dan tidak berbau yang terutama dihasilkan dari pembakaran bahan bakar yang tidak sempurna.</p></td>
-<td><p>Kendaraan bermotor, mesin, dan proses pembakaran</p></td>
-</tr>
-<tr class="row-odd"><td><p>NO₂</p></td>
-<td><p>Nitrogen Dioxide</p></td>
-<td><p>Gas pencemar yang termasuk dalam kelompok nitrogen oksida (NOₓ) dan terutama dihasilkan dari proses pembakaran.</p></td>
-<td><p>Kendaraan bermotor, pembangkit listrik, industri, dan pembakaran</p></td>
-</tr>
-<tr class="row-even"><td><p>SO₂</p></td>
-<td><p>Sulfur Dioxide</p></td>
-<td><p>Gas pencemar yang terutama terbentuk ketika bahan bakar yang mengandung sulfur dibakar.</p></td>
-<td><p>Pembangkit listrik, industri, batu bara, dan minyak</p></td>
-</tr>
-<tr class="row-odd"><td><p>O₃</p></td>
-<td><p>Ozone</p></td>
-<td><p>Ozon permukaan merupakan polutan sekunder yang terbentuk melalui reaksi kimia antara NOₓ dan senyawa organik volatil (VOC) dengan bantuan sinar matahari.</p></td>
-<td><p>Emisi kendaraan dan industri yang bereaksi di atmosfer dengan bantuan sinar matahari</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1221,18 +2805,30 @@ PENJELASAN SETIAP POLUTAN
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Business Understanding</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan">Tujuan:</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat">Manfaat:</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1. Business Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">2. Data Understanding</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-data">3. Pemeriksaan Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penyederhanaan-data">4. Penyederhanaan Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-carbon-monoxide-co">5. Visualisasi Carbon Monoxide (CO)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-co">Interpretasi CO</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding">data understanding</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explorasi-data-seluas-luasnya">explorasi data seluas luasnya</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-setiap-polutan">Penjelasan Setiap Polutan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-nitrogen-dioxide-no2">6. Visualisasi Nitrogen Dioxide (NO₂)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-no2">Interpretasi NO₂</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-sulfur-dioxide-so2">7. Visualisasi Sulfur Dioxide (SO₂)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-so2">Interpretasi SO₂</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-methane-ch4">8. Visualisasi Methane (CH₄)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-ch4">Interpretasi CH₄</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif">9. Statistik Deskriptif</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pemeriksaan-missing-value">10. Pemeriksaan Missing Value</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-nilai-rata-rata">11. Perbandingan Nilai Rata-rata</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">12. Kesimpulan</a></li>
 </ul>
 
   </nav></div>
