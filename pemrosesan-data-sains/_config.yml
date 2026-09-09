@@ -5,10 +5,10 @@ title: Pemrosesan Data Sains
 author: The Jupyter Book Community
 logo: logo.jpg
 
-# Keep saved notebook outputs because tugas_1 uses interactive Colab uploads.
+# Re-execute notebooks so the published pages use the CSV files in the repository.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: off
+  execute_notebooks: force
   timeout: 120
 
 sphinx:
