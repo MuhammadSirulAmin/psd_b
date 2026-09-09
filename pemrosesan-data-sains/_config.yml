@@ -5,10 +5,10 @@ title: Pemrosesan Data Sains
 author: The Jupyter Book Community
 logo: logo.jpg
 
-# Force re-execution of notebooks on each build.
+# Keep saved notebook outputs because tugas_1 uses interactive Colab uploads.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
+  execute_notebooks: off
   timeout: 120
 
 sphinx:
