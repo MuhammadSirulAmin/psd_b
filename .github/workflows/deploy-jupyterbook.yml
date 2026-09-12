@@ -27,7 +27,7 @@ jobs:
 
       - name: Build Jupyter Book
         run: |
-          jupyter-book build pemrosesan-data-sains
+          jupyter-book build --all pemrosesan-data-sains
 
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
