@@ -22,6 +22,8 @@ html:
   use_issues_button: true
   use_repository_button: true
   hide_code: true
+  extra_css:
+    - _static/custom.css
 
 # Define the name of the latex output file for PDF builds
 latex:
