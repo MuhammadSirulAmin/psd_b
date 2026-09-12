@@ -6,6 +6,4 @@ root: intro
 chapters:
   - file: tugas_1
   - file: tugas_2
-  - file: markdown
-  - file: markdown-notebooks
-  - file: notebooks
+  - file: tugas_3
