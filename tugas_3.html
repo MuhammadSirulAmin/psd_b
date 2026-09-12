@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL &#8212; Pemrosesan Data Sains</title>
+    <title>Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL &#8212; Pemrosesan Data Sains</title>
   
   
   
@@ -37,6 +37,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c23772c6" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -230,7 +231,7 @@
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
 </ul>
 
     </div>
@@ -366,7 +367,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL</h1>
+    <h1>Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -376,7 +377,21 @@
             </div>
             <nav aria-label="Page">
                 <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan">Penjelasan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-analisis">Tujuan Analisis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-dan-pemeriksaan-awal">1. Dataset dan Pemeriksaan Awal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membentuk-deret-waktu-365-hari">2. Membentuk Deret Waktu 365 Hari</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-dan-perbaikan-outlier">4. Deteksi dan Perbaikan Outlier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-fitur-dengan-tsfel">6. Ekstraksi Fitur dengan TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-perhitungan-fitur">7. Contoh Perhitungan Fitur</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#root-mean-square-rms">7.1 Root Mean Square (RMS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-crossing-rate-zcr">7.2 Zero Crossing Rate (ZCR)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-absolute-difference-mad">7.3 Mean Absolute Difference (MAD)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-entropy">7.4 Spectral Entropy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-centroid">7.5 Spectral Centroid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-spread">7.6 Spectral Spread</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir-dan-interpretasi">8. Hasil Akhir dan Interpretasi</a></li>
 </ul>
             </nav>
         </div>
@@ -390,27 +405,44 @@
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -q tsfel
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">tsfel_version</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">version</span><span class="p">(</span><span class="s2">"tsfel"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TSFEL tersedia: </span><span class="si">{</span><span class="n">tsfel_version</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+        <span class="s2">"TSFEL belum terpasang pada kernel ini. Pasang dengan: %pip install tsfel, lalu restart kernel sekali."</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TSFEL tersedia: 0.2.0
 </pre></div>
 </div>
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="tugas-3-preprocessing-data-dan-ekstraksi-fitur-tsfel">
-<h1>Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL<a class="headerlink" href="#tugas-3-preprocessing-data-dan-ekstraksi-fitur-tsfel" title="Link to this heading">#</a></h1>
-<p><strong>Studi Kasus:</strong> Analisis Carbon Monoxide (CO)<br />
-<strong>Wilayah:</strong> Kecamatan Klampis</p>
-<section id="penjelasan">
-<h2>Penjelasan<a class="headerlink" href="#penjelasan" title="Link to this heading">#</a></h2>
-<p>Tugas ini melakukan preprocessing dan ekstraksi fitur pada data konsentrasi
-Carbon Monoxide (CO) di Kecamatan Klampis, Kabupaten Bangkalan.</p>
-<p>Tahapan yang dilakukan meliputi pembentukan data menjadi 365 hari,
-penanganan missing value, identifikasi dan perbaikan outlier, kemudian
-ekstraksi fitur menggunakan Time Series Feature Extraction Library (TSFEL).</p>
+<h1>Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL<a class="headerlink" href="#tugas-3-preprocessing-data-dan-ekstraksi-fitur-tsfel" title="Link to this heading">#</a></h1>
+<p><strong>Studi kasus:</strong> Analisis konsentrasi Carbon Monoxide (CO)<br />
+<strong>Wilayah pengamatan:</strong> Kecamatan Klampis, Kabupaten Bangkalan<br />
+<strong>Sumber data:</strong> Sentinel-5P</p>
+<p>Notebook ini mengubah data pengamatan CO yang belum lengkap menjadi deret waktu harian selama 365 hari, kemudian mengekstrak karakteristik sinyal menggunakan <strong>Time Series Feature Extraction Library (TSFEL)</strong>.</p>
+<section id="tujuan-analisis">
+<h2>Tujuan Analisis<a class="headerlink" href="#tujuan-analisis" title="Link to this heading">#</a></h2>
+<p>Analisis ini bertujuan menyiapkan data konsentrasi CO agar dapat digunakan sebagai sinyal deret waktu yang lengkap dan konsisten.</p>
+<p>Tahapan utama:</p>
+<ol class="arabic simple">
+<li><p>membaca dan membersihkan data Sentinel-5P;</p></li>
+<li><p>membentuk kalender pengamatan selama 365 hari;</p></li>
+<li><p>mengisi nilai yang hilang dengan interpolasi linear;</p></li>
+<li><p>mendeteksi serta memperbaiki outlier menggunakan metode IQR;</p></li>
+<li><p>mengekstrak fitur statistik, temporal, spektral, dan fraktal dengan TSFEL.</p></li>
+</ol>
+<blockquote>
+<div><p><strong>Catatan:</strong> setiap baris pada dataset akhir merepresentasikan satu tanggal.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
@@ -431,7 +463,11 @@ ekstraksi fitur menggunakan Time Series Feature Extraction Library (TSFEL).</p>
 </div>
 </div>
 </div>
-<p>##Dataset</p>
+</section>
+<section id="dataset-dan-pemeriksaan-awal">
+<h2>1. Dataset dan Pemeriksaan Awal<a class="headerlink" href="#dataset-dan-pemeriksaan-awal" title="Link to this heading">#</a></h2>
+<p>Data berasal dari produk visualisasi Sentinel-5P untuk variabel <strong>CO</strong> pada wilayah Kecamatan Klampis. Kolom tanggal diubah menjadi format tanggal harian dan nilai CO dipastikan bertipe numerik.</p>
+<p>Jika terdapat lebih dari satu pengamatan pada tanggal yang sama, nilainya diringkas menggunakan rata-rata harian agar satu tanggal hanya memiliki satu nilai.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
@@ -442,41 +478,34 @@ ekstraksi fitur menggunakan Time Series Feature Extraction Library (TSFEL).</p>
 
 <span class="n">df_co</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
-<span class="c1"># Mengubah tanggal</span>
 <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
     <span class="n">df_co</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">],</span>
     <span class="n">utc</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
 
-<span class="c1"># Mengambil tanggal dan nilai CO</span>
 <span class="n">df_co</span> <span class="o">=</span> <span class="n">df_co</span><span class="p">[[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"C0/mean"</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># Mengubah nama kolom</span>
 <span class="n">df_co</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"CO"</span><span class="p">]</span>
+<span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span>
 
-<span class="c1"># Memastikan CO berupa numerik</span>
-<span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
-    <span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">],</span>
-    <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
+<span class="n">df_co</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_co</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="s2">"CO"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="p">)</span>
 
-<span class="c1"># Mengurutkan berdasarkan tanggal</span>
-<span class="n">df_co</span> <span class="o">=</span> <span class="n">df_co</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"tanggal"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah data asli :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_co</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal awal     :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal akhir    :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing CO awal  :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah data asli   :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_co</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal awal       :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal akhir      :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing CO awal    :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
 <span class="n">display</span><span class="p">(</span><span class="n">df_co</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data asli : 198
-Tanggal awal     : 2025-02-21
-Tanggal akhir    : 2026-02-20
-Missing CO awal  : 0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data asli   : 197
+Tanggal awal       : 2025-02-21
+Tanggal akhir      : 2026-02-20
+Missing CO awal    : 0
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -531,7 +560,11 @@ Missing CO awal  : 0
 </table>
 </div></div></div>
 </div>
-<p>##Membentuk Data 365 Hari</p>
+</section>
+<section id="membentuk-deret-waktu-365-hari">
+<h2>2. Membentuk Deret Waktu 365 Hari<a class="headerlink" href="#membentuk-deret-waktu-365-hari" title="Link to this heading">#</a></h2>
+<p>Kalender lengkap dibuat dari <strong>21 Februari 2025 sampai 20 Februari 2026</strong>. Data pengamatan digabungkan ke kalender tersebut.</p>
+<p>Tanggal yang tidak memiliki pengamatan akan menghasilkan nilai kosong (<code class="docutils literal notranslate"><span class="pre">NaN</span></code>). Tanggalnya tetap dipertahankan agar interval waktu harian tetap utuh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
@@ -566,7 +599,7 @@ Missing CO awal  : 0
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tanggal awal : 2025-02-21
 Tanggal akhir: 2026-02-20
-Jumlah hari  : 366
+Jumlah hari  : 365
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -821,11 +854,11 @@ Missing sesudah imputasi : 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q1          : 0.02617710735648865
-Q3          : 0.029911477830157438
-IQR         : 0.003734370473668789
-Batas bawah : 0.020575551645985464
-Batas atas  : 0.03551303354066062
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q1          : 0.0261658057570457
+Q3          : 0.0299120699055492
+IQR         : 0.0037462641485035003
+Batas bawah : 0.02054640953429045
+Batas atas  : 0.03553146612830445
 
 Jumlah outlier : 7
 </pre></div>
@@ -884,7 +917,7 @@ Jumlah outlier : 7
       <td>0.036259</td>
     </tr>
     <tr>
-      <th>360</th>
+      <th>359</th>
       <td>2026-02-15</td>
       <td>0.035680</td>
     </tr>
@@ -892,7 +925,15 @@ Jumlah outlier : 7
 </table>
 </div></div></div>
 </div>
-<p>##Outlier</p>
+</section>
+<section id="deteksi-dan-perbaikan-outlier">
+<h2>4. Deteksi dan Perbaikan Outlier<a class="headerlink" href="#deteksi-dan-perbaikan-outlier" title="Link to this heading">#</a></h2>
+<p>Outlier dideteksi dengan <strong>Interquartile Range (IQR)</strong>.</p>
+<div class="math notranslate nohighlight">
+\[IQR = Q_3 - Q_1\]</div>
+<div class="math notranslate nohighlight">
+\[Batas\ bawah = Q_1 - 1.5(IQR), \qquad Batas\ atas = Q_3 + 1.5(IQR)\]</div>
+<p>Nilai di luar batas ditandai sebagai outlier, lalu diestimasi kembali menggunakan interpolasi linear agar deret waktu tetap halus.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
@@ -1031,7 +1072,7 @@ Missing setelah perbaikan     : 0
       <td>0.033521</td>
     </tr>
     <tr>
-      <th>360</th>
+      <th>359</th>
       <td>2026-02-15</td>
       <td>0.035680</td>
       <td>0.034287</td>
@@ -1063,7 +1104,7 @@ Missing setelah perbaikan     : 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah baris : 366
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah baris : 365
 Jumlah kolom : 2
 Missing CO   : 0
 </pre></div>
@@ -1160,25 +1201,38 @@ Missing CO   : 0
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset berhasil disimpan sebagai:
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CO_365_hari_preprocessed.csv
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
-<span class="c1"># INSTALL TSFEL</span>
-<span class="c1"># ============================================================</span>
-
-<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>tsfel
+CO_365_hari_preprocessed.csv
 </pre></div>
 </div>
 </div>
 </div>
-<p>##Ekstraksi Fitur TSFEL</p>
+</section>
+<section id="ekstraksi-fitur-dengan-tsfel">
+<h2>6. Ekstraksi Fitur dengan TSFEL<a class="headerlink" href="#ekstraksi-fitur-dengan-tsfel" title="Link to this heading">#</a></h2>
+<p><strong>Time Series Feature Extraction Library (TSFEL)</strong> merangkum sinyal CO menjadi fitur numerik.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Domain</p></th>
+<th class="head"><p>Informasi yang dirangkum</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Statistical</p></td>
+<td><p>pusat, sebaran, dan distribusi nilai</p></td>
+</tr>
+<tr class="row-odd"><td><p>Temporal</p></td>
+<td><p>perubahan sinyal terhadap waktu</p></td>
+</tr>
+<tr class="row-even"><td><p>Spectral</p></td>
+<td><p>distribusi energi pada frekuensi</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fractal</p></td>
+<td><p>kompleksitas dan struktur sinyal</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Sinyal yang diberikan ke TSFEL adalah kolom CO setelah seluruh preprocessing selesai.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
@@ -1201,7 +1255,7 @@ Missing CO   : 0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data CO : 366
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data CO : 365
 Missing value  : 0
 </pre></div>
 </div>
@@ -1240,6 +1294,7 @@ Missing value  : 0
 <span class="n">features_co</span> <span class="o">=</span> <span class="n">tsfel</span><span class="o">.</span><span class="n">time_series_features_extractor</span><span class="p">(</span>
     <span class="n">cfg</span><span class="p">,</span>
     <span class="n">signal_co</span><span class="p">,</span>
+    <span class="n">fs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span>
 <span class="p">)</span>
 
@@ -1255,10 +1310,6 @@ Missing value  : 0
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ekstraksi fitur selesai.
 Jumlah baris : 1
 Jumlah fitur : 156
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\SIRUL AMIN\AppData\Local\Temp\ipykernel_4000\320638609.py:5: UserWarning: Using default sampling frequency set in configuration file.
-  features_co = tsfel.time_series_features_extractor(
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1305,25 +1356,25 @@ Jumlah fitur : 156
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.292569</td>
-      <td>0.102657</td>
+      <td>0.291861</td>
+      <td>0.102391</td>
       <td>2.0</td>
-      <td>0.080156</td>
-      <td>1.889632</td>
+      <td>0.080182</td>
+      <td>1.885059</td>
       <td>73.0</td>
       <td>292.0</td>
       <td>0.025809</td>
-      <td>0.030429</td>
-      <td>0.002732</td>
+      <td>0.030458</td>
+      <td>0.00274</td>
       <td>...</td>
       <td>0.000016</td>
-      <td>0.00016</td>
+      <td>0.000161</td>
       <td>0.000006</td>
-      <td>0.000133</td>
+      <td>0.000134</td>
       <td>0.000109</td>
       <td>0.000088</td>
       <td>0.000069</td>
-      <td>0.000049</td>
+      <td>0.00005</td>
       <td>0.00003</td>
       <td>0.0</td>
     </tr>
@@ -1430,10 +1481,17 @@ Mean Absolute Difference : 4.5
 </div>
 </div>
 </div>
-<p>##Contoh Perhitungan Fitur</p>
-<p>1 Root Mean Square (RMS)</p>
-<p>Contoh data CO:
-X = [2, -1, 3, -2, 4]</p>
+</section>
+<section id="contoh-perhitungan-fitur">
+<h2>7. Contoh Perhitungan Fitur<a class="headerlink" href="#contoh-perhitungan-fitur" title="Link to this heading">#</a></h2>
+<p>Bagian ini menjelaskan beberapa fitur umum untuk membaca karakteristik sinyal deret waktu.</p>
+<section id="root-mean-square-rms">
+<h3>7.1 Root Mean Square (RMS)<a class="headerlink" href="#root-mean-square-rms" title="Link to this heading">#</a></h3>
+<p>RMS mengukur amplitudo efektif atau energi rata-rata sinyal.</p>
+<div class="math notranslate nohighlight">
+\[X = [2, -1, 3, -2, 4]\]</div>
+<div class="math notranslate nohighlight">
+\[RMS = \sqrt{\frac{1}{N}\sum_{i=1}^{N}x_i^2}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Math</span>
@@ -1447,16 +1505,13 @@ X = [2, -1, 3, -2, 4]</p>
 \[\displaystyle RMS = \sqrt{\frac{1}{N} \sum_{i=1}^{N} x_i^2}\]</div>
 </div>
 </div>
-<p>2 Zero Crossing Rate (ZCR)</p>
-<p>Contoh data:
-X = [2, -1, 3, -2, 4]</p>
-<p>Perubahan tanda:
-2 → -1  = terjadi perubahan
--1 → 3  = terjadi perubahan
-3 → -2  = terjadi perubahan
--2 → 4  = terjadi perubahan</p>
-<p>Jumlah perubahan tanda = 4</p>
-<p>Rumus:</p>
+</section>
+<section id="zero-crossing-rate-zcr">
+<h3>7.2 Zero Crossing Rate (ZCR)<a class="headerlink" href="#zero-crossing-rate-zcr" title="Link to this heading">#</a></h3>
+<p>ZCR menghitung perpindahan tanda positif dan negatif pada sinyal. Nilai tinggi menunjukkan sinyal lebih sering berfluktuasi.</p>
+<p>Untuk <span class="math notranslate nohighlight">\(X = [2, -1, 3, -2, 4]\)</span>, terdapat <strong>4</strong> perubahan tanda.</p>
+<div class="math notranslate nohighlight">
+\[ZCR = \sum_{i=1}^{N-1}\mathbf{1}\left[\operatorname{sign}(x_i) \ne \operatorname{sign}(x_{i+1})\right]\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"MAD = \frac</span><span class="si">{1}</span><span class="s2">{N - 1} \sum_{i=1}^{N - 1} |x_{i+1} - x_i|"</span><span class="p">))</span>
@@ -1468,16 +1523,14 @@ X = [2, -1, 3, -2, 4]</p>
 \[\displaystyle MAD = \frac{1}{N - 1} \sum_{i=1}^{N - 1} |x_{i+1} - x_i|\]</div>
 </div>
 </div>
-<p>3 Mean Absolute Difference</p>
-<p>Contoh data:
-X = [2, 5, 1, 6, 0]</p>
-<p>Perhitungan:</p>
-<p>MAD = (|5-2| + |1-5| + |6-1| + |0-6|) / 4</p>
-<p>MAD = (3 + 4 + 5 + 6) / 4</p>
-<p>MAD = 18 / 4</p>
-<p>MAD = 4.5</p>
-<p>Interpretasi:
-Nilai 4.5 menunjukkan rata-rata perubahan absolut antara data yang berurutan adalah 4.5</p>
+</section>
+<section id="mean-absolute-difference-mad">
+<h3>7.3 Mean Absolute Difference (MAD)<a class="headerlink" href="#mean-absolute-difference-mad" title="Link to this heading">#</a></h3>
+<p>MAD mengukur rata-rata perubahan absolut antarobservasi yang berurutan.</p>
+<div class="math notranslate nohighlight">
+\[X = [2, 5, 1, 6, 0]\]</div>
+<div class="math notranslate nohighlight">
+\[MAD = \frac{|5-2| + |1-5| + |6-1| + |0-6|}{4} = 4.5\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"H = -\sum_i p_i \log_2(p_i)"</span><span class="p">))</span>
@@ -1489,17 +1542,13 @@ Nilai 4.5 menunjukkan rata-rata perubahan absolut antara data yang berurutan ada
 \[\displaystyle H = -\sum_i p_i \log_2(p_i)\]</div>
 </div>
 </div>
-<p>4 Spectral Entropy</p>
-<p>Misalkan distribusi energi frekuensi yang telah dinormalisasi adalah:</p>
-<p>p = [0.5, 0.25, 0.25]</p>
-<p>Perhitungan:
-H = -(0.5 log2(0.5) + 0.25 log2(0.25) + 0.25 log2(0.25))</p>
-<p>H = -(0.5(-1) + 0.25(-2) + 0.25(-2))</p>
-<p>H = -(-0.5 - 0.5 - 0.5)</p>
-<p>H = 1.5 bit</p>
-<p>Interpretasi:
-Spectral Entropy sebesar 1.5 bit menunjukkan bagaimana energi sinyal tersebar pada beberapa komponen frekuensi.</p>
-<p>Rumus:</p>
+</section>
+<section id="spectral-entropy">
+<h3>7.4 Spectral Entropy<a class="headerlink" href="#spectral-entropy" title="Link to this heading">#</a></h3>
+<p>Spectral entropy mengukur seberapa merata energi sinyal tersebar pada komponen frekuensi.</p>
+<div class="math notranslate nohighlight">
+\[H = -\sum_i p_i\log_2(p_i)\]</div>
+<p>Untuk <span class="math notranslate nohighlight">\(p = [0.5, 0.25, 0.25]\)</span>, diperoleh <span class="math notranslate nohighlight">\(H = 1.5\)</span> bit.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"SC = \frac{\sum_k f_k A_k}{\sum_k A_k}"</span><span class="p">))</span>
@@ -1511,21 +1560,13 @@ Spectral Entropy sebesar 1.5 bit menunjukkan bagaimana energi sinyal tersebar pa
 \[\displaystyle SC = \frac{\sum_k f_k A_k}{\sum_k A_k}\]</div>
 </div>
 </div>
-<p>5 Spectral Centroid</p>
-<p>Contoh:</p>
-<p>Frekuensi:
-f = [1, 2, 3] Hz</p>
-<p>Amplitudo:
-A = [2, 3, 1]</p>
-<p>Rumus:</p>
-<p>Perhitungan:
-SC = ((1×2) + (2×3) + (3×1)) / (2 + 3 + 1)</p>
-<p>SC = (2 + 6 + 3) / 6</p>
-<p>SC = 11 / 6</p>
-<p>SC = 1.83 Hz</p>
-<p>Interpretasi:
-Spectral Centroid sebesar 1.83 Hz menunjukkan titik pusat distribusi energi pada spektrum frekuensi.</p>
-<p>Rumus:</p>
+</section>
+<section id="spectral-centroid">
+<h3>7.5 Spectral Centroid<a class="headerlink" href="#spectral-centroid" title="Link to this heading">#</a></h3>
+<p>Spectral centroid menunjukkan titik pusat distribusi energi pada spektrum frekuensi.</p>
+<div class="math notranslate nohighlight">
+\[SC = \frac{\sum_k f_kA_k}{\sum_kA_k}\]</div>
+<p>Dengan <span class="math notranslate nohighlight">\(f=[1,2,3]\)</span> Hz dan <span class="math notranslate nohighlight">\(A=[2,3,1]\)</span>, diperoleh <span class="math notranslate nohighlight">\(SC = 1.83\)</span> Hz.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Spread = \sqrt{\frac{\sum_k A_k (f_k - SC)^2}{\sum_k A_k}}"</span><span class="p">))</span>
@@ -1537,13 +1578,12 @@ Spectral Centroid sebesar 1.83 Hz menunjukkan titik pusat distribusi energi pada
 \[\displaystyle Spread = \sqrt{\frac{\sum_k A_k (f_k - SC)^2}{\sum_k A_k}}\]</div>
 </div>
 </div>
-<p>6 Spectral Spread</p>
-<p>Definisi:
-Spectral Spread menunjukkan seberapa luas penyebaran energi frekuensi di sekitar Spectral Centroid.</p>
-<p>Cara kerja:
-Nilai setiap frekuensi dibandingkan dengan Spectral Centroid. Semakin besar penyebaran frekuensi, semakin besar nilai Spectral Spread.</p>
-<p>Interpretasi:
-Spectral Spread digunakan untuk mengetahui apakah energi sinyal terkonsentrasi pada rentang frekuensi tertentu atau tersebar pada rentang yang lebih luas.</p>
+</section>
+<section id="spectral-spread">
+<h3>7.6 Spectral Spread<a class="headerlink" href="#spectral-spread" title="Link to this heading">#</a></h3>
+<p>Spectral spread menunjukkan seberapa jauh energi frekuensi tersebar dari spectral centroid.</p>
+<div class="math notranslate nohighlight">
+\[Spread = \sqrt{\frac{\sum_k A_k(f_k-SC)^2}{\sum_kA_k}}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"X[k] = \sum_{n=0}^{N-1} x[n] e^{-j 2 \pi k n / N}"</span><span class="p">))</span>
@@ -1555,7 +1595,15 @@ Spectral Spread digunakan untuk mengetahui apakah energi sinyal terkonsentrasi p
 \[\displaystyle X[k] = \sum_{n=0}^{N-1} x[n] e^{-j 2 \pi k n / N}\]</div>
 </div>
 </div>
-<p>##HASIL AKHIR</p>
+</section>
+</section>
+<section id="hasil-akhir-dan-interpretasi">
+<h2>8. Hasil Akhir dan Interpretasi<a class="headerlink" href="#hasil-akhir-dan-interpretasi" title="Link to this heading">#</a></h2>
+<p>Setelah preprocessing, diperoleh deret waktu CO selama <strong>365 hari</strong> tanpa nilai kosong. Sebanyak <strong>7 outlier</strong> teridentifikasi dan diperbaiki menggunakan interpolasi.</p>
+<p>TSFEL menghasilkan <strong>156 fitur</strong> dari empat domain. Fitur tersebut disimpan dalam <code class="docutils literal notranslate"><span class="pre">fitur_TSFEL_CO.csv</span></code> dan siap digunakan untuk analisis lanjutan seperti clustering, klasifikasi, atau prediksi.</p>
+<blockquote>
+<div><p><strong>Kesimpulan:</strong> data telah menjadi sinyal harian yang lengkap, konsisten, dan siap dianalisis.</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
@@ -1615,13 +1663,13 @@ Jumlah fitur : 156
       <th>0</th>
       <td>1</td>
       <td>0_Absolute energy</td>
-      <td>0.292569</td>
+      <td>0.291861</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2</td>
       <td>0_Area under the curve</td>
-      <td>0.102657</td>
+      <td>0.102391</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1633,13 +1681,13 @@ Jumlah fitur : 156
       <th>3</th>
       <td>4</td>
       <td>0_Average power</td>
-      <td>0.080156</td>
+      <td>0.080182</td>
     </tr>
     <tr>
       <th>4</th>
       <td>5</td>
       <td>0_Centroid</td>
-      <td>1.889632</td>
+      <td>1.885059</td>
     </tr>
     <tr>
       <th>...</th>
@@ -1663,7 +1711,7 @@ Jumlah fitur : 156
       <th>153</th>
       <td>154</td>
       <td>0_Wavelet variance_6.25Hz</td>
-      <td>0.000049</td>
+      <td>0.000050</td>
     </tr>
     <tr>
       <th>154</th>
@@ -1763,7 +1811,21 @@ fitur_TSFEL_CO.csv
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan">Penjelasan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-analisis">Tujuan Analisis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-dan-pemeriksaan-awal">1. Dataset dan Pemeriksaan Awal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membentuk-deret-waktu-365-hari">2. Membentuk Deret Waktu 365 Hari</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-dan-perbaikan-outlier">4. Deteksi dan Perbaikan Outlier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ekstraksi-fitur-dengan-tsfel">6. Ekstraksi Fitur dengan TSFEL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-perhitungan-fitur">7. Contoh Perhitungan Fitur</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#root-mean-square-rms">7.1 Root Mean Square (RMS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zero-crossing-rate-zcr">7.2 Zero Crossing Rate (ZCR)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-absolute-difference-mad">7.3 Mean Absolute Difference (MAD)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-entropy">7.4 Spectral Entropy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-centroid">7.5 Spectral Centroid</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-spread">7.6 Spectral Spread</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir-dan-interpretasi">8. Hasil Akhir dan Interpretasi</a></li>
 </ul>
   </nav></div>
 
