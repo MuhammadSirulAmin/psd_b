@@ -1,0 +1,1819 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL &#8212; Pemrosesan Data Sains</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas_3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Statistik Data Kualitas Udara Menggunakan KNIME" href="tugas_2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpg" class="logo__image only-light" alt="Pemrosesan Data Sains - Home"/>
+    <img src="_static/logo.jpg" class="logo__image only-dark pst-js-only" alt="Pemrosesan Data Sains - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tugas_1.html">1. Business Understanding</a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tugas_2.html">Statistik Data Kualitas Udara Menggunakan KNIME</a></li>
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tugas_3.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan">Penjelasan</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pip</span> install -q tsfel
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="tugas-3-preprocessing-data-dan-ekstraksi-fitur-tsfel">
+<h1>Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL<a class="headerlink" href="#tugas-3-preprocessing-data-dan-ekstraksi-fitur-tsfel" title="Link to this heading">#</a></h1>
+<p><strong>Studi Kasus:</strong> Analisis Carbon Monoxide (CO)<br />
+<strong>Wilayah:</strong> Kecamatan Klampis</p>
+<section id="penjelasan">
+<h2>Penjelasan<a class="headerlink" href="#penjelasan" title="Link to this heading">#</a></h2>
+<p>Tugas ini melakukan preprocessing dan ekstraksi fitur pada data konsentrasi
+Carbon Monoxide (CO) di Kecamatan Klampis, Kabupaten Bangkalan.</p>
+<p>Tahapan yang dilakukan meliputi pembentukan data menjadi 365 hari,
+penanganan missing value, identifikasi dan perbaikan outlier, kemudian
+ekstraksi fitur menggunakan Time Series Feature Extraction Library (TSFEL).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># IMPORT LIBRARY</span>
+<span class="c1"># ============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Library berhasil di-import."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Library berhasil di-import.
+</pre></div>
+</div>
+</div>
+</div>
+<p>##Dataset</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># MEMBACA DATASET</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="s2">"Sentinel-5P_CO-CO_VISUALIZED-2025-02-20T00_00_00_000Z-2026-02-20T23_59_59_999Z.csv"</span>
+
+<span class="n">df_co</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+<span class="c1"># Mengubah tanggal</span>
+<span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+    <span class="n">df_co</span><span class="p">[</span><span class="s2">"C0/date"</span><span class="p">],</span>
+    <span class="n">utc</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+
+<span class="c1"># Mengambil tanggal dan nilai CO</span>
+<span class="n">df_co</span> <span class="o">=</span> <span class="n">df_co</span><span class="p">[[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"C0/mean"</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Mengubah nama kolom</span>
+<span class="n">df_co</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"CO"</span><span class="p">]</span>
+
+<span class="c1"># Memastikan CO berupa numerik</span>
+<span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span>
+    <span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">],</span>
+    <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
+<span class="p">)</span>
+
+<span class="c1"># Mengurutkan berdasarkan tanggal</span>
+<span class="n">df_co</span> <span class="o">=</span> <span class="n">df_co</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"tanggal"</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah data asli :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_co</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal awal     :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal akhir    :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing CO awal  :"</span><span class="p">,</span> <span class="n">df_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_co</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data asli : 198
+Tanggal awal     : 2025-02-21
+Tanggal akhir    : 2026-02-20
+Missing CO awal  : 0
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tanggal</th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-02-21</td>
+      <td>0.031969</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-28</td>
+      <td>0.028443</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-03-01</td>
+      <td>0.032531</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-03-02</td>
+      <td>0.031356</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-03-03</td>
+      <td>0.029649</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>##Membentuk Data 365 Hari</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># MEMBENTUK DATA 365 HARI</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">tanggal_lengkap</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span>
+    <span class="n">start</span><span class="o">=</span><span class="s2">"2025-02-21"</span><span class="p">,</span>
+    <span class="n">periods</span><span class="o">=</span><span class="mi">365</span><span class="p">,</span>
+    <span class="n">freq</span><span class="o">=</span><span class="s2">"D"</span>
+<span class="p">)</span>
+
+<span class="n">df_365</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"tanggal"</span><span class="p">:</span> <span class="n">tanggal_lengkap</span><span class="o">.</span><span class="n">date</span>
+<span class="p">})</span>
+
+<span class="c1"># Gabungkan dengan data asli</span>
+<span class="n">df_365</span> <span class="o">=</span> <span class="n">df_365</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_co</span><span class="p">[[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"CO"</span><span class="p">]],</span>
+    <span class="n">on</span><span class="o">=</span><span class="s2">"tanggal"</span><span class="p">,</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal awal :"</span><span class="p">,</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Tanggal akhir:"</span><span class="p">,</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah hari  :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_365</span><span class="p">))</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_365</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tanggal awal : 2025-02-21
+Tanggal akhir: 2026-02-20
+Jumlah hari  : 366
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tanggal</th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-02-21</td>
+      <td>0.031969</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-22</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-23</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-24</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-25</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-02-26</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-02-27</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-02-28</td>
+      <td>0.028443</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-01</td>
+      <td>0.032531</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-03-02</td>
+      <td>0.031356</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># PENANGANAN MISSING VALUE</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">missing_sebelum</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># Simpan data sebelum imputasi</span>
+<span class="n">df_sebelum_imputasi</span> <span class="o">=</span> <span class="n">df_365</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Imputasi menggunakan interpolasi linear</span>
+<span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">"linear"</span>
+<span class="p">)</span>
+
+<span class="c1"># Jika masih ada missing di ujung data,</span>
+<span class="c1"># gunakan forward/backward fill sebagai pengaman</span>
+<span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+
+<span class="n">missing_sesudah</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing sebelum imputasi :"</span><span class="p">,</span> <span class="n">missing_sebelum</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing sesudah imputasi :"</span><span class="p">,</span> <span class="n">missing_sesudah</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_365</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Missing sebelum imputasi : 168
+Missing sesudah imputasi : 0
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tanggal</th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-02-21</td>
+      <td>0.031969</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-22</td>
+      <td>0.031465</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-23</td>
+      <td>0.030961</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-24</td>
+      <td>0.030458</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-25</td>
+      <td>0.029954</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-02-26</td>
+      <td>0.029450</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-02-27</td>
+      <td>0.028947</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-02-28</td>
+      <td>0.028443</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-01</td>
+      <td>0.032531</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-03-02</td>
+      <td>0.031356</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># VISUALISASI SEBELUM IMPUTASI</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_sebelum_imputasi</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]),</span>
+    <span class="n">df_sebelum_imputasi</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">],</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Data CO Sebelum Imputasi"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"CO (mol/m²)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7a87545813426f9374b2f84038c3b18064f11af3404698f69bbf939013e00d54.png" src="_images/7a87545813426f9374b2f84038c3b18064f11af3404698f69bbf939013e00d54.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># IDENTIFIKASI OUTLIER DENGAN METODE IQR</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">Q1</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="n">Q3</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+
+<span class="n">IQR</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q1</span>
+
+<span class="n">batas_bawah</span> <span class="o">=</span> <span class="n">Q1</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+<span class="n">batas_atas</span> <span class="o">=</span> <span class="n">Q3</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">IQR</span>
+
+<span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">batas_bawah</span><span class="p">)</span> <span class="o">|</span>
+    <span class="p">(</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">batas_atas</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">jumlah_outlier</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Q1          :"</span><span class="p">,</span> <span class="n">Q1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Q3          :"</span><span class="p">,</span> <span class="n">Q3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"IQR         :"</span><span class="p">,</span> <span class="n">IQR</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Batas bawah :"</span><span class="p">,</span> <span class="n">batas_bawah</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Batas atas  :"</span><span class="p">,</span> <span class="n">batas_atas</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah outlier :"</span><span class="p">,</span> <span class="n">jumlah_outlier</span><span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">df_365</span><span class="p">[</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">]][[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"CO"</span><span class="p">]]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Q1          : 0.02617710735648865
+Q3          : 0.029911477830157438
+IQR         : 0.003734370473668789
+Batas bawah : 0.020575551645985464
+Batas atas  : 0.03551303354066062
+
+Jumlah outlier : 7
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tanggal</th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>179</th>
+      <td>2025-08-19</td>
+      <td>0.036652</td>
+    </tr>
+    <tr>
+      <th>215</th>
+      <td>2025-09-24</td>
+      <td>0.037050</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>2025-10-07</td>
+      <td>0.045314</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>2025-10-08</td>
+      <td>0.037251</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>2025-10-09</td>
+      <td>0.039908</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>2025-10-10</td>
+      <td>0.036259</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>2026-02-15</td>
+      <td>0.035680</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>##Outlier</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># VISUALISASI OUTLIER</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"tanggal"</span><span class="p">]),</span>
+    <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">],</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"CO"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
+        <span class="n">df_365</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">],</span> <span class="s2">"tanggal"</span><span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">df_365</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">],</span> <span class="s2">"CO"</span><span class="p">],</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Outlier"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Identifikasi Outlier Data CO"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Tanggal"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"CO (mol/m²)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9f63700ac0713592314726080fe8c32ec40415608b1c2e98d9f8c530bbcece74.png" src="_images/9f63700ac0713592314726080fe8c32ec40415608b1c2e98d9f8c530bbcece74.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># PERBAIKAN OUTLIER</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># Simpan nilai sebelum diperbaiki</span>
+<span class="n">df_365</span><span class="p">[</span><span class="s2">"CO_sebelum_perbaikan"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span>
+
+<span class="c1"># Ubah outlier menjadi NaN</span>
+<span class="n">df_365</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">],</span> <span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="c1"># Interpolasi nilai outlier</span>
+<span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">"linear"</span>
+<span class="p">)</span>
+
+<span class="c1"># Pengaman apabila ada NaN di ujung</span>
+<span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah outlier yang diperbaiki :"</span><span class="p">,</span> <span class="n">jumlah_outlier</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing setelah perbaikan     :"</span><span class="p">,</span> <span class="n">df_365</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">df_365</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+        <span class="n">df_365</span><span class="p">[</span><span class="s2">"outlier"</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"CO_sebelum_perbaikan"</span><span class="p">,</span> <span class="s2">"CO"</span><span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah outlier yang diperbaiki : 7
+Missing setelah perbaikan     : 0
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tanggal</th>
+      <th>CO_sebelum_perbaikan</th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>179</th>
+      <td>2025-08-19</td>
+      <td>0.036652</td>
+      <td>0.025253</td>
+    </tr>
+    <tr>
+      <th>215</th>
+      <td>2025-09-24</td>
+      <td>0.037050</td>
+      <td>0.026449</td>
+    </tr>
+    <tr>
+      <th>228</th>
+      <td>2025-10-07</td>
+      <td>0.045314</td>
+      <td>0.032926</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>2025-10-08</td>
+      <td>0.037251</td>
+      <td>0.033124</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>2025-10-09</td>
+      <td>0.039908</td>
+      <td>0.033322</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>2025-10-10</td>
+      <td>0.036259</td>
+      <td>0.033521</td>
+    </tr>
+    <tr>
+      <th>360</th>
+      <td>2026-02-15</td>
+      <td>0.035680</td>
+      <td>0.034287</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># DATASET SETELAH PREPROCESSING</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">df_final_co</span> <span class="o">=</span> <span class="n">df_365</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">"tanggal"</span><span class="p">,</span> <span class="s2">"CO"</span><span class="p">]</span>
+<span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">df_final_co</span> <span class="o">=</span> <span class="n">df_final_co</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+    <span class="s2">"tanggal"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah baris :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_final_co</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah kolom :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_final_co</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing CO   :"</span><span class="p">,</span> <span class="n">df_final_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df_final_co</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah baris : 366
+Jumlah kolom : 2
+Missing CO   : 0
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tanggal</th>
+      <th>CO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-02-21</td>
+      <td>0.031969</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-22</td>
+      <td>0.031465</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-23</td>
+      <td>0.030961</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-24</td>
+      <td>0.030458</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-25</td>
+      <td>0.029954</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2025-02-26</td>
+      <td>0.029450</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2025-02-27</td>
+      <td>0.028947</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2025-02-28</td>
+      <td>0.028443</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2025-03-01</td>
+      <td>0.032531</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2025-03-02</td>
+      <td>0.031356</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simpan dataset hasil preprocessing</span>
+<span class="n">df_final_co</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="s2">"CO_365_hari_preprocessed.csv"</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Dataset berhasil disimpan sebagai:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"CO_365_hari_preprocessed.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset berhasil disimpan sebagai:
+CO_365_hari_preprocessed.csv
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># INSTALL TSFEL</span>
+<span class="c1"># ============================================================</span>
+
+<span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-q<span class="w"> </span>tsfel
+</pre></div>
+</div>
+</div>
+</div>
+<p>##Ekstraksi Fitur TSFEL</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># EKSTRAKSI FITUR TSFEL</span>
+<span class="c1"># ============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tsfel</span>
+
+<span class="c1"># Pastikan data terurut</span>
+<span class="n">df_final_co</span> <span class="o">=</span> <span class="n">df_final_co</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+    <span class="s2">"tanggal"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Ambil sinyal CO</span>
+<span class="n">signal_co</span> <span class="o">=</span> <span class="n">df_final_co</span><span class="p">[</span><span class="s2">"CO"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah data CO :"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal_co</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Missing value  :"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">signal_co</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data CO : 366
+Missing value  : 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Konfigurasi fitur TSFEL</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">tsfel</span><span class="o">.</span><span class="n">get_features_by_domain</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Domain TSFEL:"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">domain</span><span class="p">,</span> <span class="n">features</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"- </span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> fitur"</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Domain TSFEL:
+- spectral: 26 fitur
+- statistical: 20 fitur
+- temporal: 15 fitur
+- fractal: 6 fitur
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># EKSTRAKSI FITUR</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">features_co</span> <span class="o">=</span> <span class="n">tsfel</span><span class="o">.</span><span class="n">time_series_features_extractor</span><span class="p">(</span>
+    <span class="n">cfg</span><span class="p">,</span>
+    <span class="n">signal_co</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Ekstraksi fitur selesai."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah baris :"</span><span class="p">,</span> <span class="n">features_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah fitur :"</span><span class="p">,</span> <span class="n">features_co</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">features_co</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ekstraksi fitur selesai.
+Jumlah baris : 1
+Jumlah fitur : 156
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\SIRUL AMIN\AppData\Local\Temp\ipykernel_12000\320638609.py:5: UserWarning: Using default sampling frequency set in configuration file.
+  features_co = tsfel.time_series_features_extractor(
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0_Absolute energy</th>
+      <th>0_Area under the curve</th>
+      <th>0_Autocorrelation</th>
+      <th>0_Average power</th>
+      <th>0_Centroid</th>
+      <th>0_ECDF Percentile Count_0</th>
+      <th>0_ECDF Percentile Count_1</th>
+      <th>0_ECDF Percentile_0</th>
+      <th>0_ECDF Percentile_1</th>
+      <th>0_ECDF_0</th>
+      <th>...</th>
+      <th>0_Wavelet variance_12.5Hz</th>
+      <th>0_Wavelet variance_2.78Hz</th>
+      <th>0_Wavelet variance_25.0Hz</th>
+      <th>0_Wavelet variance_3.12Hz</th>
+      <th>0_Wavelet variance_3.57Hz</th>
+      <th>0_Wavelet variance_4.17Hz</th>
+      <th>0_Wavelet variance_5.0Hz</th>
+      <th>0_Wavelet variance_6.25Hz</th>
+      <th>0_Wavelet variance_8.33Hz</th>
+      <th>0_Zero crossing rate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.292569</td>
+      <td>0.102657</td>
+      <td>2.0</td>
+      <td>0.080156</td>
+      <td>1.889632</td>
+      <td>73.0</td>
+      <td>292.0</td>
+      <td>0.025809</td>
+      <td>0.030429</td>
+      <td>0.002732</td>
+      <td>...</td>
+      <td>0.000016</td>
+      <td>0.00016</td>
+      <td>0.000006</td>
+      <td>0.000133</td>
+      <td>0.000109</td>
+      <td>0.000088</td>
+      <td>0.000069</td>
+      <td>0.000049</td>
+      <td>0.00003</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 156 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># RINGKASAN DOMAIN FITUR</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Ringkasan domain TSFEL:"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">domain</span><span class="p">,</span> <span class="n">features</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">domain</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">:</span><span class="s2">&lt;12</span><span class="si">}</span><span class="s2"> : "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="si">}</span><span class="s2"> konfigurasi fitur"</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ringkasan domain TSFEL:
+Spectral     : 26 konfigurasi fitur
+Statistical  : 20 konfigurasi fitur
+Temporal     : 15 konfigurasi fitur
+Fractal      : 6 konfigurasi fitur
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># CONTOH PERHITUNGAN RMS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="n">rms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Data :"</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"RMS  :"</span><span class="p">,</span> <span class="n">rms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data : [ 2 -1  3 -2  4]
+RMS  : 2.6076809620810595
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># CONTOH ZERO CROSSING RATE</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="n">zcr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Data :"</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah zero crossing :"</span><span class="p">,</span> <span class="n">zcr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data : [ 2 -1  3 -2  4]
+Jumlah zero crossing : 4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># CONTOH MEAN ABSOLUTE DIFFERENCE</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+
+<span class="n">mad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Data :"</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Mean Absolute Difference :"</span><span class="p">,</span> <span class="n">mad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data : [ 2 -1  3 -2  4]
+Mean Absolute Difference : 4.5
+</pre></div>
+</div>
+</div>
+</div>
+<p>##Contoh Perhitungan Fitur</p>
+<p>1 Root Mean Square (RMS)</p>
+<p>Contoh data CO:
+X = [2, -1, 3, -2, 4]</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Math</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"RMS = \sqrt{\frac</span><span class="si">{1}{N}</span><span class="s2"> \sum_{i=1}^</span><span class="si">{N}</span><span class="s2"> x_i^2}"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle RMS = \sqrt{\frac{1}{N} \sum_{i=1}^{N} x_i^2}\]</div>
+</div>
+</div>
+<p>2 Zero Crossing Rate (ZCR)</p>
+<p>Contoh data:
+X = [2, -1, 3, -2, 4]</p>
+<p>Perubahan tanda:
+2 → -1  = terjadi perubahan
+-1 → 3  = terjadi perubahan
+3 → -2  = terjadi perubahan
+-2 → 4  = terjadi perubahan</p>
+<p>Jumlah perubahan tanda = 4</p>
+<p>Rumus:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"MAD = \frac</span><span class="si">{1}</span><span class="s2">{N - 1} \sum_{i=1}^{N - 1} |x_{i+1} - x_i|"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle MAD = \frac{1}{N - 1} \sum_{i=1}^{N - 1} |x_{i+1} - x_i|\]</div>
+</div>
+</div>
+<p>3 Mean Absolute Difference</p>
+<p>Contoh data:
+X = [2, 5, 1, 6, 0]</p>
+<p>Perhitungan:</p>
+<p>MAD = (|5-2| + |1-5| + |6-1| + |0-6|) / 4</p>
+<p>MAD = (3 + 4 + 5 + 6) / 4</p>
+<p>MAD = 18 / 4</p>
+<p>MAD = 4.5</p>
+<p>Interpretasi:
+Nilai 4.5 menunjukkan rata-rata perubahan absolut antara data yang berurutan adalah 4.5</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"H = -\sum_i p_i \log_2(p_i)"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle H = -\sum_i p_i \log_2(p_i)\]</div>
+</div>
+</div>
+<p>4 Spectral Entropy</p>
+<p>Misalkan distribusi energi frekuensi yang telah dinormalisasi adalah:</p>
+<p>p = [0.5, 0.25, 0.25]</p>
+<p>Perhitungan:
+H = -(0.5 log2(0.5) + 0.25 log2(0.25) + 0.25 log2(0.25))</p>
+<p>H = -(0.5(-1) + 0.25(-2) + 0.25(-2))</p>
+<p>H = -(-0.5 - 0.5 - 0.5)</p>
+<p>H = 1.5 bit</p>
+<p>Interpretasi:
+Spectral Entropy sebesar 1.5 bit menunjukkan bagaimana energi sinyal tersebar pada beberapa komponen frekuensi.</p>
+<p>Rumus:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"SC = \frac{\sum_k f_k A_k}{\sum_k A_k}"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle SC = \frac{\sum_k f_k A_k}{\sum_k A_k}\]</div>
+</div>
+</div>
+<p>5 Spectral Centroid</p>
+<p>Contoh:</p>
+<p>Frekuensi:
+f = [1, 2, 3] Hz</p>
+<p>Amplitudo:
+A = [2, 3, 1]</p>
+<p>Rumus:</p>
+<p>Perhitungan:
+SC = ((1×2) + (2×3) + (3×1)) / (2 + 3 + 1)</p>
+<p>SC = (2 + 6 + 3) / 6</p>
+<p>SC = 11 / 6</p>
+<p>SC = 1.83 Hz</p>
+<p>Interpretasi:
+Spectral Centroid sebesar 1.83 Hz menunjukkan titik pusat distribusi energi pada spektrum frekuensi.</p>
+<p>Rumus:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Spread = \sqrt{\frac{\sum_k A_k (f_k - SC)^2}{\sum_k A_k}}"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle Spread = \sqrt{\frac{\sum_k A_k (f_k - SC)^2}{\sum_k A_k}}\]</div>
+</div>
+</div>
+<p>6 Spectral Spread</p>
+<p>Definisi:
+Spectral Spread menunjukkan seberapa luas penyebaran energi frekuensi di sekitar Spectral Centroid.</p>
+<p>Cara kerja:
+Nilai setiap frekuensi dibandingkan dengan Spectral Centroid. Semakin besar penyebaran frekuensi, semakin besar nilai Spectral Spread.</p>
+<p>Interpretasi:
+Spectral Spread digunakan untuk mengetahui apakah energi sinyal terkonsentrasi pada rentang frekuensi tertentu atau tersebar pada rentang yang lebih luas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Math</span><span class="p">(</span><span class="sa">r</span><span class="s2">"X[k] = \sum_{n=0}^{N-1} x[n] e^{-j 2 \pi k n / N}"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle X[k] = \sum_{n=0}^{N-1} x[n] e^{-j 2 \pi k n / N}\]</div>
+</div>
+</div>
+<p>##HASIL AKHIR</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># HASIL AKHIR FITUR</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">features_co_final</span> <span class="o">=</span> <span class="n">features_co</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Dataset fitur akhir"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"-------------------"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah baris :"</span><span class="p">,</span> <span class="n">features_co_final</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah fitur :"</span><span class="p">,</span> <span class="n">features_co_final</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Membuat tabel fitur ke bawah</span>
+<span class="n">tabel_fitur</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"No"</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">features_co_final</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">"Nama Fitur"</span><span class="p">:</span> <span class="n">features_co_final</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span>
+    <span class="s2">"Nilai"</span><span class="p">:</span> <span class="n">features_co_final</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">tabel_fitur</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset fitur akhir
+-------------------
+Jumlah baris : 1
+Jumlah fitur : 156
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>No</th>
+      <th>Nama Fitur</th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0_Absolute energy</td>
+      <td>0.292569</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0_Area under the curve</td>
+      <td>0.102657</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>0_Autocorrelation</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0_Average power</td>
+      <td>0.080156</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0_Centroid</td>
+      <td>1.889632</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>152</td>
+      <td>0_Wavelet variance_4.17Hz</td>
+      <td>0.000088</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>153</td>
+      <td>0_Wavelet variance_5.0Hz</td>
+      <td>0.000069</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>154</td>
+      <td>0_Wavelet variance_6.25Hz</td>
+      <td>0.000049</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>155</td>
+      <td>0_Wavelet variance_8.33Hz</td>
+      <td>0.000030</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>156</td>
+      <td>0_Zero crossing rate</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>156 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Simpan hasil fitur ke CSV</span>
+
+<span class="n">features_co_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="s2">"fitur_TSFEL_CO.csv"</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"File berhasil disimpan:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"fitur_TSFEL_CO.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>File berhasil disimpan:
+fitur_TSFEL_CO.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tugas_2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Statistik Data Kualitas Udara Menggunakan KNIME</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan">Penjelasan</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
