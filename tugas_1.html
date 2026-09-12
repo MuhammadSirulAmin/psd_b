@@ -1697,7 +1697,7 @@ SO2: 125 observasi
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_6be7e804c9f349f1ce45bc62eac288b8 {
+                #map_6fd40b144ef7276cf68c6ce84a5285f6 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1750,14 +1750,14 @@ SO2: 125 observasi
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_6be7e804c9f349f1ce45bc62eac288b8&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_6fd40b144ef7276cf68c6ce84a5285f6&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_6be7e804c9f349f1ce45bc62eac288b8 = L.map(
-                &quot;map_6be7e804c9f349f1ce45bc62eac288b8&quot;,
+            var map_6fd40b144ef7276cf68c6ce84a5285f6 = L.map(
+                &quot;map_6fd40b144ef7276cf68c6ce84a5285f6&quot;,
                 {
                     center: [-6.9207315, 112.9157185],
                     crs: L.CRS.EPSG3857,
@@ -1774,7 +1774,7 @@ SO2: 125 observasi
 
         
     
-            var tile_layer_4300682bd4c795337390817eaaac0fe4 = L.tileLayer(
+            var tile_layer_ab2038cf859bf7365c2e3f8a53acf7db = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -1791,38 +1791,38 @@ SO2: 125 observasi
             );
         
     
-            tile_layer_4300682bd4c795337390817eaaac0fe4.addTo(map_6be7e804c9f349f1ce45bc62eac288b8);
+            tile_layer_ab2038cf859bf7365c2e3f8a53acf7db.addTo(map_6fd40b144ef7276cf68c6ce84a5285f6);
         
     
-        function geo_json_fd33020602664d650d6f8aedcba4b461_styler(feature) {
+        function geo_json_c46379e707fec1fb20acd39559565db9_styler(feature) {
             switch(feature.properties.nama) {
                 default:
                     return {&quot;color&quot;: &quot;#e65100&quot;, &quot;fillColor&quot;: &quot;#ff7800&quot;, &quot;fillOpacity&quot;: 0.3, &quot;weight&quot;: 2.5};
             }
         }
 
-        function geo_json_fd33020602664d650d6f8aedcba4b461_onEachFeature(feature, layer) {
+        function geo_json_c46379e707fec1fb20acd39559565db9_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_fd33020602664d650d6f8aedcba4b461 = L.geoJson(null, {
-                onEachFeature: geo_json_fd33020602664d650d6f8aedcba4b461_onEachFeature,
+        var geo_json_c46379e707fec1fb20acd39559565db9 = L.geoJson(null, {
+                onEachFeature: geo_json_c46379e707fec1fb20acd39559565db9_onEachFeature,
             
-                style: geo_json_fd33020602664d650d6f8aedcba4b461_styler,
+                style: geo_json_c46379e707fec1fb20acd39559565db9_styler,
             ...{
 }
         });
 
-        function geo_json_fd33020602664d650d6f8aedcba4b461_add (data) {
-            geo_json_fd33020602664d650d6f8aedcba4b461
+        function geo_json_c46379e707fec1fb20acd39559565db9_add (data) {
+            geo_json_c46379e707fec1fb20acd39559565db9
                 .addData(data);
         }
-            geo_json_fd33020602664d650d6f8aedcba4b461_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_c46379e707fec1fb20acd39559565db9_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_fd33020602664d650d6f8aedcba4b461.bindTooltip(
+    geo_json_c46379e707fec1fb20acd39559565db9.bindTooltip(
     function(layer){
     let div = L.DomUtil.create(&#x27;div&#x27;);
     
@@ -1857,34 +1857,34 @@ SO2: 125 observasi
 });
                      
     
-            geo_json_fd33020602664d650d6f8aedcba4b461.addTo(map_6be7e804c9f349f1ce45bc62eac288b8);
+            geo_json_c46379e707fec1fb20acd39559565db9.addTo(map_6fd40b144ef7276cf68c6ce84a5285f6);
         
     
-            var marker_65b9f8796301107f4d844b5d875c7c7b = L.marker(
+            var marker_58b57cf884f487a606a98443113db308 = L.marker(
                 [-6.9207315, 112.9157185],
                 {
 }
-            ).addTo(map_6be7e804c9f349f1ce45bc62eac288b8);
+            ).addTo(map_6fd40b144ef7276cf68c6ce84a5285f6);
         
     
-        var popup_f4447f34a951cc3d3b6c366c8834fea6 = L.popup({
+        var popup_e723c2db35315568232b7a6b3dbefff4 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_877dc296a45c2607c771e4b32f26aee8 = $(`&lt;div id=&quot;html_877dc296a45c2607c771e4b32f26aee8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
-                popup_f4447f34a951cc3d3b6c366c8834fea6.setContent(html_877dc296a45c2607c771e4b32f26aee8);
+                var html_0a1291f07d087e22be73b7da102a87e0 = $(`&lt;div id=&quot;html_0a1291f07d087e22be73b7da102a87e0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
+                popup_e723c2db35315568232b7a6b3dbefff4.setContent(html_0a1291f07d087e22be73b7da102a87e0);
             
         
 
-        marker_65b9f8796301107f4d844b5d875c7c7b.bindPopup(popup_f4447f34a951cc3d3b6c366c8834fea6)
+        marker_58b57cf884f487a606a98443113db308.bindPopup(popup_e723c2db35315568232b7a6b3dbefff4)
         ;
 
         
     
     
-            marker_65b9f8796301107f4d844b5d875c7c7b.bindTooltip(
+            marker_58b57cf884f487a606a98443113db308.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,
@@ -1894,23 +1894,23 @@ SO2: 125 observasi
             );
         
     
-            var layer_control_d4b3ff92393b566e9db82f987fadec99_layers = {
+            var layer_control_3140a2df905aa40e88c94f03b02fea30_layers = {
                 base_layers : {
-                    &quot;openstreetmap&quot; : tile_layer_4300682bd4c795337390817eaaac0fe4,
+                    &quot;openstreetmap&quot; : tile_layer_ab2038cf859bf7365c2e3f8a53acf7db,
                 },
                 overlays :  {
-                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_fd33020602664d650d6f8aedcba4b461,
+                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_c46379e707fec1fb20acd39559565db9,
                 },
             };
-            let layer_control_d4b3ff92393b566e9db82f987fadec99 = L.control.layers(
-                layer_control_d4b3ff92393b566e9db82f987fadec99_layers.base_layers,
-                layer_control_d4b3ff92393b566e9db82f987fadec99_layers.overlays,
+            let layer_control_3140a2df905aa40e88c94f03b02fea30 = L.control.layers(
+                layer_control_3140a2df905aa40e88c94f03b02fea30_layers.base_layers,
+                layer_control_3140a2df905aa40e88c94f03b02fea30_layers.overlays,
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;collapsed&quot;: true,
   &quot;autoZIndex&quot;: true,
 }
-            ).addTo(map_6be7e804c9f349f1ce45bc62eac288b8);
+            ).addTo(map_6fd40b144ef7276cf68c6ce84a5285f6);
 
         
 &lt;/script&gt;
