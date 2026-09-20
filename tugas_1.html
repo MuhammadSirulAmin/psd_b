@@ -230,7 +230,18 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas_3_Ekstraksi_lanjutan.html">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+
+
+
+
+
+
+
+
+
+
 </ul>
 
     </div>
@@ -527,12 +538,6 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mode lokal: 5 file CSV ditemukan.
 
 ============================================================
-Parameter : CO
-File      : Sentinel-5P_CO-CO_VISUALIZED-2025-02-20T00_00_00_000Z-2026-02-20T23_59_59_999Z.csv
-Jumlah baris : 198
-Periode     : 2025-02-21 00:00:00 sampai 2026-02-20 00:00:00
-
-============================================================
 Parameter : CH4
 File      : Sentinel-5P_CH4-CH4_VISUALIZED-2025-08-31T00_00_00_000Z-2026-08-31T23_59_59_999Z.csv
 Jumlah baris : 14
@@ -540,9 +545,9 @@ Periode     : 2025-09-23 00:00:00 sampai 2026-08-26 00:00:00
 
 ============================================================
 Parameter : CO
-File      : Sentinel-5P_CO-Custom-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z.csv
-Jumlah baris : 184
-Periode     : 2025-01-29 00:00:00 sampai 2026-01-26 00:00:00
+File      : Sentinel-5P_CO-CO_VISUALIZED-2025-02-20T00_00_00_000Z-2026-02-20T23_59_59_999Z.csv
+Jumlah baris : 198
+Periode     : 2025-02-21 00:00:00 sampai 2026-02-20 00:00:00
 
 ============================================================
 Parameter : NO2
@@ -555,6 +560,12 @@ Parameter : SO2
 File      : Sentinel-5P_SO2-SO2_VISUALIZED-2026-02-10T00_00_00_000Z-2026-08-10T23_59_59_999Z.csv
 Jumlah baris : 125
 Periode     : 2026-02-12 00:00:00 sampai 2026-08-10 00:00:00
+
+============================================================
+Parameter : CO
+File      : Sentinel-5P_CO-Custom-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z.csv
+Jumlah baris : 184
+Periode     : 2025-01-29 00:00:00 sampai 2026-01-26 00:00:00
 </pre></div>
 </div>
 </div>
@@ -591,133 +602,6 @@ Periode     : 2026-02-12 00:00:00 sampai 2026-08-10 00:00:00
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
-CO
-============================================================
-Jumlah baris : 184
-Jumlah kolom : 10
-
-Kolom:
-['C0/date', 'C0/min', 'C0/max', 'C0/mean', 'C0/stDev', 'C0/sampleCount', 'C0/noDataCount', 'C0/median', 'C0/p10', 'C0/p90']
-
-Periode:
-Awal  : 2025-01-29 00:00:00
-Akhir : 2026-01-26 00:00:00
-
-Missing value:
-C0/date             0
-C0/min              0
-C0/max              0
-C0/mean             0
-C0/stDev            0
-C0/sampleCount      0
-C0/noDataCount      0
-C0/median         184
-C0/p10            184
-C0/p90            184
-dtype: int64
-
-5 data pertama:
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>C0/date</th>
-      <th>C0/min</th>
-      <th>C0/max</th>
-      <th>C0/mean</th>
-      <th>C0/stDev</th>
-      <th>C0/sampleCount</th>
-      <th>C0/noDataCount</th>
-      <th>C0/median</th>
-      <th>C0/p10</th>
-      <th>C0/p90</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2025-01-29</td>
-      <td>0.026266</td>
-      <td>0.026266</td>
-      <td>0.026266</td>
-      <td>0.000000</td>
-      <td>6</td>
-      <td>4</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2025-02-02</td>
-      <td>0.028865</td>
-      <td>0.028865</td>
-      <td>0.028865</td>
-      <td>0.000000</td>
-      <td>6</td>
-      <td>5</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2025-02-04</td>
-      <td>0.029160</td>
-      <td>0.029160</td>
-      <td>0.029160</td>
-      <td>0.000000</td>
-      <td>6</td>
-      <td>4</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2025-02-05</td>
-      <td>0.024384</td>
-      <td>0.036447</td>
-      <td>0.027979</td>
-      <td>0.005106</td>
-      <td>6</td>
-      <td>0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2025-02-06</td>
-      <td>0.031698</td>
-      <td>0.031809</td>
-      <td>0.031754</td>
-      <td>0.000055</td>
-      <td>6</td>
-      <td>0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
 CH4
 ============================================================
 Jumlah baris : 14
@@ -841,6 +725,133 @@ dtype: int64
       <td>1868.984253</td>
       <td>1868.984253</td>
       <td>1868.984253</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+CO
+============================================================
+Jumlah baris : 184
+Jumlah kolom : 10
+
+Kolom:
+['C0/date', 'C0/min', 'C0/max', 'C0/mean', 'C0/stDev', 'C0/sampleCount', 'C0/noDataCount', 'C0/median', 'C0/p10', 'C0/p90']
+
+Periode:
+Awal  : 2025-01-29 00:00:00
+Akhir : 2026-01-26 00:00:00
+
+Missing value:
+C0/date             0
+C0/min              0
+C0/max              0
+C0/mean             0
+C0/stDev            0
+C0/sampleCount      0
+C0/noDataCount      0
+C0/median         184
+C0/p10            184
+C0/p90            184
+dtype: int64
+
+5 data pertama:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>C0/date</th>
+      <th>C0/min</th>
+      <th>C0/max</th>
+      <th>C0/mean</th>
+      <th>C0/stDev</th>
+      <th>C0/sampleCount</th>
+      <th>C0/noDataCount</th>
+      <th>C0/median</th>
+      <th>C0/p10</th>
+      <th>C0/p90</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2025-01-29</td>
+      <td>0.026266</td>
+      <td>0.026266</td>
+      <td>0.026266</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2025-02-02</td>
+      <td>0.028865</td>
+      <td>0.028865</td>
+      <td>0.028865</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2025-02-04</td>
+      <td>0.029160</td>
+      <td>0.029160</td>
+      <td>0.029160</td>
+      <td>0.000000</td>
+      <td>6</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2025-02-05</td>
+      <td>0.024384</td>
+      <td>0.036447</td>
+      <td>0.027979</td>
+      <td>0.005106</td>
+      <td>6</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2025-02-06</td>
+      <td>0.031698</td>
+      <td>0.031809</td>
+      <td>0.031754</td>
+      <td>0.000055</td>
+      <td>6</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
   </tbody>
 </table>
@@ -1125,8 +1136,8 @@ dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CO: 184 observasi
-CH4: 14 observasi
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CH4: 14 observasi
+CO: 184 observasi
 NO2: 176 observasi
 SO2: 125 observasi
 </pre></div>
@@ -1347,18 +1358,6 @@ SO2: 125 observasi
   <tbody>
     <tr>
       <th>0</th>
-      <td>CO</td>
-      <td>184</td>
-      <td>0.020033</td>
-      <td>0.045747</td>
-      <td>0.028099</td>
-      <td>0.027672</td>
-      <td>0.003625</td>
-      <td>1.219571</td>
-      <td>3.131961</td>
-    </tr>
-    <tr>
-      <th>1</th>
       <td>CH4</td>
       <td>14</td>
       <td>1842.441406</td>
@@ -1368,6 +1367,18 @@ SO2: 125 observasi
       <td>28.516716</td>
       <td>0.295352</td>
       <td>-0.090167</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>CO</td>
+      <td>184</td>
+      <td>0.020033</td>
+      <td>0.045747</td>
+      <td>0.028099</td>
+      <td>0.027672</td>
+      <td>0.003625</td>
+      <td>1.219571</td>
+      <td>3.131961</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1453,16 +1464,16 @@ SO2: 125 observasi
   <tbody>
     <tr>
       <th>0</th>
-      <td>CO</td>
-      <td>184</td>
-      <td>184</td>
+      <td>CH4</td>
+      <td>14</td>
+      <td>14</td>
       <td>0</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>CH4</td>
-      <td>14</td>
-      <td>14</td>
+      <td>CO</td>
+      <td>184</td>
+      <td>184</td>
       <td>0</td>
     </tr>
     <tr>
@@ -1544,13 +1555,13 @@ SO2: 125 observasi
   <tbody>
     <tr>
       <th>0</th>
-      <td>CO</td>
-      <td>0.028099</td>
+      <td>CH4</td>
+      <td>1891.649809</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>CH4</td>
-      <td>1891.649809</td>
+      <td>CO</td>
+      <td>0.028099</td>
     </tr>
     <tr>
       <th>2</th>
@@ -1564,7 +1575,7 @@ SO2: 125 observasi
     </tr>
   </tbody>
 </table>
-</div></div><img alt="_images/a2462a1e6555b2d839306d16ceb3ecbfb561db5f61d972691ae956b11b1a01c6.png" src="_images/a2462a1e6555b2d839306d16ceb3ecbfb561db5f61d972691ae956b11b1a01c6.png" />
+</div></div><img alt="_images/b0bdfcda46f4c1ebd15d2356bdc24888d73db67e8a1576e923d7abbdd3b3ba24.png" src="_images/b0bdfcda46f4c1ebd15d2356bdc24888d73db67e8a1576e923d7abbdd3b3ba24.png" />
 </div>
 </div>
 </section>
@@ -1698,7 +1709,7 @@ SO2: 125 observasi
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_c0d11b04880783b6a1993b1f6adeb8d7 {
+                #map_44c9c7a0da65dbfdca9f53c4041b5dfe {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1751,14 +1762,14 @@ SO2: 125 observasi
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_c0d11b04880783b6a1993b1f6adeb8d7&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_44c9c7a0da65dbfdca9f53c4041b5dfe&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_c0d11b04880783b6a1993b1f6adeb8d7 = L.map(
-                &quot;map_c0d11b04880783b6a1993b1f6adeb8d7&quot;,
+            var map_44c9c7a0da65dbfdca9f53c4041b5dfe = L.map(
+                &quot;map_44c9c7a0da65dbfdca9f53c4041b5dfe&quot;,
                 {
                     center: [-6.9207315, 112.9157185],
                     crs: L.CRS.EPSG3857,
@@ -1775,7 +1786,7 @@ SO2: 125 observasi
 
         
     
-            var tile_layer_0430c40f86840bbc1edbb494f2c1fbb0 = L.tileLayer(
+            var tile_layer_c8910440899bca7ba083ad5803958301 = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -1792,38 +1803,38 @@ SO2: 125 observasi
             );
         
     
-            tile_layer_0430c40f86840bbc1edbb494f2c1fbb0.addTo(map_c0d11b04880783b6a1993b1f6adeb8d7);
+            tile_layer_c8910440899bca7ba083ad5803958301.addTo(map_44c9c7a0da65dbfdca9f53c4041b5dfe);
         
     
-        function geo_json_8a7ce6e0573cdb741637651ca1d53df4_styler(feature) {
+        function geo_json_69091d3700228f835002e25765b6684c_styler(feature) {
             switch(feature.properties.nama) {
                 default:
                     return {&quot;color&quot;: &quot;#e65100&quot;, &quot;fillColor&quot;: &quot;#ff7800&quot;, &quot;fillOpacity&quot;: 0.3, &quot;weight&quot;: 2.5};
             }
         }
 
-        function geo_json_8a7ce6e0573cdb741637651ca1d53df4_onEachFeature(feature, layer) {
+        function geo_json_69091d3700228f835002e25765b6684c_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_8a7ce6e0573cdb741637651ca1d53df4 = L.geoJson(null, {
-                onEachFeature: geo_json_8a7ce6e0573cdb741637651ca1d53df4_onEachFeature,
+        var geo_json_69091d3700228f835002e25765b6684c = L.geoJson(null, {
+                onEachFeature: geo_json_69091d3700228f835002e25765b6684c_onEachFeature,
             
-                style: geo_json_8a7ce6e0573cdb741637651ca1d53df4_styler,
+                style: geo_json_69091d3700228f835002e25765b6684c_styler,
             ...{
 }
         });
 
-        function geo_json_8a7ce6e0573cdb741637651ca1d53df4_add (data) {
-            geo_json_8a7ce6e0573cdb741637651ca1d53df4
+        function geo_json_69091d3700228f835002e25765b6684c_add (data) {
+            geo_json_69091d3700228f835002e25765b6684c
                 .addData(data);
         }
-            geo_json_8a7ce6e0573cdb741637651ca1d53df4_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_69091d3700228f835002e25765b6684c_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_8a7ce6e0573cdb741637651ca1d53df4.bindTooltip(
+    geo_json_69091d3700228f835002e25765b6684c.bindTooltip(
     function(layer){
     let div = L.DomUtil.create(&#x27;div&#x27;);
     
@@ -1858,34 +1869,34 @@ SO2: 125 observasi
 });
                      
     
-            geo_json_8a7ce6e0573cdb741637651ca1d53df4.addTo(map_c0d11b04880783b6a1993b1f6adeb8d7);
+            geo_json_69091d3700228f835002e25765b6684c.addTo(map_44c9c7a0da65dbfdca9f53c4041b5dfe);
         
     
-            var marker_9d75775838181030618d3da6c7a58d6a = L.marker(
+            var marker_09e455d514758ec21d74626f4e2e9ac6 = L.marker(
                 [-6.9207315, 112.9157185],
                 {
 }
-            ).addTo(map_c0d11b04880783b6a1993b1f6adeb8d7);
+            ).addTo(map_44c9c7a0da65dbfdca9f53c4041b5dfe);
         
     
-        var popup_4bf79ef0d1dfff75f5a3ecafddf2111f = L.popup({
+        var popup_a3ffaf7a82c4b376f8b780b69a7bc5ed = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_1c4d072d5e2f8bd274dda4b402f66f91 = $(`&lt;div id=&quot;html_1c4d072d5e2f8bd274dda4b402f66f91&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
-                popup_4bf79ef0d1dfff75f5a3ecafddf2111f.setContent(html_1c4d072d5e2f8bd274dda4b402f66f91);
+                var html_8d110432c78d28403a9613ae1e7f0087 = $(`&lt;div id=&quot;html_8d110432c78d28403a9613ae1e7f0087&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
+                popup_a3ffaf7a82c4b376f8b780b69a7bc5ed.setContent(html_8d110432c78d28403a9613ae1e7f0087);
             
         
 
-        marker_9d75775838181030618d3da6c7a58d6a.bindPopup(popup_4bf79ef0d1dfff75f5a3ecafddf2111f)
+        marker_09e455d514758ec21d74626f4e2e9ac6.bindPopup(popup_a3ffaf7a82c4b376f8b780b69a7bc5ed)
         ;
 
         
     
     
-            marker_9d75775838181030618d3da6c7a58d6a.bindTooltip(
+            marker_09e455d514758ec21d74626f4e2e9ac6.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,
@@ -1895,23 +1906,23 @@ SO2: 125 observasi
             );
         
     
-            var layer_control_1700b822655c6d3eff442086eb260aee_layers = {
+            var layer_control_3775c9f6f5a0b9898ad6defc0eb2bf2b_layers = {
                 base_layers : {
-                    &quot;openstreetmap&quot; : tile_layer_0430c40f86840bbc1edbb494f2c1fbb0,
+                    &quot;openstreetmap&quot; : tile_layer_c8910440899bca7ba083ad5803958301,
                 },
                 overlays :  {
-                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_8a7ce6e0573cdb741637651ca1d53df4,
+                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_69091d3700228f835002e25765b6684c,
                 },
             };
-            let layer_control_1700b822655c6d3eff442086eb260aee = L.control.layers(
-                layer_control_1700b822655c6d3eff442086eb260aee_layers.base_layers,
-                layer_control_1700b822655c6d3eff442086eb260aee_layers.overlays,
+            let layer_control_3775c9f6f5a0b9898ad6defc0eb2bf2b = L.control.layers(
+                layer_control_3775c9f6f5a0b9898ad6defc0eb2bf2b_layers.base_layers,
+                layer_control_3775c9f6f5a0b9898ad6defc0eb2bf2b_layers.overlays,
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;collapsed&quot;: true,
   &quot;autoZIndex&quot;: true,
 }
-            ).addTo(map_c0d11b04880783b6a1993b1f6adeb8d7);
+            ).addTo(map_44c9c7a0da65dbfdca9f53c4041b5dfe);
 
         
 &lt;/script&gt;

@@ -230,7 +230,18 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 – Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas_3_Ekstraksi_lanjutan.html">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+
+
+
+
+
+
+
+
+
+
 </ul>
 
     </div>
@@ -785,7 +796,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_cd62bc905464ccb1f63f125741fd71c8 {
+                #map_86d4736c97c44ca8164c307f64b1e8fe {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -822,14 +833,14 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_cd62bc905464ccb1f63f125741fd71c8&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_86d4736c97c44ca8164c307f64b1e8fe&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_cd62bc905464ccb1f63f125741fd71c8 = L.map(
-                &quot;map_cd62bc905464ccb1f63f125741fd71c8&quot;,
+            var map_86d4736c97c44ca8164c307f64b1e8fe = L.map(
+                &quot;map_86d4736c97c44ca8164c307f64b1e8fe&quot;,
                 {
                     center: [-7.0615, 112.7393],
                     crs: L.CRS.EPSG3857,
@@ -846,7 +857,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 
         
     
-            var tile_layer_e4d7f11e02cde7294da7ad1f62c4fcba = L.tileLayer(
+            var tile_layer_5c4e66ac27557502e7975647882e63bf = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -863,59 +874,59 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             );
         
     
-            tile_layer_e4d7f11e02cde7294da7ad1f62c4fcba.addTo(map_cd62bc905464ccb1f63f125741fd71c8);
+            tile_layer_5c4e66ac27557502e7975647882e63bf.addTo(map_86d4736c97c44ca8164c307f64b1e8fe);
         
     
 
-        function geo_json_7570286d78c1c5ab20a97b7119652b9f_onEachFeature(feature, layer) {
+        function geo_json_d631d47d069e4eded54125784d067c30_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_7570286d78c1c5ab20a97b7119652b9f = L.geoJson(null, {
-                onEachFeature: geo_json_7570286d78c1c5ab20a97b7119652b9f_onEachFeature,
+        var geo_json_d631d47d069e4eded54125784d067c30 = L.geoJson(null, {
+                onEachFeature: geo_json_d631d47d069e4eded54125784d067c30_onEachFeature,
             
             ...{
 }
         });
 
-        function geo_json_7570286d78c1c5ab20a97b7119652b9f_add (data) {
-            geo_json_7570286d78c1c5ab20a97b7119652b9f
+        function geo_json_d631d47d069e4eded54125784d067c30_add (data) {
+            geo_json_d631d47d069e4eded54125784d067c30
                 .addData(data);
         }
-            geo_json_7570286d78c1c5ab20a97b7119652b9f_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
-        geo_json_7570286d78c1c5ab20a97b7119652b9f.setStyle(function(feature) {return feature.properties.style;});
+            geo_json_d631d47d069e4eded54125784d067c30_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+        geo_json_d631d47d069e4eded54125784d067c30.setStyle(function(feature) {return feature.properties.style;});
 
         
     
-            geo_json_7570286d78c1c5ab20a97b7119652b9f.addTo(map_cd62bc905464ccb1f63f125741fd71c8);
+            geo_json_d631d47d069e4eded54125784d067c30.addTo(map_86d4736c97c44ca8164c307f64b1e8fe);
         
     
-            var marker_aaddc68db79abd195a542299c6b7d04d = L.marker(
+            var marker_e06ff84eb52e42c6814b0092a2768432 = L.marker(
                 [-7.0615, 112.7393],
                 {
 }
-            ).addTo(map_cd62bc905464ccb1f63f125741fd71c8);
+            ).addTo(map_86d4736c97c44ca8164c307f64b1e8fe);
         
     
-        var popup_e6229651e1c3bdf23149634f12ce3915 = L.popup({
+        var popup_ef30a99efd3a57476d891a8124b674ee = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_72cdd21dd02eee92ac2cb8223fc01aa3 = $(`&lt;div id=&quot;html_72cdd21dd02eee92ac2cb8223fc01aa3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
-                popup_e6229651e1c3bdf23149634f12ce3915.setContent(html_72cdd21dd02eee92ac2cb8223fc01aa3);
+                var html_5f0e42a17826e1d1debc11cefa7abf5c = $(`&lt;div id=&quot;html_5f0e42a17826e1d1debc11cefa7abf5c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
+                popup_ef30a99efd3a57476d891a8124b674ee.setContent(html_5f0e42a17826e1d1debc11cefa7abf5c);
             
         
 
-        marker_aaddc68db79abd195a542299c6b7d04d.bindPopup(popup_e6229651e1c3bdf23149634f12ce3915)
+        marker_e06ff84eb52e42c6814b0092a2768432.bindPopup(popup_ef30a99efd3a57476d891a8124b674ee)
         ;
 
         
     
     
-            marker_aaddc68db79abd195a542299c6b7d04d.bindTooltip(
+            marker_e06ff84eb52e42c6814b0092a2768432.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,

@@ -1,0 +1,3260 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series &#8212; Pemrosesan Data Sains</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c23772c6" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Tugas_3_Ekstraksi_lanjutan';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL" href="tugas_3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpg" class="logo__image only-light" alt="Pemrosesan Data Sains - Home"/>
+    <img src="_static/logo.jpg" class="logo__image only-dark pst-js-only" alt="Pemrosesan Data Sains - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tugas_1.html">1. Business Understanding</a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tugas_2.html">Statistik Data Kualitas Udara Menggunakan KNIME</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Tugas_3_Ekstraksi_lanjutan.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan">1. Persiapan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-setiap-polutan">2. Time Series setiap Polutan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-dasar">3. Statistik Dasar</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-manual-statistik">Contoh manual statistik</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-tsfel">4. 68 Fitur TSFEL</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-manual-verifikasi-tsfel">Contoh manual + verifikasi TSFEL</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menyiapkan-68-fitur-per-polutan">5. Menyiapkan 68 Fitur per Polutan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#standardisasi-dan-pca">6. Standardisasi dan PCA</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-jumlah-cluster-k-means">7. Menentukan Jumlah Cluster K-Means</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-1-sampai-pca-yang-feasible-k-means">8. PCA 1 sampai PCA yang Feasible + K-Means</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gabungan-272-fitur">9. Gabungan 272 Fitur</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan">10. Ringkasan</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-3-ekstraksi-fitur-dan-clustering-data-time-series">
+<h1>Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series<a class="headerlink" href="#tugas-3-ekstraksi-fitur-dan-clustering-data-time-series" title="Link to this heading">#</a></h1>
+<p><strong>Studi kasus:</strong> Polutan udara Kecamatan Klampis, Kabupaten Bangkalan</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="persiapan">
+<h1>1. Persiapan<a class="headerlink" href="#persiapan" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tsfel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">Markdown</span>
+
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Folder kerja: </span><span class="si">{</span><span class="n">BASE_DIR</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Library siap"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Folder kerja: C:\Users\SIRUL AMIN\Documents\psd_b_1\pemrosesan-data-sains
+Library siap
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">excel_candidates</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.xlsx"</span><span class="p">))</span> <span class="o">+</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.xls"</span><span class="p">))</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">excel_candidates</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">"Tidak ditemukan file Excel TSFEL (*.xlsx/*.xls) di folder kerja."</span><span class="p">)</span>
+<span class="n">excel_path</span> <span class="o">=</span> <span class="n">excel_candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">xls</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">ExcelFile</span><span class="p">(</span><span class="n">excel_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"File:"</span><span class="p">,</span> <span class="n">excel_path</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Sheet:"</span><span class="p">,</span> <span class="n">xls</span><span class="o">.</span><span class="n">sheet_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>File: data_tsfel_20260920_080900.xlsx
+Sheet: ['Semua Fitur', 'CO', 'SO2', 'CH4', 'NO2']
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="time-series-setiap-polutan">
+<h1>2. Time Series setiap Polutan<a class="headerlink" href="#time-series-setiap-polutan" title="Link to this heading">#</a></h1>
+<p>Upload CSV hasil crawling untuk CO, SO₂, CH₄, dan NO₂. Notebook mendeteksi kolom tanggal dan kolom nilai secara otomatis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">detect_date</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'date'</span><span class="p">,</span> <span class="s1">'tanggal'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">,</span> <span class="s1">'datetime'</span><span class="p">])]</span>
+    <span class="k">return</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">candidates</span> <span class="k">else</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">detect_value</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">pollutant</span><span class="p">):</span>
+    <span class="n">pollutant</span> <span class="o">=</span> <span class="n">pollutant</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">preferred</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">pollutant</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'mean'</span><span class="p">,</span> <span class="s1">'value'</span><span class="p">,</span> <span class="s1">'data'</span><span class="p">])]</span>
+    <span class="k">if</span> <span class="n">preferred</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">preferred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">numeric</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">numeric</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">numeric</span> <span class="k">else</span> <span class="kc">None</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_ts</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">pollutant</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="n">date_col</span> <span class="o">=</span> <span class="n">detect_date</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">value_col</span> <span class="o">=</span> <span class="n">detect_value</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pollutant</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">date_col</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">value_col</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="n">date_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'tanggal'</span><span class="p">,</span> <span class="n">pollutant</span><span class="p">]</span>
+    <span class="n">result</span><span class="p">[</span><span class="s1">'tanggal'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">'tanggal'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
+    <span class="n">result</span><span class="p">[</span><span class="n">pollutant</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">pollutant</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'tanggal'</span><span class="p">,</span> <span class="n">pollutant</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'tanggal'</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">csv_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'*.csv'</span><span class="p">))</span>
+<span class="n">time_series</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">pollutant</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'CO'</span><span class="p">,</span> <span class="s1">'SO2'</span><span class="p">,</span> <span class="s1">'CH4'</span><span class="p">,</span> <span class="s1">'NO2'</span><span class="p">]:</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">csv_files</span> <span class="k">if</span> <span class="n">pollutant</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="s1">'custom'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+    <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="n">loaded</span> <span class="o">=</span> <span class="n">load_ts</span><span class="p">(</span><span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pollutant</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loaded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">loaded</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">time_series</span><span class="p">[</span><span class="n">pollutant</span><span class="p">]</span> <span class="o">=</span> <span class="n">loaded</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pollutant</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">loaded</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">time_series</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">"Tidak ada CSV polutan yang berhasil dibaca."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Berhasil:'</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">time_series</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CO: CO_365_hari_preprocessed.csv -&gt; (365, 2)
+SO2: Sentinel-5P_SO2-SO2_VISUALIZED-2026-02-10T00_00_00_000Z-2026-08-10T23_59_59_999Z.csv -&gt; (125, 2)
+CH4: Sentinel-5P_CH4-CH4_VISUALIZED-2025-08-31T00_00_00_000Z-2026-08-31T23_59_59_999Z.csv -&gt; (14, 2)
+NO2: Sentinel-5P_NO2-NO2_VISUALIZED-2025-01-28T00_00_00_000Z-2026-01-28T23_59_59_999Z.csv -&gt; (176, 2)
+Berhasil: ['CO', 'SO2', 'CH4', 'NO2']
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">d</span> <span class="ow">in</span> <span class="n">time_series</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'tanggal'</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="n">p</span><span class="p">]);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Time Series </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1"> — Kecamatan Klampis'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Tanggal'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Nilai'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/52d93273b0e9e24b80b97c0ceefd944a3b2de7b3a6f34b492fbe875843d8ef4a.png" src="_images/52d93273b0e9e24b80b97c0ceefd944a3b2de7b3a6f34b492fbe875843d8ef4a.png" />
+<img alt="_images/685ae0e019c28ffa5f779205dad63f152e768e9dadd8eb8d24f46c1463887985.png" src="_images/685ae0e019c28ffa5f779205dad63f152e768e9dadd8eb8d24f46c1463887985.png" />
+<img alt="_images/6c1525dce6fcc6c848a2443c53f3840e759507a2e395759e07fdd06895ee50be.png" src="_images/6c1525dce6fcc6c848a2443c53f3840e759507a2e395759e07fdd06895ee50be.png" />
+<img alt="_images/88d9877192a312fd3725b1187871693b450ab1e868055a566c395bc035d04dd8.png" src="_images/88d9877192a312fd3725b1187871693b450ab1e868055a566c395bc035d04dd8.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="statistik-dasar">
+<h1>3. Statistik Dasar<a class="headerlink" href="#statistik-dasar" title="Link to this heading">#</a></h1>
+<p><strong>Mean</strong> = Σx/n. <strong>Median</strong> = nilai tengah. <strong>Range</strong> = max−min. <strong>Variance</strong> = Σ(x−mean)²/(n−1). <strong>Standard deviation</strong> = √variance. <strong>IQR</strong> = Q3−Q1. Statistik digunakan untuk meringkas pusat, penyebaran, dan rentang data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">d</span> <span class="ow">in</span> <span class="n">time_series</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">'Mean'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="s1">'Median'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span><span class="s1">'Minimum'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="s1">'Maximum'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span><span class="s1">'Range'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="s1">'Variance'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">var</span><span class="p">(),</span><span class="s1">'Standard Deviation'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span><span class="s1">'Q1'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.25</span><span class="p">),</span><span class="s1">'Q3'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.75</span><span class="p">),</span><span class="s1">'IQR'</span><span class="p">:</span><span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.75</span><span class="p">)</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">.25</span><span class="p">)})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span><span class="n">p</span><span class="p">);</span> <span class="n">display</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s1">'Nilai'</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> CO
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mean</th>
+      <td>0.028136</td>
+    </tr>
+    <tr>
+      <th>Median</th>
+      <td>0.027740</td>
+    </tr>
+    <tr>
+      <th>Minimum</th>
+      <td>0.021186</td>
+    </tr>
+    <tr>
+      <th>Maximum</th>
+      <td>0.035489</td>
+    </tr>
+    <tr>
+      <th>Range</th>
+      <td>0.014303</td>
+    </tr>
+    <tr>
+      <th>Variance</th>
+      <td>0.000008</td>
+    </tr>
+    <tr>
+      <th>Standard Deviation</th>
+      <td>0.002829</td>
+    </tr>
+    <tr>
+      <th>Q1</th>
+      <td>0.026111</td>
+    </tr>
+    <tr>
+      <th>Q3</th>
+      <td>0.029878</td>
+    </tr>
+    <tr>
+      <th>IQR</th>
+      <td>0.003767</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> SO2
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mean</th>
+      <td>-1.164913e-04</td>
+    </tr>
+    <tr>
+      <th>Median</th>
+      <td>-1.150246e-04</td>
+    </tr>
+    <tr>
+      <th>Minimum</th>
+      <td>-1.102721e-03</td>
+    </tr>
+    <tr>
+      <th>Maximum</th>
+      <td>6.578993e-04</td>
+    </tr>
+    <tr>
+      <th>Range</th>
+      <td>1.760620e-03</td>
+    </tr>
+    <tr>
+      <th>Variance</th>
+      <td>4.957743e-08</td>
+    </tr>
+    <tr>
+      <th>Standard Deviation</th>
+      <td>2.226599e-04</td>
+    </tr>
+    <tr>
+      <th>Q1</th>
+      <td>-2.247811e-04</td>
+    </tr>
+    <tr>
+      <th>Q3</th>
+      <td>-9.789785e-06</td>
+    </tr>
+    <tr>
+      <th>IQR</th>
+      <td>2.149913e-04</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> CH4
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mean</th>
+      <td>1886.915187</td>
+    </tr>
+    <tr>
+      <th>Median</th>
+      <td>1892.460144</td>
+    </tr>
+    <tr>
+      <th>Minimum</th>
+      <td>1822.977173</td>
+    </tr>
+    <tr>
+      <th>Maximum</th>
+      <td>1942.427246</td>
+    </tr>
+    <tr>
+      <th>Range</th>
+      <td>119.450073</td>
+    </tr>
+    <tr>
+      <th>Variance</th>
+      <td>1019.635902</td>
+    </tr>
+    <tr>
+      <th>Standard Deviation</th>
+      <td>31.931738</td>
+    </tr>
+    <tr>
+      <th>Q1</th>
+      <td>1869.147491</td>
+    </tr>
+    <tr>
+      <th>Q3</th>
+      <td>1901.871063</td>
+    </tr>
+    <tr>
+      <th>IQR</th>
+      <td>32.723572</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> NO2
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Nilai</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Mean</th>
+      <td>1.527128e-05</td>
+    </tr>
+    <tr>
+      <th>Median</th>
+      <td>1.433597e-05</td>
+    </tr>
+    <tr>
+      <th>Minimum</th>
+      <td>-9.422401e-06</td>
+    </tr>
+    <tr>
+      <th>Maximum</th>
+      <td>4.562547e-05</td>
+    </tr>
+    <tr>
+      <th>Range</th>
+      <td>5.504788e-05</td>
+    </tr>
+    <tr>
+      <th>Variance</th>
+      <td>1.100782e-10</td>
+    </tr>
+    <tr>
+      <th>Standard Deviation</th>
+      <td>1.049181e-05</td>
+    </tr>
+    <tr>
+      <th>Q1</th>
+      <td>8.085945e-06</td>
+    </tr>
+    <tr>
+      <th>Q3</th>
+      <td>2.139095e-05</td>
+    </tr>
+    <tr>
+      <th>IQR</th>
+      <td>1.330500e-05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="contoh-manual-statistik">
+<h2>Contoh manual statistik<a class="headerlink" href="#contoh-manual-statistik" title="Link to this heading">#</a></h2>
+<p>Gunakan X = [2, 4, 4, 6, 9]. Mean = (2+4+4+6+9)/5 = 5. Range = 9−2 = 7. Variance sampel = ((2−5)²+(4−5)²+(4−5)²+(6−5)²+(9−5)²)/4 = 7. Standard deviation = √7 ≈ 2.646.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">],</span><span class="nb">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">({</span><span class="s1">'Mean'</span><span class="p">:</span><span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span><span class="s1">'Median'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="s1">'Range'</span><span class="p">:</span><span class="n">X</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="n">X</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="s1">'Variance sample'</span><span class="p">:</span><span class="n">X</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="s1">'Std sample'</span><span class="p">:</span><span class="n">X</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="s1">'Q1'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mf">.25</span><span class="p">),</span><span class="s1">'Q3'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mf">.75</span><span class="p">),</span><span class="s1">'IQR'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mf">.75</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mf">.25</span><span class="p">)}))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean               5.000000
+Median             4.000000
+Range              7.000000
+Variance sample    7.000000
+Std sample         2.645751
+Q1                 4.000000
+Q3                 6.000000
+IQR                2.000000
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="fitur-tsfel">
+<h1>4. 68 Fitur TSFEL<a class="headerlink" href="#fitur-tsfel" title="Link to this heading">#</a></h1>
+<p>Daftar berikut mengikuti urutan 68 kelompok fitur yang digunakan pada notebook sebelumnya. Untuk fitur yang menghasilkan beberapa koefisien (misalnya MFCC/LPCC/ECDF/wavelet), kelompok fitur tetap diperlakukan sebagai satu kelompok sesuai format tugas.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>No</p></th>
+<th class="head"><p>Fitur</p></th>
+<th class="head"><p>Konsep/bentuk perhitungan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td><p><strong>Absolute energy</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σx²</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td><p><strong>Area under the curve</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">luas</span> <span class="pre">numerik</span> <span class="pre">di</span> <span class="pre">bawah</span> <span class="pre">kurva</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td><p><strong>Autocorrelation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σx[t]x[t−lag]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td><p><strong>Average power</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σx²/n</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td><p><strong>Centroid</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σ(i·xᵢ)/Σxᵢ</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>6</p></td>
+<td><p><strong>Max</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max(x)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>7</p></td>
+<td><p><strong>Mean</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σx/n</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>8</p></td>
+<td><p><strong>Median</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">median(x)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>9</p></td>
+<td><p><strong>Min</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">min(x)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>10</p></td>
+<td><p><strong>Standard deviation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">√variance</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>11</p></td>
+<td><p><strong>Variance</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σ(x−mean)²/(n−1)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>12</p></td>
+<td><p><strong>DFA</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">estimasi</span> <span class="pre">detrended</span> <span class="pre">fluctuation</span> <span class="pre">analysis</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>13</p></td>
+<td><p><strong>Signal distance</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jumlah</span> <span class="pre">jarak</span> <span class="pre">antar</span> <span class="pre">titik</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>14</p></td>
+<td><p><strong>ECDF</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">F(x)=count(xᵢ≤x)/n</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>15</p></td>
+<td><p><strong>ECDF Percentile</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">quantile(x,p)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>16</p></td>
+<td><p><strong>ECDF Percentile Count</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">count</span> <span class="pre">pada</span> <span class="pre">ambang</span> <span class="pre">persentil</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>17</p></td>
+<td><p><strong>ECDF Slope</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ΔECDF/Δx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>18</p></td>
+<td><p><strong>Entropy</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">−Σp</span> <span class="pre">log₂p</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>19</p></td>
+<td><p><strong>Fundamental frequency</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">frekuensi</span> <span class="pre">dasar</span> <span class="pre">dominan</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>20</p></td>
+<td><p><strong>Higuchi fractal dimension</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">estimasi</span> <span class="pre">dimensi</span> <span class="pre">fraktal</span> <span class="pre">Higuchi</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>21</p></td>
+<td><p><strong>Histogram mode</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kelas</span> <span class="pre">histogram</span> <span class="pre">dengan</span> <span class="pre">frekuensi</span> <span class="pre">terbanyak</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>22</p></td>
+<td><p><strong>Human range energy</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">energi</span> <span class="pre">pada</span> <span class="pre">rentang</span> <span class="pre">frekuensi</span> <span class="pre">suara</span> <span class="pre">manusia</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>23</p></td>
+<td><p><strong>Hurst exponent</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">estimasi</span> <span class="pre">persistence/anti-persistence</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>24</p></td>
+<td><p><strong>Interquartile range</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Q3−Q1</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>25</p></td>
+<td><p><strong>Kurtosis</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">momen</span> <span class="pre">ke-4</span> <span class="pre">terstandar</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>26</p></td>
+<td><p><strong>Lempel-Ziv</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jumlah</span> <span class="pre">pola</span> <span class="pre">baru</span> <span class="pre">dalam</span> <span class="pre">urutan</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>27</p></td>
+<td><p><strong>LPCC</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">koefisien</span> <span class="pre">cepstral</span> <span class="pre">berbasis</span> <span class="pre">linear</span> <span class="pre">prediction</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>28</p></td>
+<td><p><strong>Maximum frequency</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max(f)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>29</p></td>
+<td><p><strong>Max power spectrum</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max(P(f))</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>30</p></td>
+<td><p><strong>Maximum fractal length</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">panjang</span> <span class="pre">fraktal</span> <span class="pre">maksimum</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>31</p></td>
+<td><p><strong>Mean absolute deviation</strong></p></td>
+<td><p>`Σ</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>32</p></td>
+<td><p><strong>Mean absolute diff</strong></p></td>
+<td><p>`Σ</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>33</p></td>
+<td><p><strong>Mean diff</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σ(xᵢ−xᵢ₋₁)/(n−1)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>34</p></td>
+<td><p><strong>Median absolute deviation</strong></p></td>
+<td><p>`median(</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>35</p></td>
+<td><p><strong>Median absolute diff</strong></p></td>
+<td><p>`median(</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>36</p></td>
+<td><p><strong>Median diff</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">median(xᵢ−xᵢ₋₁)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>37</p></td>
+<td><p><strong>Median frequency</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">frekuensi</span> <span class="pre">saat</span> <span class="pre">kumulatif</span> <span class="pre">energi</span> <span class="pre">=</span> <span class="pre">50%</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>38</p></td>
+<td><p><strong>MFCC</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">koefisien</span> <span class="pre">cepstral</span> <span class="pre">pada</span> <span class="pre">skala</span> <span class="pre">Mel</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>39</p></td>
+<td><p><strong>MSE</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σ(y−ŷ)²/n</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>40</p></td>
+<td><p><strong>Negative turning points</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jumlah</span> <span class="pre">titik</span> <span class="pre">belok</span> <span class="pre">lokal</span> <span class="pre">negatif</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>41</p></td>
+<td><p><strong>Neighbourhood peaks</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jumlah</span> <span class="pre">puncak</span> <span class="pre">lokal</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>42</p></td>
+<td><p><strong>Petrosian fractal dimension</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">estimasi</span> <span class="pre">kompleksitas/fraktal</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>43</p></td>
+<td><p><strong>Peak to peak distance</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">max(x)−min(x)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>44</p></td>
+<td><p><strong>Positive turning points</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jumlah</span> <span class="pre">titik</span> <span class="pre">belok</span> <span class="pre">lokal</span> <span class="pre">positif</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>45</p></td>
+<td><p><strong>Power bandwidth</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">f_high−f_low</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>46</p></td>
+<td><p><strong>Root mean square</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">√(Σx²/n)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>47</p></td>
+<td><p><strong>Skewness</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">momen</span> <span class="pre">ke-3</span> <span class="pre">terstandar</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>48</p></td>
+<td><p><strong>Slope</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Δy/Δx</span> <span class="pre">/</span> <span class="pre">regresi</span> <span class="pre">linear</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>49</p></td>
+<td><p><strong>Spectral centroid</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Σ(fA)/ΣA</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>50</p></td>
+<td><p><strong>Spectral decrease</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">laju</span> <span class="pre">penurunan</span> <span class="pre">energi</span> <span class="pre">spektrum</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>51</p></td>
+<td><p><strong>Spectral distance</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jarak</span> <span class="pre">distribusi</span> <span class="pre">spektral</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>52</p></td>
+<td><p><strong>Spectral entropy</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">−Σp(f)log₂p(f)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>53</p></td>
+<td><p><strong>Spectral kurtosis</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">kurtosis</span> <span class="pre">distribusi</span> <span class="pre">energi</span> <span class="pre">spektrum</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>54</p></td>
+<td><p><strong>Spectral positive turning</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">titik</span> <span class="pre">belok</span> <span class="pre">positif</span> <span class="pre">spektral</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>55</p></td>
+<td><p><strong>Spectral roll-off</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">frekuensi</span> <span class="pre">saat</span> <span class="pre">energi</span> <span class="pre">kumulatif</span> <span class="pre">mencapai</span> <span class="pre">threshold</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>56</p></td>
+<td><p><strong>Spectral roll-on</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">frekuensi</span> <span class="pre">awal</span> <span class="pre">threshold</span> <span class="pre">energi</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>57</p></td>
+<td><p><strong>Spectral skewness</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">skewness</span> <span class="pre">spektrum</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>58</p></td>
+<td><p><strong>Spectral slope</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">slope</span> <span class="pre">regresi</span> <span class="pre">spektrum</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>59</p></td>
+<td><p><strong>Spectral spread</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">√(ΣA(f−SC)²/ΣA)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>60</p></td>
+<td><p><strong>Spectral variation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">perubahan</span> <span class="pre">bentuk</span> <span class="pre">spektrum</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>61</p></td>
+<td><p><strong>Spectrogram mean coefficient</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mean</span> <span class="pre">koefisien</span> <span class="pre">spectrogram</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>62</p></td>
+<td><p><strong>Sum absolute diff</strong></p></td>
+<td><p>`Σ</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>63</p></td>
+<td><p><strong>Wavelet absolute mean</strong></p></td>
+<td><p>`mean(</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>64</p></td>
+<td><p><strong>Wavelet energy</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ΣW²</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>65</p></td>
+<td><p><strong>Wavelet entropy</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">−Σp(W)log₂p(W)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>66</p></td>
+<td><p><strong>Wavelet standard deviation</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">std(W)</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>67</p></td>
+<td><p><strong>Wavelet variance</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">var(W)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>68</p></td>
+<td><p><strong>Zero crossing rate</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">jumlah</span> <span class="pre">perubahan</span> <span class="pre">tanda</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="contoh-manual-verifikasi-tsfel">
+<h2>Contoh manual + verifikasi TSFEL<a class="headerlink" href="#contoh-manual-verifikasi-tsfel" title="Link to this heading">#</a></h2>
+<p>Untuk X=[2,−1,3,−2,4]: RMS = √((4+1+9+4+16)/5)=√6.8≈2.608. Zero crossing = 4 karena semua pasangan berubah tanda. Mean absolute difference = (3+4+5+6)/4 = 4.5. Fitur sederhana diverifikasi dengan TSFEL berikut.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">tsfel</span><span class="o">.</span><span class="n">get_features_by_domain</span><span class="p">(</span><span class="s1">'temporal'</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">tsfel</span><span class="o">.</span><span class="n">time_series_features_extractor</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">rms_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s1">'root mean square'</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">or</span> <span class="s1">'rms'</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+<span class="n">diff_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s1">'mean absolute diff'</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Manual RMS:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Manual Mean absolute diff:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">X</span><span class="p">))))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Manual Zero crossing:'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="mi">1</span><span class="p">:])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'TSFEL Root mean square columns:'</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">rms_columns</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'TSFEL Mean absolute diff columns:'</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="n">diff_columns</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Manual RMS: 2.6076809620810595
+Manual Mean absolute diff: 4.5
+Manual Zero crossing: 4
+TSFEL Root mean square columns:
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\SIRUL AMIN\AppData\Local\Temp\ipykernel_24720\3140777969.py:3: UserWarning: Using default sampling frequency set in configuration file.
+  r = tsfel.time_series_features_extractor(cfg, X, verbose=0)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TSFEL Mean absolute diff columns:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0_Mean absolute diff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4.5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<blockquote>
+<div><p>Untuk fitur kompleks seperti DFA, Higuchi, Lempel-Ziv, LPCC, MFCC, wavelet, dan fitur spektral, perhitungan manual penuh terdiri dari beberapa tahap algoritmik. Tabel di atas memberi konsep dan bentuk perhitungannya; nilai aktual diverifikasi oleh implementasi TSFEL.</p>
+</div></blockquote>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menyiapkan-68-fitur-per-polutan">
+<h1>5. Menyiapkan 68 Fitur per Polutan<a class="headerlink" href="#menyiapkan-68-fitur-per-polutan" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sheet_map</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'CO'</span><span class="p">,</span><span class="s1">'SO2'</span><span class="p">,</span><span class="s1">'CH4'</span><span class="p">,</span><span class="s1">'NO2'</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">xls</span><span class="o">.</span><span class="n">sheet_names</span><span class="p">:</span>
+        <span class="n">sheet_map</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">excel_path</span><span class="p">,</span><span class="n">sheet_name</span><span class="o">=</span><span class="n">p</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">sheet_map</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">numeric_features</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'nama'</span><span class="p">,</span><span class="s1">'daerah'</span><span class="p">,</span><span class="s1">'name'</span><span class="p">,</span><span class="s1">'region'</span><span class="p">,</span><span class="s1">'rowid'</span><span class="p">]]</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">ids</span><span class="p">,</span><span class="n">errors</span><span class="o">=</span><span class="s1">'ignore'</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span><span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">'all'</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">how</span><span class="o">=</span><span class="s1">'all'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="mi">68</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">X_polutan</span><span class="o">=</span><span class="p">{</span><span class="n">p</span><span class="p">:</span><span class="n">numeric_features</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">d</span> <span class="ow">in</span> <span class="n">sheet_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">X</span> <span class="ow">in</span> <span class="n">X_polutan</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CO (19, 70)
+SO2 (19, 70)
+CH4 (19, 70)
+NO2 (19, 70)
+CO (19, 68)
+SO2 (19, 68)
+CH4 (19, 68)
+NO2 (19, 68)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="standardisasi-dan-pca">
+<h1>6. Standardisasi dan PCA<a class="headerlink" href="#standardisasi-dan-pca" title="Link to this heading">#</a></h1>
+<p>Standardisasi menggunakan z-score: z=(x−μ)/σ. PCA digunakan setelah standardisasi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_scaled</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">X</span> <span class="ow">in</span> <span class="n">X_polutan</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">X_scaled</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">=</span><span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pca_eval</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">maxc</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">p</span><span class="o">=</span><span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">maxc</span><span class="p">);</span> <span class="n">Z</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">'PCA'</span><span class="p">:</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">maxc</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="s1">'Explained Variance'</span><span class="p">:</span><span class="n">p</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">,</span><span class="s1">'Cumulative Variance'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)})</span>
+    <span class="k">return</span> <span class="n">p</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">t</span>
+
+<span class="n">pca_results</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">X</span> <span class="ow">in</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">model</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">t</span><span class="o">=</span><span class="n">pca_eval</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">pca_results</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span><span class="n">p</span><span class="p">);</span> <span class="n">display</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> CO
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PCA</th>
+      <th>Explained Variance</th>
+      <th>Cumulative Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2.677525e-01</td>
+      <td>0.267753</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1.465473e-01</td>
+      <td>0.414300</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1.425428e-01</td>
+      <td>0.556843</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1.241031e-01</td>
+      <td>0.680946</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>9.729037e-02</td>
+      <td>0.778236</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>5.303537e-02</td>
+      <td>0.831272</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>4.271927e-02</td>
+      <td>0.873991</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>3.421218e-02</td>
+      <td>0.908203</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>3.031661e-02</td>
+      <td>0.938520</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>2.100400e-02</td>
+      <td>0.959524</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1.482162e-02</td>
+      <td>0.974345</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>1.106339e-02</td>
+      <td>0.985409</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>6.711740e-03</td>
+      <td>0.992120</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>3.805951e-03</td>
+      <td>0.995926</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>2.744503e-03</td>
+      <td>0.998671</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>9.434505e-04</td>
+      <td>0.999614</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>3.037467e-04</td>
+      <td>0.999918</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>8.203523e-05</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>2.754817e-33</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> SO2
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PCA</th>
+      <th>Explained Variance</th>
+      <th>Cumulative Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>3.956521e-01</td>
+      <td>0.395652</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1.623380e-01</td>
+      <td>0.557990</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1.160167e-01</td>
+      <td>0.674007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>9.469806e-02</td>
+      <td>0.768705</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>8.032881e-02</td>
+      <td>0.849034</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>6.395607e-02</td>
+      <td>0.912990</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>2.617385e-02</td>
+      <td>0.939164</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>1.663626e-02</td>
+      <td>0.955800</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>1.338955e-02</td>
+      <td>0.969189</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>1.192290e-02</td>
+      <td>0.981112</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>8.328048e-03</td>
+      <td>0.989440</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>5.605594e-03</td>
+      <td>0.995046</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>2.731867e-03</td>
+      <td>0.997778</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>1.328758e-03</td>
+      <td>0.999107</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>5.730328e-04</td>
+      <td>0.999680</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>1.914955e-04</td>
+      <td>0.999871</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>7.646778e-05</td>
+      <td>0.999948</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>5.242646e-05</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>2.904385e-33</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> CH4
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PCA</th>
+      <th>Explained Variance</th>
+      <th>Cumulative Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2.042998e-01</td>
+      <td>0.204300</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1.806557e-01</td>
+      <td>0.384955</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1.235707e-01</td>
+      <td>0.508526</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1.053203e-01</td>
+      <td>0.613846</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>8.767051e-02</td>
+      <td>0.701517</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>8.052077e-02</td>
+      <td>0.782038</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>5.819108e-02</td>
+      <td>0.840229</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>3.877150e-02</td>
+      <td>0.879000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>3.460211e-02</td>
+      <td>0.913602</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>2.751406e-02</td>
+      <td>0.941117</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1.966712e-02</td>
+      <td>0.960784</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>1.276215e-02</td>
+      <td>0.973546</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>9.510279e-03</td>
+      <td>0.983056</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>8.805110e-03</td>
+      <td>0.991861</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>3.519099e-03</td>
+      <td>0.995380</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>2.213681e-03</td>
+      <td>0.997594</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>1.702696e-03</td>
+      <td>0.999297</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>7.033560e-04</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>5.683842e-33</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> NO2
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PCA</th>
+      <th>Explained Variance</th>
+      <th>Cumulative Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5.702286e-01</td>
+      <td>0.570229</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1.155159e-01</td>
+      <td>0.685745</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>8.994128e-02</td>
+      <td>0.775686</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>7.022529e-02</td>
+      <td>0.845911</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>4.512948e-02</td>
+      <td>0.891041</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>3.856358e-02</td>
+      <td>0.929604</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>2.373726e-02</td>
+      <td>0.953341</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>1.598707e-02</td>
+      <td>0.969328</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>1.058942e-02</td>
+      <td>0.979918</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>5.979031e-03</td>
+      <td>0.985897</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>5.417694e-03</td>
+      <td>0.991315</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>3.723813e-03</td>
+      <td>0.995038</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>1.860131e-03</td>
+      <td>0.996899</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>1.474935e-03</td>
+      <td>0.998374</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>1.308019e-03</td>
+      <td>0.999682</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>2.048116e-04</td>
+      <td>0.999886</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>8.811005e-05</td>
+      <td>0.999974</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>2.554848e-05</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>4.229997e-33</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">p</span><span class="p">,(</span><span class="n">model</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="ow">in</span> <span class="n">pca_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">PCA</span><span class="p">,</span><span class="n">t</span><span class="p">[</span><span class="s1">'Cumulative Variance'</span><span class="p">],</span><span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Jumlah PCA'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Cumulative Explained Variance'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'PCA — </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b58ee743c3637556921f994de16b17e68246fb53926c8aed1bfea5e7977b126d.png" src="_images/b58ee743c3637556921f994de16b17e68246fb53926c8aed1bfea5e7977b126d.png" />
+<img alt="_images/334622c52c4c5b5806a054708575258fcdbe40656a317f57cfa44efb0a2f49ea.png" src="_images/334622c52c4c5b5806a054708575258fcdbe40656a317f57cfa44efb0a2f49ea.png" />
+<img alt="_images/cea1a85b1ec540b17759d20b1a2881073bb07d8a775678dd6432c923b8a2e786.png" src="_images/cea1a85b1ec540b17759d20b1a2881073bb07d8a775678dd6432c923b8a2e786.png" />
+<img alt="_images/1ce11b2e033fcdf732c69f29239a1fda57cbc54d2959afa1661f4e4a55c23ad0.png" src="_images/1ce11b2e033fcdf732c69f29239a1fda57cbc54d2959afa1661f4e4a55c23ad0.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menentukan-jumlah-cluster-k-means">
+<h1>7. Menentukan Jumlah Cluster K-Means<a class="headerlink" href="#menentukan-jumlah-cluster-k-means" title="Link to this heading">#</a></h1>
+<p><strong>Elbow</strong> melihat perubahan inertia saat k bertambah. <strong>Silhouette</strong> mengukur kedekatan data dengan cluster sendiri dibandingkan cluster lain. Keduanya dilaporkan bersama; jangan memasukkan label “terbaik” tanpa melihat hasil aktual.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">km_eval</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">kmin</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">kmax</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">kmax</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">kmax</span><span class="p">,</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span> <span class="n">rows</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">kmin</span><span class="p">,</span><span class="n">kmax</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">m</span><span class="o">=</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">lab</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'k'</span><span class="p">:</span><span class="n">k</span><span class="p">,</span><span class="s1">'inertia'</span><span class="p">:</span><span class="n">m</span><span class="o">.</span><span class="n">inertia_</span><span class="p">,</span><span class="s1">'silhouette'</span><span class="p">:</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">lab</span><span class="p">)})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+<span class="n">hasil_68</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">X</span> <span class="ow">in</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">e</span><span class="o">=</span><span class="n">km_eval</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">hasil_68</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">=</span><span class="n">e</span><span class="p">;</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">==='</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="s1">'68 fitur ==='</span><span class="p">);</span> <span class="n">display</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">k</span><span class="p">,</span><span class="n">e</span><span class="o">.</span><span class="n">inertia</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Elbow — </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'k'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Inertia'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">k</span><span class="p">,</span><span class="n">e</span><span class="o">.</span><span class="n">silhouette</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Silhouette — </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'k'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Silhouette'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== CO 68 fitur ===
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>k</th>
+      <th>inertia</th>
+      <th>silhouette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>964.057223</td>
+      <td>0.324814</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>774.017225</td>
+      <td>0.344620</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>617.527357</td>
+      <td>0.350798</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>437.727750</td>
+      <td>0.368727</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>302.495707</td>
+      <td>0.303804</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>240.516940</td>
+      <td>0.312133</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>196.938399</td>
+      <td>0.270383</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/97d973fc0c61320d69acd56e7e23ee27f8b35094d350b3d7f485791e7573455c.png" src="_images/97d973fc0c61320d69acd56e7e23ee27f8b35094d350b3d7f485791e7573455c.png" />
+<img alt="_images/8fe4345fc735a700a31aa89f36fb47a146e75c2901a23556bc789a858e48cf1a.png" src="_images/8fe4345fc735a700a31aa89f36fb47a146e75c2901a23556bc789a858e48cf1a.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== SO2 68 fitur ===
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>k</th>
+      <th>inertia</th>
+      <th>silhouette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>783.945015</td>
+      <td>0.602519</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>613.239490</td>
+      <td>0.277701</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>468.399449</td>
+      <td>0.302409</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>314.368015</td>
+      <td>0.354668</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>210.404856</td>
+      <td>0.353034</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>123.631540</td>
+      <td>0.381167</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>95.986490</td>
+      <td>0.332544</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/e1de16d452064e8910b8c4eb51c153aa36550ccac8f7ef5738703e59af392d46.png" src="_images/e1de16d452064e8910b8c4eb51c153aa36550ccac8f7ef5738703e59af392d46.png" />
+<img alt="_images/846ccb7bb8b35b8bb8363a2d2d5fda8277cf4c7d79d72637019ac347b744cc05.png" src="_images/846ccb7bb8b35b8bb8363a2d2d5fda8277cf4c7d79d72637019ac347b744cc05.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== CH4 68 fitur ===
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>k</th>
+      <th>inertia</th>
+      <th>silhouette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>1054.391500</td>
+      <td>0.182445</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>849.085722</td>
+      <td>0.200287</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>689.168945</td>
+      <td>0.215979</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>542.849516</td>
+      <td>0.263174</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>418.448804</td>
+      <td>0.279260</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>311.859519</td>
+      <td>0.289520</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>230.887283</td>
+      <td>0.286330</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/77574597405cfa83663d79dc8031eb4375d63263eed5c546f400aa0b8b885d06.png" src="_images/77574597405cfa83663d79dc8031eb4375d63263eed5c546f400aa0b8b885d06.png" />
+<img alt="_images/315ad91feadd1f094f2e6d352ba0f4cbd79c0f69e8fcae3181902f8d5bfac446.png" src="_images/315ad91feadd1f094f2e6d352ba0f4cbd79c0f69e8fcae3181902f8d5bfac446.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== NO2 68 fitur ===
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>k</th>
+      <th>inertia</th>
+      <th>silhouette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>555.822126</td>
+      <td>0.698217</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>413.178326</td>
+      <td>0.437431</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>306.234082</td>
+      <td>0.264725</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>216.865748</td>
+      <td>0.301787</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>163.722722</td>
+      <td>0.325114</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>114.555116</td>
+      <td>0.342097</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>85.183825</td>
+      <td>0.318740</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/b9c27ba96dc2174e1c79be6ded48720d81ebe0f7dfd418d7f5b36aa02f7738ef.png" src="_images/b9c27ba96dc2174e1c79be6ded48720d81ebe0f7dfd418d7f5b36aa02f7738ef.png" />
+<img alt="_images/352956a10a83cc174615ce792587adb87a0d24ab36c43ad43706b4bab0f47109.png" src="_images/352956a10a83cc174615ce792587adb87a0d24ab36c43ad43706b4bab0f47109.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="pca-1-sampai-pca-yang-feasible-k-means">
+<h1>8. PCA 1 sampai PCA yang Feasible + K-Means<a class="headerlink" href="#pca-1-sampai-pca-yang-feasible-k-means" title="Link to this heading">#</a></h1>
+<p>Karena hanya ada 19 observasi, notebook menguji PCA 1–18. PCA 19 masih dapat dihitung tetapi evaluasi clustering dengan 19 komponen tidak menambah informasi dibandingkan ruang data penuh; batas PCA tetap dijelaskan secara eksplisit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pca_kmeans_table</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">max_pca</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">kmax</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">max_possible</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="n">max_pca</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">max_possible</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">max_possible</span><span class="o">&gt;</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">1</span><span class="p">,</span> <span class="n">max_pca</span> <span class="ow">or</span> <span class="mi">18</span><span class="p">)</span>
+    <span class="n">rows</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">max_pca</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">Z</span><span class="o">=</span><span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="n">kmax</span><span class="p">,</span><span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">m</span><span class="o">=</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span><span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span> <span class="n">lab</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'jumlah_pca'</span><span class="p">:</span><span class="n">n</span><span class="p">,</span><span class="s1">'k'</span><span class="p">:</span><span class="n">k</span><span class="p">,</span><span class="s1">'silhouette'</span><span class="p">:</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span><span class="n">lab</span><span class="p">),</span><span class="s1">'inertia'</span><span class="p">:</span><span class="n">m</span><span class="o">.</span><span class="n">inertia_</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
+<span class="n">pca_cluster</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">X</span> <span class="ow">in</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">pca_kmeans_table</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">pca_cluster</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">=</span><span class="n">t</span><span class="p">;</span> <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">,</span><span class="n">p</span><span class="p">);</span> <span class="n">display</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">piv</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">'jumlah_pca'</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="s1">'silhouette'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">piv</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">piv</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">piv</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Silhouette vs PCA — </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Jumlah PCA'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Silhouette'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> CO
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>jumlah_pca</th>
+      <th>k</th>
+      <th>silhouette</th>
+      <th>inertia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>0.860115</td>
+      <td>32.774347</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>3</td>
+      <td>0.744077</td>
+      <td>12.064243</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>4</td>
+      <td>0.558719</td>
+      <td>5.053456</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>5</td>
+      <td>0.549227</td>
+      <td>3.093758</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>6</td>
+      <td>0.514915</td>
+      <td>1.370478</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>18</td>
+      <td>4</td>
+      <td>0.350798</td>
+      <td>617.527357</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>18</td>
+      <td>5</td>
+      <td>0.368727</td>
+      <td>437.727750</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>18</td>
+      <td>6</td>
+      <td>0.303804</td>
+      <td>302.495707</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>18</td>
+      <td>7</td>
+      <td>0.312133</td>
+      <td>240.516940</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>18</td>
+      <td>8</td>
+      <td>0.270383</td>
+      <td>196.938399</td>
+    </tr>
+  </tbody>
+</table>
+<p>126 rows × 4 columns</p>
+</div></div><img alt="_images/b631a108700b5d56dcdc4b2a22138e8696c2ce90805c2eafc2f137705440e906.png" src="_images/b631a108700b5d56dcdc4b2a22138e8696c2ce90805c2eafc2f137705440e906.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> SO2
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>jumlah_pca</th>
+      <th>k</th>
+      <th>silhouette</th>
+      <th>inertia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>0.924133</td>
+      <td>4.935258</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>3</td>
+      <td>0.737865</td>
+      <td>0.618509</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>4</td>
+      <td>0.699527</td>
+      <td>0.187749</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>5</td>
+      <td>0.680262</td>
+      <td>0.088394</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>6</td>
+      <td>0.661316</td>
+      <td>0.045665</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>18</td>
+      <td>4</td>
+      <td>0.302409</td>
+      <td>468.399449</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>18</td>
+      <td>5</td>
+      <td>0.354668</td>
+      <td>314.368015</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>18</td>
+      <td>6</td>
+      <td>0.353034</td>
+      <td>210.404856</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>18</td>
+      <td>7</td>
+      <td>0.381167</td>
+      <td>123.631540</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>18</td>
+      <td>8</td>
+      <td>0.332544</td>
+      <td>95.986490</td>
+    </tr>
+  </tbody>
+</table>
+<p>126 rows × 4 columns</p>
+</div></div><img alt="_images/d56cfb1eab1280a0ca7baac33513b010e24816da2e259f5d19b1811b832826ad.png" src="_images/d56cfb1eab1280a0ca7baac33513b010e24816da2e259f5d19b1811b832826ad.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> CH4
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>jumlah_pca</th>
+      <th>k</th>
+      <th>silhouette</th>
+      <th>inertia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>0.737370</td>
+      <td>44.372569</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>3</td>
+      <td>0.716637</td>
+      <td>21.457668</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>4</td>
+      <td>0.689095</td>
+      <td>8.372903</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>5</td>
+      <td>0.582578</td>
+      <td>5.269602</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>6</td>
+      <td>0.519443</td>
+      <td>3.149307</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>18</td>
+      <td>4</td>
+      <td>0.215979</td>
+      <td>689.168945</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>18</td>
+      <td>5</td>
+      <td>0.263174</td>
+      <td>542.849516</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>18</td>
+      <td>6</td>
+      <td>0.279260</td>
+      <td>418.448804</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>18</td>
+      <td>7</td>
+      <td>0.289520</td>
+      <td>311.859519</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>18</td>
+      <td>8</td>
+      <td>0.286330</td>
+      <td>230.887283</td>
+    </tr>
+  </tbody>
+</table>
+<p>126 rows × 4 columns</p>
+</div></div><img alt="_images/e513733a05e4f09b906560938daf0216d91365a403269217945f4275bc7e1b0c.png" src="_images/e513733a05e4f09b906560938daf0216d91365a403269217945f4275bc7e1b0c.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> NO2
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>jumlah_pca</th>
+      <th>k</th>
+      <th>silhouette</th>
+      <th>inertia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>0.939923</td>
+      <td>0.618741</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>3</td>
+      <td>0.631925</td>
+      <td>0.158421</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>4</td>
+      <td>0.608000</td>
+      <td>0.096789</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>5</td>
+      <td>0.536414</td>
+      <td>0.036469</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>6</td>
+      <td>0.605417</td>
+      <td>0.014976</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>18</td>
+      <td>4</td>
+      <td>0.264725</td>
+      <td>306.234082</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>18</td>
+      <td>5</td>
+      <td>0.301787</td>
+      <td>216.865748</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>18</td>
+      <td>6</td>
+      <td>0.325114</td>
+      <td>163.722722</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>18</td>
+      <td>7</td>
+      <td>0.342097</td>
+      <td>114.555116</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>18</td>
+      <td>8</td>
+      <td>0.318740</td>
+      <td>85.183825</td>
+    </tr>
+  </tbody>
+</table>
+<p>126 rows × 4 columns</p>
+</div></div><img alt="_images/59e18fbe57dcad915392d06683674dd0b8b6875ab9523425401478abd5f5075e.png" src="_images/59e18fbe57dcad915392d06683674dd0b8b6875ab9523425401478abd5f5075e.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="gabungan-272-fitur">
+<h1>9. Gabungan 272 Fitur<a class="headerlink" href="#gabungan-272-fitur" title="Link to this heading">#</a></h1>
+<p>68 fitur CO + 68 SO₂ + 68 CH₄ + 68 NO₂ = <strong>272 fitur</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gabungkan 68 fitur dari masing-masing polutan</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+<span class="n">X272</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span>
+    <span class="n">X_scaled</span><span class="p">[</span><span class="s1">'CO'</span><span class="p">][:</span><span class="n">n</span><span class="p">],</span>
+    <span class="n">X_scaled</span><span class="p">[</span><span class="s1">'SO2'</span><span class="p">][:</span><span class="n">n</span><span class="p">],</span>
+    <span class="n">X_scaled</span><span class="p">[</span><span class="s1">'CH4'</span><span class="p">][:</span><span class="n">n</span><span class="p">],</span>
+    <span class="n">X_scaled</span><span class="p">[</span><span class="s1">'NO2'</span><span class="p">][:</span><span class="n">n</span><span class="p">]</span>
+<span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Ukuran:'</span><span class="p">,</span> <span class="n">X272</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'K-Means 272 fitur'</span><span class="p">)</span>
+
+<span class="n">e272</span> <span class="o">=</span> <span class="n">km_eval</span><span class="p">(</span><span class="n">X272</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">e272</span><span class="p">)</span>
+
+<span class="c1"># Elbow Method</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">e272</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>
+    <span class="n">e272</span><span class="o">.</span><span class="n">inertia</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Elbow — 272 Fitur'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'k'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Inertia'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Silhouette Score</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">e272</span><span class="o">.</span><span class="n">k</span><span class="p">,</span>
+    <span class="n">e272</span><span class="o">.</span><span class="n">silhouette</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Silhouette — 272 Fitur'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'k'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Silhouette'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ukuran: (19, 272)
+K-Means 272 fitur
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>k</th>
+      <th>inertia</th>
+      <th>silhouette</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>3801.595148</td>
+      <td>0.476048</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>3006.638507</td>
+      <td>0.206971</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>2475.840746</td>
+      <td>0.227971</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>2042.104440</td>
+      <td>0.237929</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>6</td>
+      <td>1662.072535</td>
+      <td>0.248579</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>7</td>
+      <td>1279.539413</td>
+      <td>0.214741</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>8</td>
+      <td>965.928868</td>
+      <td>0.222847</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/ce244460bde11f1c11266ca0fc8b1c8e41846ce1ec4b0ff3573f0b847e13337d.png" src="_images/ce244460bde11f1c11266ca0fc8b1c8e41846ce1ec4b0ff3573f0b847e13337d.png" />
+<img alt="_images/374805cdbe9f350b5f7637d73ca49c219c4fcec734ac46595805e6210b91f5cd.png" src="_images/374805cdbe9f350b5f7637d73ca49c219c4fcec734ac46595805e6210b91f5cd.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p272</span><span class="p">,</span><span class="n">Z272</span><span class="p">,</span><span class="n">t272</span><span class="o">=</span><span class="n">pca_eval</span><span class="p">(</span><span class="n">X272</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">t272</span><span class="p">)</span>
+<span class="n">t272_small</span><span class="o">=</span><span class="n">pca_kmeans_table</span><span class="p">(</span><span class="n">X272</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">t272_small</span><span class="p">)</span>
+<span class="n">piv</span><span class="o">=</span><span class="n">t272_small</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s1">'jumlah_pca'</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="s1">'silhouette'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">piv</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">piv</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">piv</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'k=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Silhouette vs PCA — 272 Fitur'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Jumlah PCA'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Silhouette'</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PCA</th>
+      <th>Explained Variance</th>
+      <th>Cumulative Variance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2.664122e-01</td>
+      <td>0.266412</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1.617014e-01</td>
+      <td>0.428114</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1.150919e-01</td>
+      <td>0.543205</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>8.561558e-02</td>
+      <td>0.628821</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>7.472032e-02</td>
+      <td>0.703541</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>7.203217e-02</td>
+      <td>0.775574</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>5.128498e-02</td>
+      <td>0.826859</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>3.971426e-02</td>
+      <td>0.866573</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>3.370662e-02</td>
+      <td>0.900279</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>2.177191e-02</td>
+      <td>0.922051</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>1.781004e-02</td>
+      <td>0.939861</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>1.583618e-02</td>
+      <td>0.955698</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>1.359073e-02</td>
+      <td>0.969288</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>1.262049e-02</td>
+      <td>0.981909</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>15</td>
+      <td>8.396661e-03</td>
+      <td>0.990305</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>16</td>
+      <td>4.874300e-03</td>
+      <td>0.995180</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>17</td>
+      <td>3.254173e-03</td>
+      <td>0.998434</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>18</td>
+      <td>1.566082e-03</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>6.534340e-33</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>jumlah_pca</th>
+      <th>k</th>
+      <th>silhouette</th>
+      <th>inertia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>0.914868</td>
+      <td>23.843403</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>3</td>
+      <td>0.728995</td>
+      <td>3.308835</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>4</td>
+      <td>0.590956</td>
+      <td>1.748290</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>5</td>
+      <td>0.639319</td>
+      <td>0.658661</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>6</td>
+      <td>0.594575</td>
+      <td>0.338721</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>18</td>
+      <td>4</td>
+      <td>0.227971</td>
+      <td>2475.840746</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>18</td>
+      <td>5</td>
+      <td>0.237929</td>
+      <td>2042.104440</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>18</td>
+      <td>6</td>
+      <td>0.248579</td>
+      <td>1662.072535</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>18</td>
+      <td>7</td>
+      <td>0.214741</td>
+      <td>1279.539413</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>18</td>
+      <td>8</td>
+      <td>0.222847</td>
+      <td>965.928868</td>
+    </tr>
+  </tbody>
+</table>
+<p>126 rows × 4 columns</p>
+</div></div><img alt="_images/92cf5ed2b0eb6c633adfa9b9abd461d656e3d6d01bf3814926d92f3de8e890a6.png" src="_images/92cf5ed2b0eb6c633adfa9b9abd461d656e3d6d01bf3814926d92f3de8e890a6.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ringkasan">
+<h1>10. Ringkasan<a class="headerlink" href="#ringkasan" title="Link to this heading">#</a></h1>
+<p>kesimpulan : (1) pola time series setiap polutan, (2) statistik dasar, (3) 68 fitur dan contoh perhitungan, (4) verifikasi TSFEL, (5) PCA dan explained variance, (6) Elbow dan Silhouette, (7) hasil 68 fitur tiap polutan, dan (8) hasil 272 fitur.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ring</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">e</span> <span class="ow">in</span> <span class="n">hasil_68</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">r</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()];</span> <span class="n">ring</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'Dataset'</span><span class="p">:</span><span class="n">p</span><span class="o">+</span><span class="s1">' — 68 fitur'</span><span class="p">,</span><span class="s1">'k'</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">k</span><span class="p">),</span><span class="s1">'Silhouette'</span><span class="p">:</span><span class="n">r</span><span class="o">.</span><span class="n">silhouette</span><span class="p">,</span><span class="s1">'Inertia'</span><span class="p">:</span><span class="n">r</span><span class="o">.</span><span class="n">inertia</span><span class="p">})</span>
+<span class="n">r</span><span class="o">=</span><span class="n">e272</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">e272</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()];</span> <span class="n">ring</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'Dataset'</span><span class="p">:</span><span class="s1">'Gabungan — 272 fitur'</span><span class="p">,</span><span class="s1">'k'</span><span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">k</span><span class="p">),</span><span class="s1">'Silhouette'</span><span class="p">:</span><span class="n">r</span><span class="o">.</span><span class="n">silhouette</span><span class="p">,</span><span class="s1">'Inertia'</span><span class="p">:</span><span class="n">r</span><span class="o">.</span><span class="n">inertia</span><span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ring</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Dataset</th>
+      <th>k</th>
+      <th>Silhouette</th>
+      <th>Inertia</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>CO — 68 fitur</td>
+      <td>5</td>
+      <td>0.368727</td>
+      <td>437.727750</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SO2 — 68 fitur</td>
+      <td>2</td>
+      <td>0.602519</td>
+      <td>783.945015</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CH4 — 68 fitur</td>
+      <td>7</td>
+      <td>0.289520</td>
+      <td>311.859519</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NO2 — 68 fitur</td>
+      <td>2</td>
+      <td>0.698217</td>
+      <td>555.822126</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Gabungan — 272 fitur</td>
+      <td>2</td>
+      <td>0.476048</td>
+      <td>3801.595148</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tugas_3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#persiapan">1. Persiapan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-setiap-polutan">2. Time Series setiap Polutan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-dasar">3. Statistik Dasar</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-manual-statistik">Contoh manual statistik</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#fitur-tsfel">4. 68 Fitur TSFEL</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-manual-verifikasi-tsfel">Contoh manual + verifikasi TSFEL</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menyiapkan-68-fitur-per-polutan">5. Menyiapkan 68 Fitur per Polutan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#standardisasi-dan-pca">6. Standardisasi dan PCA</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-jumlah-cluster-k-means">7. Menentukan Jumlah Cluster K-Means</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pca-1-sampai-pca-yang-feasible-k-means">8. PCA 1 sampai PCA yang Feasible + K-Means</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#gabungan-272-fitur">9. Gabungan 272 Fitur</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan">10. Ringkasan</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
