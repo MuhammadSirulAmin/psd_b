@@ -14,17 +14,19 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           lfs: true
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+          cache: pip
+          cache-dependency-path: pemrosesan-data-sains/requirements.txt
 
       - name: Install dependencies
         run: |
@@ -33,22 +35,14 @@ jobs:
 
       - name: Build Jupyter Book
         run: |
-          jupyter-book build --all pemrosesan-data-sains
-
-      - name: Prepare website files
-        run: |
           set -euxo pipefail
-          mkdir -p pages-site
-          cp -R pemrosesan-data-sains/_build/html/. pages-site/
-          mkdir -p pages-site/static_pages
-          cp pemrosesan-data-sains/static_pages/laporan-clustering.html pages-site/static_pages/
-          cp pemrosesan-data-sains/static_pages/peta_100_sampel.html pages-site/static_pages/
-          test -s pages-site/index.html
-          test -s pages-site/static_pages/laporan-clustering.html
-          test -s pages-site/static_pages/peta_100_sampel.html
+          jupyter-book build --all --path-output pages-site pemrosesan-data-sains
+          test -s pages-site/_build/html/index.html
+          test -s pages-site/_build/html/laporan-clustering.html
+          test -s pages-site/_build/html/peta_100_sampel.html
 
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: pages-site
+          publish_dir: pages-site/_build/html

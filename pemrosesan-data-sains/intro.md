@@ -15,7 +15,7 @@ Repository ini digunakan untuk menyimpan materi, praktikum, tugas, dan catatan p
 
 Materi dalam repository ini disusun berdasarkan pertemuan dan topik yang dipelajari selama perkuliahan.
 
-Lihat juga [Laporan Clustering dan Segmentasi Data Citra Sentinel-2](./static_pages/laporan-clustering.html) dengan peta interaktif hasil analisis.
+Lihat juga [Laporan Clustering dan Segmentasi Data Citra Sentinel-2](https://muhammadsirulamin.github.io/psd_b/laporan-clustering.html) dengan peta interaktif hasil analisis.
 
 Materi dapat mencakup:
 
