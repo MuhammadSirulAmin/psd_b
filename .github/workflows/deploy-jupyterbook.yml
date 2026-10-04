@@ -37,12 +37,12 @@ jobs:
 
       - name: Prepare website files
         run: |
-          mkdir -p "$RUNNER_TEMP/pages"
-          cp -R pemrosesan-data-sains/_build/html/. "$RUNNER_TEMP/pages/"
-          test -f "$RUNNER_TEMP/pages/index.html"
+          mkdir -p pages-site
+          cp -R pemrosesan-data-sains/_build/html/. pages-site/
+          test -f pages-site/index.html
 
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ runner.temp }}/pages
+          publish_dir: pages-site
