@@ -31,15 +31,6 @@ jobs:
         run: |
           jupyter-book build --all pemrosesan-data-sains
 
-      - name: Copy interactive map to website
-        run: |
-          map_file=$(find pemrosesan-data-sains -type f -name peta_100_sampel.html ! -path '*/_build/html/*' -print -quit)
-          if [ -z "$map_file" ]; then
-            echo "Interactive map was not generated" >&2
-            exit 1
-          fi
-          cp "$map_file" pemrosesan-data-sains/_build/html/peta_100_sampel.html
-
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
