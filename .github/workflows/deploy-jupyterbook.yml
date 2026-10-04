@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,6 +30,10 @@ jobs:
       - name: Build Jupyter Book
         run: |
           jupyter-book build --all pemrosesan-data-sains
+
+      - name: Copy interactive map to website
+        run: |
+          cp pemrosesan-data-sains/claustering_segmentasi/peta_100_sampel.html pemrosesan-data-sains/_build/html/peta_100_sampel.html
 
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4

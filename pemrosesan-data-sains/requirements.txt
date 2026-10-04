@@ -1,4 +1,10 @@
+folium
+geopandas
 jupyter-book
 matplotlib
 numpy
+pandas
+rasterio
+scikit-learn
+shapely
 tsfel
