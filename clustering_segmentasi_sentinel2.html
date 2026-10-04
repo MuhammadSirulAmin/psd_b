@@ -1,0 +1,2002 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2 &#8212; Pemrosesan Data Sains</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c23772c6" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'clustering_segmentasi_sentinel2';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series" href="Tugas_3_Ekstraksi_lanjutan.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpg" class="logo__image only-light" alt="Pemrosesan Data Sains - Home"/>
+    <img src="_static/logo.jpg" class="logo__image only-dark pst-js-only" alt="Pemrosesan Data Sains - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tugas_1.html">1. Business Understanding</a></li>
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tugas_2.html">Statistik Data Kualitas Udara Menggunakan KNIME</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas_3_Ekstraksi_lanjutan.html">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2</a></li>
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/clustering_segmentasi_sentinel2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan">Tujuan</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-1-pembentukan-dataset-100-sampel">TAHAP 1 — PEMBENTUKAN DATASET 100 SAMPEL</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-tahap-1">Hasil Tahap 1</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-2-reduksi-dimensi-dengan-pca">TAHAP 2 — REDUKSI DIMENSI DENGAN PCA</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-tahap-2">Hasil Tahap 2</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-3-clustering-dengan-k-means">TAHAP 3 — CLUSTERING DENGAN K-MEANS</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-tahap-3">Hasil Tahap 3</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-4-visualisasi-dan-pemetaan">TAHAP 4 — VISUALISASI DAN PEMETAAN</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">KESIMPULAN</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="laporan-clustering-dan-segmentasi-data-citra-sentinel-2">
+<h1>LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2<a class="headerlink" href="#laporan-clustering-dan-segmentasi-data-citra-sentinel-2" title="Link to this heading">#</a></h1>
+<section id="pendahuluan">
+<h2>Pendahuluan<a class="headerlink" href="#pendahuluan" title="Link to this heading">#</a></h2>
+<p>Pada kegiatan ini dilakukan pengolahan data citra Sentinel-2 untuk menganalisis 100 sampel wilayah yang terdiri dari 50 sampel sawah dan 50 sampel non sawah. Data yang digunakan adalah band B02, B03, B04, dan B08.</p>
+<p>Tahapan pengolahan meliputi pembentukan dataset, reduksi dimensi menggunakan Principal Component Analysis (PCA), clustering menggunakan K-Means, dan visualisasi hasil dalam bentuk peta.</p>
+</section>
+<section id="tujuan">
+<h2>Tujuan<a class="headerlink" href="#tujuan" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Membentuk dataset 100 sampel dari polygon sawah dan non sawah.</p></li>
+<li><p>Mengekstraksi nilai rata-rata band Sentinel-2.</p></li>
+<li><p>Melakukan reduksi dimensi dengan PCA.</p></li>
+<li><p>Melakukan clustering dengan K-Means.</p></li>
+<li><p>Memvisualisasikan hasil dalam bentuk peta.</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tahap-1-pembentukan-dataset-100-sampel">
+<h1>TAHAP 1 — PEMBENTUKAN DATASET 100 SAMPEL<a class="headerlink" href="#tahap-1-pembentukan-dataset-100-sampel" title="Link to this heading">#</a></h1>
+<p>Pada tahap ini dilakukan ekstraksi nilai rata-rata piksel Sentinel-2 B02, B03, B04, dan B08 dari masing-masing polygon. Dataset terdiri dari 50 sawah dan 50 non sawah.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># TAHAP 1 - MEMBUAT DATASET 100 SAMPEL SENTINEL-2</span>
+<span class="c1"># ============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rasterio.mask</span><span class="w"> </span><span class="kn">import</span> <span class="n">mask</span>
+
+<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"claustering_segmentasi"</span><span class="p">)</span>
+<span class="n">SAWAH_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"sawah.geojson"</span>
+<span class="n">NON_SAWAH_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"non sawah.geojson"</span>
+<span class="n">B02_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"T49MGN_20261001T022529_B02_10m.jp2"</span>
+<span class="n">B03_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"T49MGN_20261001T022529_B03_10m.jp2"</span>
+<span class="n">B04_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"T49MGN_20261001T022529_B04_10m.jp2"</span>
+<span class="n">B08_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"T49MGN_20261001T022529_B08_10m.jp2"</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SAWAH_FILE</span><span class="p">,</span> <span class="n">NON_SAWAH_FILE</span><span class="p">,</span> <span class="n">B02_FILE</span><span class="p">,</span> <span class="n">B03_FILE</span><span class="p">,</span> <span class="n">B04_FILE</span><span class="p">,</span> <span class="n">B08_FILE</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"File tidak ditemukan: </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">sawah</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">SAWAH_FILE</span><span class="p">)</span>
+<span class="n">non_sawah</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">NON_SAWAH_FILE</span><span class="p">)</span>
+
+<span class="n">sawah</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"sawah"</span>
+<span class="n">non_sawah</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"non sawah"</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">sawah</span><span class="p">,</span> <span class="n">non_sawah</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">B02_FILE</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+    <span class="n">raster_crs</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">crs</span>
+
+<span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">raster_crs</span><span class="p">)</span>
+
+<span class="n">rasters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"B02"</span><span class="p">:</span> <span class="n">B02_FILE</span><span class="p">,</span>
+    <span class="s2">"B03"</span><span class="p">:</span> <span class="n">B03_FILE</span><span class="p">,</span>
+    <span class="s2">"B04"</span><span class="p">:</span> <span class="n">B04_FILE</span><span class="p">,</span>
+    <span class="s2">"B08"</span><span class="p">:</span> <span class="n">B08_FILE</span>
+<span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_mean</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">raster_path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">raster_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">out_image</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mask</span><span class="p">(</span>
+                <span class="n">src</span><span class="p">,</span> <span class="p">[</span><span class="n">polygon</span><span class="p">],</span> <span class="n">crop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">out_image</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+<span class="n">hasil</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">samples</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+        <span class="s2">"label"</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">band</span><span class="p">,</span> <span class="n">raster_path</span> <span class="ow">in</span> <span class="n">rasters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">band</span><span class="p">]</span> <span class="o">=</span> <span class="n">extract_mean</span><span class="p">(</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">geometry</span><span class="p">,</span>
+            <span class="n">raster_path</span>
+        <span class="p">)</span>
+
+    <span class="n">hasil</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">hasil</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">,</span> <span class="s2">"B02"</span><span class="p">,</span> <span class="s2">"B03"</span><span class="p">,</span> <span class="s2">"B04"</span><span class="p">,</span> <span class="s2">"B08"</span><span class="p">]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Shape:"</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Distribusi label:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Missing value:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"dataset_100_sampel.csv"</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Dataset tersimpan di:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"dataset_100_sampel.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape: (100, 6)
+
+Distribusi label:
+label
+sawah        50
+non sawah    50
+Name: count, dtype: int64
+
+Missing value:
+id       0
+label    0
+B02      0
+B03      0
+B04      0
+B08      0
+dtype: int64
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>B02</th>
+      <th>B03</th>
+      <th>B04</th>
+      <th>B08</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>sawah</td>
+      <td>2132.428571</td>
+      <td>2380.285714</td>
+      <td>2658.000000</td>
+      <td>4255.285714</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>sawah</td>
+      <td>2062.125000</td>
+      <td>2253.375000</td>
+      <td>2539.375000</td>
+      <td>3925.250000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>sawah</td>
+      <td>2268.500000</td>
+      <td>2453.500000</td>
+      <td>2858.000000</td>
+      <td>3832.500000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>sawah</td>
+      <td>2075.333333</td>
+      <td>2276.333333</td>
+      <td>2398.333333</td>
+      <td>4143.666667</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>sawah</td>
+      <td>2191.000000</td>
+      <td>2398.833333</td>
+      <td>2623.333333</td>
+      <td>4020.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset tersimpan di:
+claustering_segmentasi/dataset_100_sampel.csv
+</pre></div>
+</div>
+</div>
+</div>
+<section id="hasil-tahap-1">
+<h2>Hasil Tahap 1<a class="headerlink" href="#hasil-tahap-1" title="Link to this heading">#</a></h2>
+<p>Dataset yang dihasilkan berjumlah 100 sampel, terdiri dari 50 sampel sawah dan 50 sampel non sawah. Setiap sampel memiliki empat fitur spektral, yaitu B02, B03, B04, dan B08.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tahap-2-reduksi-dimensi-dengan-pca">
+<h1>TAHAP 2 — REDUKSI DIMENSI DENGAN PCA<a class="headerlink" href="#tahap-2-reduksi-dimensi-dengan-pca" title="Link to this heading">#</a></h1>
+<p>Data B02, B03, B04, dan B08 distandarisasi terlebih dahulu. Selanjutnya PCA digunakan untuk mereduksi dimensi dan mengetahui komponen utama yang paling menjelaskan variasi data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># TAHAP 2 - REDUKSI DIMENSI PCA</span>
+<span class="c1"># ============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"dataset_100_sampel.csv"</span>
+<span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"B02"</span><span class="p">,</span> <span class="s2">"B03"</span><span class="p">,</span> <span class="s2">"B04"</span><span class="p">,</span> <span class="s2">"B08"</span><span class="p">]</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="n">pca_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"PC1"</span><span class="p">,</span> <span class="s2">"PC2"</span><span class="p">,</span> <span class="s2">"PC3"</span><span class="p">,</span> <span class="s2">"PC4"</span><span class="p">]</span>
+
+<span class="n">hasil_pca</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">df</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="n">X_pca</span><span class="p">,</span>
+            <span class="n">columns</span><span class="o">=</span><span class="n">pca_columns</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">explained</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">cumulative</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">explained</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Explained variance:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">explained</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"PC</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">PC1 + PC2: </span><span class="si">{</span><span class="n">cumulative</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"PC1"</span><span class="p">,</span> <span class="s2">"PC2"</span><span class="p">,</span> <span class="s2">"PC3"</span><span class="p">,</span> <span class="s2">"PC4"</span><span class="p">],</span>
+    <span class="n">explained</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Principal Component"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Explained Variance (%)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Explained Variance PCA"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">hasil_pca</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">hasil_pca</span><span class="p">[</span>
+        <span class="n">hasil_pca</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">==</span> <span class="n">label</span>
+    <span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">subset</span><span class="p">[</span><span class="s2">"PC1"</span><span class="p">],</span>
+        <span class="n">subset</span><span class="p">[</span><span class="s2">"PC2"</span><span class="p">],</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span>
+    <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"PC1"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"PC2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"PCA: PC1 vs PC2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">loadings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">pca</span><span class="o">.</span><span class="n">components_</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="n">pca_columns</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Loadings PCA:"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">loadings</span><span class="p">)</span>
+
+<span class="n">hasil_pca</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pca_100_sampel.csv"</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2">Hasil PCA tersimpan di:"</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pca_100_sampel.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Explained variance:
+PC1: 75.74%
+PC2: 20.66%
+PC3: 3.20%
+PC4: 0.40%
+
+PC1 + PC2: 96.40%
+</pre></div>
+</div>
+<img alt="_images/4a30adfd7d3939e636620f4829a5c18c8898d2e30d6518e1758abce4e8499f3b.png" src="_images/4a30adfd7d3939e636620f4829a5c18c8898d2e30d6518e1758abce4e8499f3b.png" />
+<img alt="_images/5645f04fcf3092385ccbe3c2c9357129081e3cabbed7b1b2d134229c20be84ee.png" src="_images/5645f04fcf3092385ccbe3c2c9357129081e3cabbed7b1b2d134229c20be84ee.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loadings PCA:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PC1</th>
+      <th>PC2</th>
+      <th>PC3</th>
+      <th>PC4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>B02</th>
+      <td>0.559373</td>
+      <td>0.110584</td>
+      <td>-0.527052</td>
+      <td>-0.630150</td>
+    </tr>
+    <tr>
+      <th>B03</th>
+      <td>0.553170</td>
+      <td>0.259669</td>
+      <td>-0.254557</td>
+      <td>0.749517</td>
+    </tr>
+    <tr>
+      <th>B04</th>
+      <td>0.545659</td>
+      <td>0.126572</td>
+      <td>0.810488</td>
+      <td>-0.171301</td>
+    </tr>
+    <tr>
+      <th>B08</th>
+      <td>-0.288723</td>
+      <td>0.950959</td>
+      <td>0.022923</td>
+      <td>-0.108585</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil PCA tersimpan di:
+claustering_segmentasi/hasil_pca_100_sampel.csv
+</pre></div>
+</div>
+</div>
+</div>
+<section id="hasil-tahap-2">
+<h2>Hasil Tahap 2<a class="headerlink" href="#hasil-tahap-2" title="Link to this heading">#</a></h2>
+<p>Hasil PCA menunjukkan PC1 sebesar 75,74%, PC2 sebesar 20,66%, PC3 sebesar 3,20%, dan PC4 sebesar 0,40%. PC1 dan PC2 secara kumulatif menjelaskan sekitar 96,40% variasi data sehingga digunakan sebagai fitur utama untuk clustering.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tahap-3-clustering-dengan-k-means">
+<h1>TAHAP 3 — CLUSTERING DENGAN K-MEANS<a class="headerlink" href="#tahap-3-clustering-dengan-k-means" title="Link to this heading">#</a></h1>
+<p>Pada tahap ini dilakukan eksperimen beberapa nilai K menggunakan Silhouette Score. Setelah itu dilakukan clustering menggunakan K-Means. Berdasarkan hasil eksperimen, jumlah cluster yang digunakan adalah K = 4.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># TAHAP 3 - CLUSTERING K-MEANS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">silhouette_score</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pca_100_sampel.csv"</span>
+<span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">"PC1"</span><span class="p">,</span> <span class="s2">"PC2"</span><span class="p">]]</span>
+
+<span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
+        <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+        <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span>
+    <span class="p">)</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="n">scores</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">silhouette_score</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span>
+        <span class="n">labels</span>
+    <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Silhouette Score:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"K=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">best_k</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+    <span class="n">scores</span><span class="p">,</span>
+    <span class="n">key</span><span class="o">=</span><span class="n">scores</span><span class="o">.</span><span class="n">get</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">K terbaik berdasarkan Silhouette Score:"</span><span class="p">,</span> <span class="n">best_k</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Jumlah Cluster (K)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Silhouette Score"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Eksperimen Jumlah Cluster"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
+    <span class="n">n_clusters</span><span class="o">=</span><span class="n">best_k</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Distribusi cluster:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Cross-tab label vs cluster:"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span>
+        <span class="n">df</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster</span>
+    <span class="p">]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="n">subset</span><span class="p">[</span><span class="s2">"PC1"</span><span class="p">],</span>
+        <span class="n">subset</span><span class="p">[</span><span class="s2">"PC2"</span><span class="p">],</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Cluster </span><span class="si">{</span><span class="n">cluster</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span>
+    <span class="p">)</span>
+
+<span class="n">centers</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">centers</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">centers</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"X"</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="s2">"Centroid"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"PC1"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"PC2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Hasil Clustering K-Means"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_clustering_kmeans.csv"</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2">Hasil clustering tersimpan di:"</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_clustering_kmeans.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Silhouette Score:
+K=2: 0.3808
+K=3: 0.4129
+K=4: 0.4279
+K=5: 0.3884
+K=6: 0.4006
+
+K terbaik berdasarkan Silhouette Score: 4
+</pre></div>
+</div>
+<img alt="_images/7079a2df21f259c85946c3911793b98997504a5140473c1934f98ea2642c5885.png" src="_images/7079a2df21f259c85946c3911793b98997504a5140473c1934f98ea2642c5885.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribusi cluster:
+cluster
+0    16
+1    57
+2     2
+3    25
+Name: count, dtype: int64
+
+Cross-tab label vs cluster:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cluster</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+    </tr>
+    <tr>
+      <th>label</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>non sawah</th>
+      <td>2</td>
+      <td>24</td>
+      <td>1</td>
+      <td>23</td>
+    </tr>
+    <tr>
+      <th>sawah</th>
+      <td>14</td>
+      <td>33</td>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="_images/2a85f6ac9b87067d55f41c93663e31a50dc3ad30ccb0d3f8f68af1623a0811df.png" src="_images/2a85f6ac9b87067d55f41c93663e31a50dc3ad30ccb0d3f8f68af1623a0811df.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil clustering tersimpan di:
+claustering_segmentasi/hasil_clustering_kmeans.csv
+</pre></div>
+</div>
+</div>
+</div>
+<section id="hasil-tahap-3">
+<h2>Hasil Tahap 3<a class="headerlink" href="#hasil-tahap-3" title="Link to this heading">#</a></h2>
+<p>Hasil clustering menghasilkan empat cluster dengan distribusi:</p>
+<ul class="simple">
+<li><p>Cluster 0 = 16 sampel</p></li>
+<li><p>Cluster 1 = 57 sampel</p></li>
+<li><p>Cluster 2 = 2 sampel</p></li>
+<li><p>Cluster 3 = 25 sampel</p></li>
+</ul>
+<p>K-Means merupakan metode unsupervised learning, sehingga cluster yang terbentuk berdasarkan kemiripan fitur dan tidak secara langsung merupakan kelas sawah atau non sawah.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tahap-4-visualisasi-dan-pemetaan">
+<h1>TAHAP 4 — VISUALISASI DAN PEMETAAN<a class="headerlink" href="#tahap-4-visualisasi-dan-pemetaan" title="Link to this heading">#</a></h1>
+<p>Pada tahap terakhir hasil clustering digabungkan dengan polygon sawah dan non sawah. Hasilnya divisualisasikan sebagai peta label, peta cluster, dan peta interaktif.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ============================================================</span>
+<span class="c1"># TAHAP 4 - VISUALISASI PETA</span>
+<span class="c1"># 100 SAMPEL SAWAH + NON SAWAH</span>
+<span class="c1"># SENTINEL-2 + PCA + K-MEANS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">folium.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fullscreen</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 1. FILE INPUT</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">KMEANS_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_clustering_kmeans.csv"</span>
+<span class="n">SAWAH_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"sawah.geojson"</span>
+<span class="n">NON_SAWAH_FILE</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"non sawah.geojson"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Memeriksa file..."</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">[</span><span class="n">KMEANS_FILE</span><span class="p">,</span> <span class="n">SAWAH_FILE</span><span class="p">,</span> <span class="n">NON_SAWAH_FILE</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 2. BACA HASIL K-MEANS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">df_cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">KMEANS_FILE</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">DATA HASIL K-MEANS"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_cluster</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Jumlah data:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_cluster</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Kolom:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_cluster</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 3. BACA GEOJSON</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">sawah</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">SAWAH_FILE</span><span class="p">)</span>
+<span class="n">non_sawah</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">NON_SAWAH_FILE</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Jumlah polygon sawah:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sawah</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Jumlah polygon non sawah:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_sawah</span><span class="p">))</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 4. SAMAKAN LABEL</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">sawah</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"sawah"</span>
+<span class="n">non_sawah</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"non sawah"</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 5. GABUNGKAN GEOJSON</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">sawah</span><span class="p">,</span> <span class="n">non_sawah</span><span class="p">],</span>
+    <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span>
+    <span class="n">gdf</span><span class="p">,</span>
+    <span class="n">geometry</span><span class="o">=</span><span class="s2">"geometry"</span><span class="p">,</span>
+    <span class="n">crs</span><span class="o">=</span><span class="n">sawah</span><span class="o">.</span><span class="n">crs</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Total polygon:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gdf</span><span class="p">))</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 6. PASTIKAN ID MEMILIKI TIPE YANG SAMA</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">gdf</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+<span class="n">df_cluster</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_cluster</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 7. GABUNGKAN DATA SPASIAL + HASIL K-MEANS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">gdf_final</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_cluster</span><span class="p">,</span>
+    <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">],</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">HASIL GABUNGAN"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gdf_final</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Jumlah data hasil gabungan:"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gdf_final</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Data cluster:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gdf_final</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">dropna</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 8. CEK DATA YANG TIDAK BERHASIL DIGABUNGKAN</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">missing_cluster</span> <span class="o">=</span> <span class="n">gdf_final</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Data tanpa cluster:"</span><span class="p">,</span> <span class="n">missing_cluster</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">missing_cluster</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">PERINGATAN: Ada data yang tidak memiliki cluster."</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Semua 100 sampel berhasil digabungkan."</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 9. PETA STATIS - LABEL ASLI</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">gdf_final</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">"label"</span><span class="p">,</span>
+    <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="s2">"Peta Sebaran 100 Sampel Sawah dan Non Sawah"</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Longitude"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Latitude"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"peta_sawah_non_sawah.png"</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 10. PETA STATIS - HASIL CLUSTER K-MEANS</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="n">gdf_final</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">column</span><span class="o">=</span><span class="s2">"cluster"</span><span class="p">,</span>
+    <span class="n">categorical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+    <span class="s2">"Peta Hasil Clustering K-Means"</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span>
+<span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Longitude"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Latitude"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"peta_cluster_kmeans.png"</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 11. PETA INTERAKTIF</span>
+<span class="c1"># ============================================================</span>
+
+<span class="c1"># ubah ke WGS84</span>
+<span class="n">gdf_map</span> <span class="o">=</span> <span class="n">gdf_final</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+
+<span class="c1"># titik tengah seluruh area</span>
+<span class="n">center</span> <span class="o">=</span> <span class="n">gdf_map</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">union_all</span><span class="p">()</span><span class="o">.</span><span class="n">centroid</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span>
+    <span class="n">location</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+        <span class="n">center</span><span class="o">.</span><span class="n">x</span>
+    <span class="p">],</span>
+    <span class="n">zoom_start</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span>
+    <span class="n">tiles</span><span class="o">=</span><span class="s2">"OpenStreetMap"</span>
+<span class="p">)</span>
+
+<span class="n">Fullscreen</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 12. LAYER SAWAH</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">sawah_map</span> <span class="o">=</span> <span class="n">gdf_map</span><span class="p">[</span>
+    <span class="n">gdf_map</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"sawah"</span>
+<span class="p">]</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+    <span class="n">sawah_map</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Sawah"</span><span class="p">,</span>
+    <span class="n">style_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">feature</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"fillColor"</span><span class="p">:</span> <span class="s2">"green"</span><span class="p">,</span>
+        <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"darkgreen"</span><span class="p">,</span>
+        <span class="s2">"weight"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"fillOpacity"</span><span class="p">:</span> <span class="mf">0.5</span>
+    <span class="p">},</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">"id"</span><span class="p">,</span>
+            <span class="s2">"label"</span><span class="p">,</span>
+            <span class="s2">"cluster"</span><span class="p">,</span>
+            <span class="s2">"PC1"</span><span class="p">,</span>
+            <span class="s2">"PC2"</span>
+        <span class="p">],</span>
+        <span class="n">aliases</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">"ID"</span><span class="p">,</span>
+            <span class="s2">"Label"</span><span class="p">,</span>
+            <span class="s2">"Cluster"</span><span class="p">,</span>
+            <span class="s2">"PC1"</span><span class="p">,</span>
+            <span class="s2">"PC2"</span>
+        <span class="p">],</span>
+        <span class="n">localize</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 13. LAYER NON SAWAH</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">non_sawah_map</span> <span class="o">=</span> <span class="n">gdf_map</span><span class="p">[</span>
+    <span class="n">gdf_map</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"non sawah"</span>
+<span class="p">]</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">GeoJson</span><span class="p">(</span>
+    <span class="n">non_sawah_map</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"Non Sawah"</span><span class="p">,</span>
+    <span class="n">style_function</span><span class="o">=</span><span class="k">lambda</span> <span class="n">feature</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"fillColor"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span>
+        <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"darkred"</span><span class="p">,</span>
+        <span class="s2">"weight"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"fillOpacity"</span><span class="p">:</span> <span class="mf">0.5</span>
+    <span class="p">},</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="n">folium</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">(</span>
+        <span class="n">fields</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">"id"</span><span class="p">,</span>
+            <span class="s2">"label"</span><span class="p">,</span>
+            <span class="s2">"cluster"</span><span class="p">,</span>
+            <span class="s2">"PC1"</span><span class="p">,</span>
+            <span class="s2">"PC2"</span>
+        <span class="p">],</span>
+        <span class="n">aliases</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">"ID"</span><span class="p">,</span>
+            <span class="s2">"Label"</span><span class="p">,</span>
+            <span class="s2">"Cluster"</span><span class="p">,</span>
+            <span class="s2">"PC1"</span><span class="p">,</span>
+            <span class="s2">"PC2"</span>
+        <span class="p">],</span>
+        <span class="n">localize</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 14. LAYER CONTROL</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">folium</span><span class="o">.</span><span class="n">LayerControl</span><span class="p">()</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 15. SIMPAN PETA INTERAKTIF</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"peta_100_sampel.html"</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Peta interaktif berhasil dibuat:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"peta_100_sampel.html"</span><span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 16. SIMPAN GEOJSON HASIL AKHIR</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">gdf_final</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pemetaan_100_sampel.geojson"</span><span class="p">,</span>
+    <span class="n">driver</span><span class="o">=</span><span class="s2">"GeoJSON"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"GeoJSON berhasil dibuat:"</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pemetaan_100_sampel.geojson"</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 17. SIMPAN CSV HASIL AKHIR</span>
+<span class="c1"># ============================================================</span>
+
+<span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">gdf_final</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span>
+        <span class="n">columns</span><span class="o">=</span><span class="s2">"geometry"</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">df_final</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pemetaan_100_sampel.csv"</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"CSV berhasil dibuat:"</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"hasil_pemetaan_100_sampel.csv"</span>
+<span class="p">)</span>
+
+
+<span class="c1"># ============================================================</span>
+<span class="c1"># 18. RINGKASAN HASIL</span>
+<span class="c1"># ============================================================</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"RINGKASAN TAHAP 4"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"="</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"Total sampel:"</span><span class="p">,</span>
+    <span class="nb">len</span><span class="p">(</span><span class="n">gdf_final</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2">Distribusi label:"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">gdf_final</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2">Distribusi cluster:"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">gdf_final</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">"</span><span class="se">\n</span><span class="s2">Cross-tab label vs cluster:"</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
+        <span class="n">gdf_final</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span>
+        <span class="n">gdf_final</span><span class="p">[</span><span class="s2">"cluster"</span><span class="p">]</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">File output:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"1. peta_sawah_non_sawah.png"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"2. peta_cluster_kmeans.png"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"3. peta_100_sampel.html"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"4. hasil_pemetaan_100_sampel.geojson"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"5. hasil_pemetaan_100_sampel.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Memeriksa file...
+claustering_segmentasi/hasil_clustering_kmeans.csv -&gt; True
+claustering_segmentasi/sawah.geojson -&gt; True
+claustering_segmentasi/non sawah.geojson -&gt; True
+
+DATA HASIL K-MEANS
+   id  label       PC1       PC2       PC3       PC4  cluster
+0   1  sawah -0.999212  0.780605  0.156106 -0.050543        1
+1   2  sawah -1.491686 -0.734560  0.183148 -0.134159        1
+2   3  sawah  0.540560 -0.502330  0.177270 -0.169245        1
+3   4  sawah -1.897113  0.055749 -0.280062 -0.088561        0
+4   5  sawah -0.553547 -0.043760 -0.170462 -0.061373        1
+
+Jumlah data: 100
+
+Kolom:
+['id', 'label', 'PC1', 'PC2', 'PC3', 'PC4', 'cluster']
+
+Jumlah polygon sawah: 50
+Jumlah polygon non sawah: 50
+
+Total polygon: 100
+
+HASIL GABUNGAN
+    FID  label  id                                           geometry  \
+0  None  sawah   1  MULTIPOLYGON (((112.90687 -6.8971, 112.90688 -...   
+1  None  sawah   2  MULTIPOLYGON (((112.90629 -6.89739, 112.90637 ...   
+2  None  sawah   3  MULTIPOLYGON (((112.90612 -6.89668, 112.90635 ...   
+3  None  sawah   4  MULTIPOLYGON (((112.90657 -6.89664, 112.90663 ...   
+4  None  sawah   5  MULTIPOLYGON (((112.90601 -6.89664, 112.90588 ...   
+
+        PC1       PC2       PC3       PC4  cluster  
+0 -0.999212  0.780605  0.156106 -0.050543        1  
+1 -1.491686 -0.734560  0.183148 -0.134159        1  
+2  0.540560 -0.502330  0.177270 -0.169245        1  
+3 -1.897113  0.055749 -0.280062 -0.088561        0  
+4 -0.553547 -0.043760 -0.170462 -0.061373        1  
+
+Jumlah data hasil gabungan: 100
+
+Data cluster:
+cluster
+1    57
+3    25
+0    16
+2     2
+Name: count, dtype: int64
+
+Data tanpa cluster: 0
+
+Semua 100 sampel berhasil digabungkan.
+</pre></div>
+</div>
+<img alt="_images/0e4abd5f49d720ea612a268d5712ce0cd3e91ba98d55eccc59b0e8f8d574d1c2.png" src="_images/0e4abd5f49d720ea612a268d5712ce0cd3e91ba98d55eccc59b0e8f8d574d1c2.png" />
+<img alt="_images/2ae89be6ea91c0d4ecb0b72e0b97a8b0a634b33fe7226bf05ca3b3af5f18934d.png" src="_images/2ae89be6ea91c0d4ecb0b72e0b97a8b0a634b33fe7226bf05ca3b3af5f18934d.png" />
+<div class="output text_html"><div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_faf0dde31b20bec45eeb1a4ca67cd590 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+
+            &lt;style&gt;html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            &lt;/style&gt;
+
+            &lt;style&gt;#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            &lt;/style&gt;
+
+            &lt;script&gt;
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            &lt;/script&gt;
+
+        
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css&quot;/&gt;
+    
+                    &lt;style&gt;
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    &lt;/style&gt;
+            
+    
+                    &lt;style&gt;
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    &lt;/style&gt;
+            
+&lt;/head&gt;
+&lt;body&gt;
+    
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_faf0dde31b20bec45eeb1a4ca67cd590&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_faf0dde31b20bec45eeb1a4ca67cd590 = L.map(
+                &quot;map_faf0dde31b20bec45eeb1a4ca67cd590&quot;,
+                {
+                    center: [-6.896672463493455, 112.90620619530056],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 14,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_7634622abeef82438e919c6dd4f8f855 = L.tileLayer(
+                &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 19,
+  &quot;maxNativeZoom&quot;: 19,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors&quot;,
+  &quot;subdomains&quot;: &quot;abc&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_7634622abeef82438e919c6dd4f8f855.addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+    
+            L.control.fullscreen(
+                {
+  &quot;position&quot;: &quot;topleft&quot;,
+  &quot;title&quot;: &quot;Full Screen&quot;,
+  &quot;titleCancel&quot;: &quot;Exit Full Screen&quot;,
+  &quot;forceSeparateButton&quot;: false,
+}
+            ).addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+    
+        function geo_json_341b694a7efbe5640780c63746f70b20_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {&quot;color&quot;: &quot;darkgreen&quot;, &quot;fillColor&quot;: &quot;green&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 1};
+            }
+        }
+
+        function geo_json_341b694a7efbe5640780c63746f70b20_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_341b694a7efbe5640780c63746f70b20 = L.geoJson(null, {
+                onEachFeature: geo_json_341b694a7efbe5640780c63746f70b20_onEachFeature,
+            
+                style: geo_json_341b694a7efbe5640780c63746f70b20_styler,
+            ...{
+}
+        });
+
+        function geo_json_341b694a7efbe5640780c63746f70b20_add (data) {
+            geo_json_341b694a7efbe5640780c63746f70b20
+                .addData(data);
+        }
+            geo_json_341b694a7efbe5640780c63746f70b20_add({&quot;bbox&quot;: [112.9021176, -6.8986473, 112.9105869, -6.8954089], &quot;features&quot;: [{&quot;bbox&quot;: [112.9068669, -6.8971033, 112.9070654, -6.8967091], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9068669, -6.8971033], [112.9068761, -6.8967091], [112.9070285, -6.8967825], [112.9070654, -6.8970529], [112.9068669, -6.8971033]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;0&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.9992118312122308, &quot;PC2&quot;: 0.7806050209383546, &quot;PC3&quot;: 0.1561061827699668, &quot;PC4&quot;: -0.0505425362305248, &quot;cluster&quot;: 1, &quot;id&quot;: 1, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9062852, -6.8974746, 112.9066268, -6.8971446], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9062852, -6.8973921], [112.9063683, -6.8971446], [112.9066268, -6.8972912], [112.9065714, -6.8974746], [112.9062852, -6.8973921]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;1&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.4916861109011066, &quot;PC2&quot;: -0.7345596602757722, &quot;PC3&quot;: 0.1831483908959987, &quot;PC4&quot;: -0.1341585009631004, &quot;cluster&quot;: 1, &quot;id&quot;: 2, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9061189, -6.8968329, 112.9063498, -6.8965487], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9061189, -6.8966816], [112.9063498, -6.8965487], [112.9062898, -6.8968329], [112.9061189, -6.8966816]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;2&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.5405596571354503, &quot;PC2&quot;: -0.5023304156435301, &quot;PC3&quot;: 0.17727015348263, &quot;PC4&quot;: -0.1692451561356033, &quot;cluster&quot;: 1, &quot;id&quot;: 3, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9065714, -6.8966404, 112.9067884, -6.8963928], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9065714, -6.8966404], [112.9066314, -6.8963928], [112.9067884, -6.8965762], [112.9065714, -6.8966404]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;3&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.8971130323205687, &quot;PC2&quot;: 0.0557490958587671, &quot;PC3&quot;: -0.2800617402339692, &quot;PC4&quot;: -0.0885609391316413, &quot;cluster&quot;: 0, &quot;id&quot;: 4, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9058789, -6.8966449, 112.9061513, -6.8962828], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9060127, -6.8966449], [112.9058789, -6.8964845], [112.9059343, -6.8962828], [112.9061513, -6.8963745], [112.9060127, -6.8966449]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;4&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.5535473895245913, &quot;PC2&quot;: -0.0437597393654633, &quot;PC3&quot;: -0.1704616544781866, &quot;PC4&quot;: -0.0613728015646121, &quot;cluster&quot;: 1, &quot;id&quot;: 5, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9061236, -6.8960582, 112.9064052, -6.8957466], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9061236, -6.8959437], [112.9062067, -6.8958016], [112.9062805, -6.8958153], [112.9063406, -6.8957466], [112.9064052, -6.8957924], [112.9063821, -6.8960124], [112.9062944, -6.8960582], [112.9061236, -6.8959437]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 5.84142460696885, &quot;PC2&quot;: 2.558516403078749, &quot;PC3&quot;: -1.0415733898672543, &quot;PC4&quot;: 0.1559531347479807, &quot;cluster&quot;: 2, &quot;id&quot;: 6, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.906022, -6.8975479, 112.9063359, -6.8970666], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9061143, -6.8975387], [112.906022, -6.8973783], [112.9060774, -6.8970666], [112.9062621, -6.897085], [112.9063359, -6.8971675], [112.9062205, -6.8975479], [112.9061143, -6.8975387]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;6&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.4704243618743895, &quot;PC2&quot;: 1.1794857450433796, &quot;PC3&quot;: 0.2143163688886625, &quot;PC4&quot;: -0.0714487800397274, &quot;cluster&quot;: 0, &quot;id&quot;: 7, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9069454, -6.8966083, 112.9071624, -6.8963974], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9069454, -6.8966083], [112.9069731, -6.8963974], [112.9071485, -6.8964066], [112.9071624, -6.8965854], [112.9069454, -6.8966083]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;7&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -2.0296017445300847, &quot;PC2&quot;: 0.0122656014989552, &quot;PC3&quot;: -0.1841956492493696, &quot;PC4&quot;: -0.1448150035995855, &quot;cluster&quot;: 0, &quot;id&quot;: 8, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9067284, -6.8958306, 112.9072863, -6.8954089], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9067284, -6.8957466], [112.9067607, -6.8955403], [112.90694, -6.8954089], [112.9072724, -6.895583], [112.9072863, -6.8957206], [112.9069492, -6.8958306], [112.9067284, -6.8957466]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;8&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.2626447940318101, &quot;PC2&quot;: 0.6715681852515221, &quot;PC3&quot;: 0.1150023304203849, &quot;PC4&quot;: -0.0451896863277343, &quot;cluster&quot;: 1, &quot;id&quot;: 9, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9067692, -6.8975448, 112.9072124, -6.8970773], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9067692, -6.8975219], [112.9068892, -6.8971552], [112.9070277, -6.8970773], [112.9071755, -6.897169], [112.9072124, -6.8972973], [112.9071293, -6.8975448], [112.9067692, -6.8975219]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;9&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.7614076820705539, &quot;PC2&quot;: 0.8997408561751713, &quot;PC3&quot;: 0.120803051091023, &quot;PC4&quot;: -0.0727775204889388, &quot;cluster&quot;: 1, &quot;id&quot;: 10, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9072733, -6.8982894, 112.907458, -6.8981015], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9072733, -6.8982803], [112.9072733, -6.8981015], [112.907458, -6.8981244], [112.9074395, -6.8982894], [112.9072733, -6.8982803]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;10&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -2.016020114963649, &quot;PC2&quot;: -0.4814666086232648, &quot;PC3&quot;: -0.1027007051711142, &quot;PC4&quot;: -0.0546827240281461, &quot;cluster&quot;: 0, &quot;id&quot;: 11, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9059067, -6.8978403, 112.9061417, -6.8975744], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9059067, -6.8978403], [112.9059847, -6.8975744], [112.9061417, -6.8976202], [112.9060909, -6.8978403], [112.9059067, -6.8978403]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;11&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -2.070160048404157, &quot;PC2&quot;: 0.4236314854491597, &quot;PC3&quot;: 0.2794791920233694, &quot;PC4&quot;: -0.1250481222898492, &quot;cluster&quot;: 0, &quot;id&quot;: 12, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9088555, -6.8970602, 112.9090725, -6.8967347], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9088601, -6.8970602], [112.9088555, -6.8968218], [112.9089709, -6.8967347], [112.9090725, -6.8968447], [112.9089755, -6.8970235], [112.9088601, -6.8970602]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;12&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.4262896440246522, &quot;PC2&quot;: -1.0831496054610767, &quot;PC3&quot;: -0.4039212498303266, &quot;PC4&quot;: 0.2331243363339891, &quot;cluster&quot;: 3, &quot;id&quot;: 13, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9103606, -6.8966021, 112.9105869, -6.8961759], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9103606, -6.8965471], [112.9104022, -6.8962584], [112.9105869, -6.8961759], [112.9105592, -6.8966021], [112.9103606, -6.8965471]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.3277536136014032, &quot;PC2&quot;: 0.1654597447924954, &quot;PC3&quot;: 1.3892314643938268, &quot;PC4&quot;: -0.094790300034327, &quot;cluster&quot;: 1, &quot;id&quot;: 14, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9099589, -6.8965471, 112.9103652, -6.8958367], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9100605, -6.8965471], [112.9099589, -6.896373], [112.9100467, -6.896043], [112.9102591, -6.8959467], [112.9103514, -6.8958367], [112.9103652, -6.8961805], [112.9102729, -6.8965426], [112.9100605, -6.8965471]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;14&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.0097314678082375, &quot;PC2&quot;: 0.1929543391458641, &quot;PC3&quot;: 0.2585820554613385, &quot;PC4&quot;: -0.1282929390065237, &quot;cluster&quot;: 1, &quot;id&quot;: 15, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9067826, -6.8977801, 112.9070457, -6.8975693], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9067826, -6.8977068], [112.906801, -6.8975785], [112.9070365, -6.8975693], [112.9070457, -6.8977801], [112.9067826, -6.8977068]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;15&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.5978614783493459, &quot;PC2&quot;: 0.820468128947702, &quot;PC3&quot;: 0.2248073378034621, &quot;PC4&quot;: -0.1755353618415475, &quot;cluster&quot;: 1, &quot;id&quot;: 16, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9045396, -6.897818, 112.9050013, -6.8976026], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9045396, -6.8978043], [112.9046782, -6.8976072], [112.9050013, -6.8976026], [112.9049229, -6.897818], [112.9045396, -6.8978043]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;16&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.6256310701152934, &quot;PC2&quot;: 1.0279601814343475, &quot;PC3&quot;: 0.2743114554079125, &quot;PC4&quot;: 0.1523726168458074, &quot;cluster&quot;: 0, &quot;id&quot;: 17, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9045812, -6.897983, 112.9048813, -6.8978455], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9045812, -6.8979509], [112.9045812, -6.8978455], [112.9048813, -6.8978501], [112.9048444, -6.897983], [112.9045812, -6.8979509]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;17&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.5873484019599746, &quot;PC2&quot;: 0.6826550358062634, &quot;PC3&quot;: 0.242923933184384, &quot;PC4&quot;: 0.3004158673963956, &quot;cluster&quot;: 0, &quot;id&quot;: 18, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9045858, -6.8981618, 112.9049367, -6.8979418], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9046043, -6.8981343], [112.9045858, -6.8979418], [112.9049367, -6.8980334], [112.9048813, -6.8981618], [112.9046043, -6.8981343]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;18&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.2014419361917088, &quot;PC2&quot;: 0.8656919669399, &quot;PC3&quot;: 0.0465735786555705, &quot;PC4&quot;: 0.2243946820863178, &quot;cluster&quot;: 1, &quot;id&quot;: 19, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9043503, -6.8981801, 112.9045766, -6.8978318], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9043503, -6.8981801], [112.904415, -6.8978501], [112.9045535, -6.8978318], [112.9045766, -6.8981618], [112.9043503, -6.8981801]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;19&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.8680819475456106, &quot;PC2&quot;: 1.561565787308241, &quot;PC3&quot;: 0.2031360658900504, &quot;PC4&quot;: 0.3813744115590163, &quot;cluster&quot;: 3, &quot;id&quot;: 20, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9043873, -6.8976118, 112.9046505, -6.8971305], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9044058, -6.8974605], [112.9045443, -6.8971305], [112.9046505, -6.8976118], [112.9043873, -6.8975338], [112.9044058, -6.8974605]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;20&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.2027357334027043, &quot;PC2&quot;: 0.9481205113543796, &quot;PC3&quot;: -0.0230405450803708, &quot;PC4&quot;: 0.0059447787605136, &quot;cluster&quot;: 1, &quot;id&quot;: 21, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9046135, -6.8975705, 112.905006, -6.897213], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9046135, -6.897213], [112.905006, -6.8972176], [112.9049967, -6.8975476], [112.9046966, -6.8975705], [112.9046135, -6.897213]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;21&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -3.4562452010668623, &quot;PC2&quot;: 2.0270544208537844, &quot;PC3&quot;: -0.6194727538682184, &quot;PC4&quot;: 0.079641104462812, &quot;cluster&quot;: 0, &quot;id&quot;: 22, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9033161, -6.8977834, 112.9037917, -6.8974605], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9033161, -6.8974605], [112.9037917, -6.8975235], [112.9037717, -6.8977834], [112.9033787, -6.8977105], [112.9033161, -6.8974605]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;22&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.4802732279345588, &quot;PC2&quot;: -1.0623461136867591, &quot;PC3&quot;: 0.3248796073497757, &quot;PC4&quot;: 0.2683866806089249, &quot;cluster&quot;: 1, &quot;id&quot;: 23, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9032709, -6.8974036, 112.903496, -6.8970405], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9033328, -6.897398], [112.9032709, -6.8971355], [112.9034791, -6.8970405], [112.903496, -6.8974036], [112.9033328, -6.897398]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;23&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.6965719773389218, &quot;PC2&quot;: 0.1914024577708966, &quot;PC3&quot;: 0.1876374975798058, &quot;PC4&quot;: 0.0934753149553447, &quot;cluster&quot;: 0, &quot;id&quot;: 24, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9035599, -6.8975086, 112.9040607, -6.8971008], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9035937, -6.8971008], [112.9040607, -6.897246], [112.9038131, -6.8975086], [112.9035599, -6.897436], [112.9035937, -6.8971008]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;24&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.9431254940338756, &quot;PC2&quot;: -0.9519708167277066, &quot;PC3&quot;: 0.320270755898167, &quot;PC4&quot;: 0.1379223104112096, &quot;cluster&quot;: 1, &quot;id&quot;: 25, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9038019, -6.8977543, 112.9042745, -6.8973913], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9038019, -6.8977543], [112.9039425, -6.8973913], [112.9042745, -6.8975421], [112.9042126, -6.8977488], [112.9038019, -6.8977543]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;25&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.1812101796888921, &quot;PC2&quot;: -0.002675012976419, &quot;PC3&quot;: 0.444967870965556, &quot;PC4&quot;: 0.3132559022545193, &quot;cluster&quot;: 1, &quot;id&quot;: 26, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9039932, -6.8975086, 112.9044433, -6.8971343], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9039932, -6.897341], [112.9042182, -6.8971343], [112.9044433, -6.8971902], [112.9043251, -6.8975086], [112.9039932, -6.897341]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;26&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.464299360436751, &quot;PC2&quot;: 0.3843488581334354, &quot;PC3&quot;: 0.0336559521362763, &quot;PC4&quot;: 0.027697258714348, &quot;cluster&quot;: 1, &quot;id&quot;: 27, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9042182, -6.8978549, 112.9043983, -6.8975533], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9042182, -6.8977432], [112.9043083, -6.8975533], [112.9043983, -6.8978102], [112.9043533, -6.8978549], [112.9042182, -6.8977432]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;27&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.1264168691617905, &quot;PC2&quot;: 0.367127725634196, &quot;PC3&quot;: 0.2291645161509098, &quot;PC4&quot;: 0.2017675473305323, &quot;cluster&quot;: 1, &quot;id&quot;: 28, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9028735, -6.8975762, 112.9030986, -6.8973193], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9028735, -6.8974757], [112.9029354, -6.8973193], [112.9030986, -6.8974086], [112.9030311, -6.8975762], [112.9028735, -6.8974757]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;28&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -3.298613780427764, &quot;PC2&quot;: -0.129033238689014, &quot;PC3&quot;: -0.5205127350747627, &quot;PC4&quot;: -0.0284748606289751, &quot;cluster&quot;: 0, &quot;id&quot;: 29, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9041526, -6.8968649, 112.9044733, -6.896541], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9041526, -6.8967309], [112.9042089, -6.896541], [112.9044733, -6.8965856], [112.9042933, -6.8968649], [112.9041526, -6.8967309]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;29&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.0269561932645478, &quot;PC2&quot;: -0.2858400775693808, &quot;PC3&quot;: 0.1103720269257708, &quot;PC4&quot;: 0.1468799312137455, &quot;cluster&quot;: 1, &quot;id&quot;: 30, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9032444, -6.896775, 112.9035763, -6.8964399], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9032669, -6.8967638], [112.9032444, -6.8964678], [112.9035763, -6.8964399], [112.903537, -6.896775], [112.9032669, -6.8967638]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;30&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.5690141153512546, &quot;PC2&quot;: 0.7462090329824563, &quot;PC3&quot;: 0.2022745361340527, &quot;PC4&quot;: 0.0433161046796031, &quot;cluster&quot;: 1, &quot;id&quot;: 31, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9030193, -6.8969258, 112.9032556, -6.8962891], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9030193, -6.8968141], [112.9030643, -6.8962891], [112.9032331, -6.8962946], [112.9032556, -6.8969258], [112.9030193, -6.8968141]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;31&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.0239824406047809, &quot;PC2&quot;: 0.4259833333699507, &quot;PC3&quot;: 0.1385152300840957, &quot;PC4&quot;: -0.0814407491671668, &quot;cluster&quot;: 1, &quot;id&quot;: 32, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9028899, -6.8968141, 112.9030306, -6.8962835], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9028899, -6.8967638], [112.9029068, -6.8962891], [112.9030306, -6.8962835], [112.9029968, -6.8968141], [112.9028899, -6.8967638]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;32&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.4638617768963785, &quot;PC2&quot;: 0.1497170532904956, &quot;PC3&quot;: 0.0923752228595073, &quot;PC4&quot;: -0.0554411633784812, &quot;cluster&quot;: 1, &quot;id&quot;: 33, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9026705, -6.8967359, 112.9028618, -6.8964455], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9026705, -6.8966465], [112.9027436, -6.8964455], [112.9028618, -6.896451], [112.9028449, -6.8967359], [112.9026705, -6.8966465]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;33&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.4617021067274509, &quot;PC2&quot;: 1.3840850025240088, &quot;PC3&quot;: 0.5040244690686384, &quot;PC4&quot;: -0.1008248623544757, &quot;cluster&quot;: 1, &quot;id&quot;: 34, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9034976, -6.8983558, 112.9037943, -6.8980552], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.903717, -6.8983558], [112.9034976, -6.8982776], [112.9036198, -6.8980552], [112.9037943, -6.8980552], [112.903717, -6.8983558]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;34&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -4.327403460371064, &quot;PC2&quot;: 1.3977817044379062, &quot;PC3&quot;: -0.5170788845419697, &quot;PC4&quot;: -0.2069695253314423, &quot;cluster&quot;: 0, &quot;id&quot;: 35, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9033385, -6.8983066, 112.9035748, -6.8979994], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9033385, -6.8982787], [112.9033385, -6.8980664], [112.9035748, -6.8979994], [112.9034679, -6.8983066], [112.9033385, -6.8982787]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;35&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -3.574588319516392, &quot;PC2&quot;: 1.342198812544016, &quot;PC3&quot;: -0.4894531638178948, &quot;PC4&quot;: 0.0007633728140965, &quot;cluster&quot;: 0, &quot;id&quot;: 36, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9040024, -6.8986473, 112.904385, -6.8982284], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9040193, -6.898625], [112.9040024, -6.8983848], [112.9041487, -6.8982284], [112.904385, -6.8982563], [112.9043513, -6.8986473], [112.9040193, -6.898625]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;36&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.8113796009130392, &quot;PC2&quot;: 0.1896600142136064, &quot;PC3&quot;: -0.1287119637346275, &quot;PC4&quot;: 0.3057649377022299, &quot;cluster&quot;: 1, &quot;id&quot;: 37, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9021176, -6.8983904, 112.9025733, -6.8980943], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9021176, -6.8982116], [112.9022076, -6.8980943], [112.9025733, -6.8981669], [112.9025396, -6.8983904], [112.9021514, -6.8983178], [112.9021176, -6.8982116]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;37&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.2238801604470865, &quot;PC2&quot;: 0.7975438731759257, &quot;PC3&quot;: 0.5771039394477463, &quot;PC4&quot;: -0.2280860564865721, &quot;cluster&quot;: 1, &quot;id&quot;: 38, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9028434, -6.8981133, 112.903288, -6.8976273], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9028434, -6.8980999], [112.9030236, -6.8976273], [112.903288, -6.8980183], [112.9030123, -6.8979904], [112.9029673, -6.8981133], [112.9028434, -6.8980999]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;38&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -2.74731415671866, &quot;PC2&quot;: 0.1608151085811831, &quot;PC3&quot;: -0.3617619700910533, &quot;PC4&quot;: -0.1780987399822393, &quot;cluster&quot;: 0, &quot;id&quot;: 39, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9047002, -6.8966219, 112.9050153, -6.8964152], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.904914, -6.8965996], [112.9047002, -6.8966219], [112.9048128, -6.8964152], [112.9050153, -6.896432], [112.904914, -6.8965996]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;39&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.1950267573075946, &quot;PC2&quot;: -0.5396028680705494, &quot;PC3&quot;: 0.030914715679842, &quot;PC4&quot;: 0.1165066925596384, &quot;cluster&quot;: 1, &quot;id&quot;: 40, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9044077, -6.8965716, 112.9047846, -6.8961304], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9044077, -6.8965158], [112.9044245, -6.8961304], [112.9047846, -6.8962197], [112.9046552, -6.8965716], [112.9044077, -6.8965158]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;40&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.1456145332148548, &quot;PC2&quot;: -0.6827129332712432, &quot;PC3&quot;: 0.0247409521068976, &quot;PC4&quot;: -0.1005521905002097, &quot;cluster&quot;: 1, &quot;id&quot;: 41, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9035581, -6.8966666, 112.9040532, -6.8961136], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9039294, -6.8966666], [112.9036537, -6.8965828], [112.9035581, -6.8961806], [112.9039576, -6.8961136], [112.9040532, -6.8962756], [112.9039294, -6.8966666]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;41&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.5711283987853654, &quot;PC2&quot;: -0.7875108905570413, &quot;PC3&quot;: 0.5054429345793827, &quot;PC4&quot;: 0.1043097829114074, &quot;cluster&quot;: 1, &quot;id&quot;: 42, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9044358, -6.8968844, 112.9047002, -6.8966331], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9044358, -6.8968733], [112.9044808, -6.8966331], [112.9047002, -6.8966498], [112.9046383, -6.8968844], [112.9044358, -6.8968733]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;42&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.2098343660900794, &quot;PC2&quot;: 0.5027073170248179, &quot;PC3&quot;: 0.0646154334489539, &quot;PC4&quot;: 0.0158648319952018, &quot;cluster&quot;: 1, &quot;id&quot;: 43, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9048044, -6.896245, 112.9052095, -6.8958484], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9050744, -6.896245], [112.9048044, -6.8961612], [112.9049113, -6.8958484], [112.9052095, -6.8959154], [112.9050744, -6.896245]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;43&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.2030461499414174, &quot;PC2&quot;: 0.2362723986168486, &quot;PC3&quot;: -0.0145642254669424, &quot;PC4&quot;: 0.0353279717509737, &quot;cluster&quot;: 1, &quot;id&quot;: 44, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9050182, -6.8965019, 112.9053164, -6.8960886], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9050182, -6.8964907], [112.9052151, -6.8960886], [112.9053164, -6.896379], [112.9051645, -6.8965019], [112.9050182, -6.8964907]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;44&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.1164785601294988, &quot;PC2&quot;: -0.459054780526809, &quot;PC3&quot;: -0.0727581166531592, &quot;PC4&quot;: 0.0456731055784842, &quot;cluster&quot;: 1, &quot;id&quot;: 45, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.903184, -6.8961947, 112.9035216, -6.8958651], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9035216, -6.8961947], [112.9032234, -6.8961724], [112.903184, -6.8958707], [112.9033528, -6.8958651], [112.9035216, -6.8961947]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;45&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -2.7939357229531, &quot;PC2&quot;: 0.5630129450447239, &quot;PC3&quot;: -0.3699431324080929, &quot;PC4&quot;: -0.0263803689217872, &quot;cluster&quot;: 0, &quot;id&quot;: 46, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9028914, -6.8962506, 112.9031783, -6.8959154], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9028914, -6.8962282], [112.9029477, -6.8959601], [112.9031446, -6.8959154], [112.9031783, -6.8962506], [112.9028914, -6.8962282]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;46&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.7020000766294054, &quot;PC2&quot;: -0.7044419567648537, &quot;PC3&quot;: -0.0077715998682314, &quot;PC4&quot;: -0.0807743381296875, &quot;cluster&quot;: 1, &quot;id&quot;: 47, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9043768, -6.8959154, 112.9046637, -6.8955188], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9044612, -6.8959154], [112.9043768, -6.8958484], [112.9044499, -6.8955188], [112.9046637, -6.8956976], [112.9044612, -6.8959154]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;47&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.0617104026352203, &quot;PC2&quot;: -1.0185415987752928, &quot;PC3&quot;: 0.352313040174409, &quot;PC4&quot;: 0.0800339977064737, &quot;cluster&quot;: 1, &quot;id&quot;: 48, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9050238, -6.8970158, 112.9052376, -6.8968259], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9050238, -6.8970158], [112.9050407, -6.8968259], [112.9052095, -6.8968426], [112.9052376, -6.8970046], [112.9050238, -6.8970158]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;48&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.8684193896513729, &quot;PC2&quot;: -0.1365950483976693, &quot;PC3&quot;: 0.1786917422932467, &quot;PC4&quot;: -0.1073303306192941, &quot;cluster&quot;: 1, &quot;id&quot;: 49, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9052432, -6.8970493, 112.9054852, -6.8967365], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9053501, -6.8970493], [112.9052432, -6.8968315], [112.9054233, -6.8967365], [112.9054852, -6.8969208], [112.9053501, -6.8970493]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;49&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.2245590275876357, &quot;PC2&quot;: -0.3623834246477406, &quot;PC3&quot;: -0.0368568435489931, &quot;PC4&quot;: -0.0538850484438668, &quot;cluster&quot;: 1, &quot;id&quot;: 50, &quot;label&quot;: &quot;sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+
+        
+    
+    geo_json_341b694a7efbe5640780c63746f70b20.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create(&#x27;div&#x27;);
+    
+    let handleObject = feature =&gt; {
+        if (feature === null) {
+            return &#x27;&#x27;;
+        } else if (typeof(feature)==&#x27;object&#x27;) {
+            return JSON.stringify(feature);
+        } else {
+            return feature;
+        }
+    }
+    let fields = [&quot;id&quot;, &quot;label&quot;, &quot;cluster&quot;, &quot;PC1&quot;, &quot;PC2&quot;];
+    let aliases = [&quot;ID&quot;, &quot;Label&quot;, &quot;Cluster&quot;, &quot;PC1&quot;, &quot;PC2&quot;];
+    let table = &#x27;&lt;table&gt;&#x27; +
+        String(
+        fields.map(
+        (v,i)=&gt;
+        `&lt;tr&gt;
+            &lt;th&gt;${aliases[i].toLocaleString()}&lt;/th&gt;
+            
+            &lt;td&gt;${handleObject(layer.feature.properties[v]).toLocaleString()}&lt;/td&gt;
+        &lt;/tr&gt;`).join(&#x27;&#x27;))
+    +&#x27;&lt;/table&gt;&#x27;;
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  &quot;sticky&quot;: true,
+  &quot;className&quot;: &quot;foliumtooltip&quot;,
+});
+                     
+    
+            geo_json_341b694a7efbe5640780c63746f70b20.addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+    
+        function geo_json_763a0999e3e57836481cd6f5d3640096_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {&quot;color&quot;: &quot;darkred&quot;, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 1};
+            }
+        }
+
+        function geo_json_763a0999e3e57836481cd6f5d3640096_onEachFeature(feature, layer) {
+
+            layer.on({
+            });
+        };
+        var geo_json_763a0999e3e57836481cd6f5d3640096 = L.geoJson(null, {
+                onEachFeature: geo_json_763a0999e3e57836481cd6f5d3640096_onEachFeature,
+            
+                style: geo_json_763a0999e3e57836481cd6f5d3640096_styler,
+            ...{
+}
+        });
+
+        function geo_json_763a0999e3e57836481cd6f5d3640096_add (data) {
+            geo_json_763a0999e3e57836481cd6f5d3640096
+                .addData(data);
+        }
+            geo_json_763a0999e3e57836481cd6f5d3640096_add({&quot;bbox&quot;: [112.9014193, -6.8995244, 112.9115797, -6.8937755], &quot;features&quot;: [{&quot;bbox&quot;: [112.9071101, -6.8964585, 112.9080648, -6.8956931], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.907168, -6.8963652], [112.9071101, -6.896279], [112.9074631, -6.8956931], [112.9080648, -6.8959803], [112.9075933, -6.8964585], [112.907168, -6.8963652]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;50&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.2392861994170285, &quot;PC2&quot;: -1.5904789586150585, &quot;PC3&quot;: 0.2792427998039761, &quot;PC4&quot;: -0.0729121948182114, &quot;cluster&quot;: 1, &quot;id&quot;: 1, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9061584, -6.8963882, 112.9066285, -6.896101], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9061584, -6.8962977], [112.906345, -6.896101], [112.9066285, -6.896101], [112.9065128, -6.8963882], [112.9061584, -6.8962977]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;51&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.5155896539841056, &quot;PC2&quot;: 0.9421178869916564, &quot;PC3&quot;: -0.0447304566195641, &quot;PC4&quot;: 0.1121656114118014, &quot;cluster&quot;: 3, &quot;id&quot;: 2, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9053267, -6.8969281, 112.9058011, -6.8964743], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9056565, -6.8969281], [112.9054193, -6.896796], [112.9053267, -6.8964743], [112.9058011, -6.8966409], [112.9056565, -6.8969281]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;52&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.0110211888551555, &quot;PC2&quot;: 0.6053708885881509, &quot;PC3&quot;: 0.0090496680956459, &quot;PC4&quot;: -0.1916457790873413, &quot;cluster&quot;: 3, &quot;id&quot;: 3, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9051242, -6.8954282, 112.9056681, -6.8950556], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9051242, -6.8953887], [112.9051416, -6.8950556], [112.9056449, -6.8951065], [112.9056681, -6.8954282], [112.9051242, -6.8953887]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;53&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.4502170486529458, &quot;PC2&quot;: -1.0393201250104078, &quot;PC3&quot;: -0.0150426316515499, &quot;PC4&quot;: 0.0419786551003442, &quot;cluster&quot;: 3, &quot;id&quot;: 4, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9089428, -6.8974213, 112.909533, -6.8965597], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9089428, -6.8973639], [112.9090817, -6.8968067], [112.9094577, -6.8965597], [112.909533, -6.897002], [112.9093825, -6.8971858], [112.9091395, -6.8974213], [112.9089428, -6.8973639]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;54&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.3166846841228326, &quot;PC2&quot;: 0.0906896119290197, &quot;PC3&quot;: 0.3633851977367617, &quot;PC4&quot;: -0.0646671789820031, &quot;cluster&quot;: 3, &quot;id&quot;: 5, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9073691, -6.8981451, 112.9079766, -6.897473], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9079766, -6.8977717], [112.9077567, -6.8981451], [112.9073691, -6.8976281], [112.9078956, -6.897473], [112.9078435, -6.8977085], [112.9079766, -6.8977717]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;55&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.1791330724885569, &quot;PC2&quot;: -0.4634307278456548, &quot;PC3&quot;: -0.1923655536347612, &quot;PC4&quot;: -0.0940870681016412, &quot;cluster&quot;: 1, &quot;id&quot;: 6, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9078782, -6.8963644, 112.9087056, -6.8960313], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9081559, -6.8963644], [112.9078782, -6.8963127], [112.9081097, -6.8960313], [112.9087056, -6.8960485], [112.9085899, -6.8962553], [112.9081559, -6.8963644]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;56&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.2110514856508132, &quot;PC2&quot;: -0.7295834970969001, &quot;PC3&quot;: 0.0276146961925854, &quot;PC4&quot;: -0.0209334893404131, &quot;cluster&quot;: 1, &quot;id&quot;: 7, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9075396, -6.897275, 112.9083785, -6.8963905], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9077278, -6.8969963], [112.9075396, -6.8965915], [112.9079214, -6.8963905], [112.9083785, -6.8966777], [112.908095, -6.897275], [112.9077278, -6.8969963]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;57&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -3.1692254444218992, &quot;PC2&quot;: -1.1396426074055843, &quot;PC3&quot;: -0.3749426581538464, &quot;PC4&quot;: 0.0254866580421776, &quot;cluster&quot;: 0, &quot;id&quot;: 8, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.906315, -6.8979139, 112.9065233, -6.8975233], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9063729, -6.8979139], [112.906315, -6.8975233], [112.9065233, -6.8976037], [112.9063729, -6.8979139]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;58&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.6543631438398537, &quot;PC2&quot;: 1.084808068284099, &quot;PC3&quot;: -0.0543761631287793, &quot;PC4&quot;: -0.0279894203817519, &quot;cluster&quot;: 1, &quot;id&quot;: 9, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9099902, -6.8971012, 112.910482, -6.896567], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.910482, -6.8970725], [112.910158, -6.8971012], [112.9099902, -6.8966302], [112.910239, -6.896567], [112.910482, -6.8970725]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;59&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.3006016189860774, &quot;PC2&quot;: 0.2152501871321694, &quot;PC3&quot;: -0.1141988112390392, &quot;PC4&quot;: 0.0533388661425581, &quot;cluster&quot;: 3, &quot;id&quot;: 10, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9090201, -6.8978923, 112.9096218, -6.8973549], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9090201, -6.8977168], [112.9091242, -6.8975157], [112.9096218, -6.8973549], [112.9095199, -6.8978923], [112.9090201, -6.8977168]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;60&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.00056866407029, &quot;PC2&quot;: -0.8290227797853568, &quot;PC3&quot;: 0.1140951013025905, &quot;PC4&quot;: -0.0694195223094444, &quot;cluster&quot;: 1, &quot;id&quot;: 11, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9089453, -6.8985815, 112.9092462, -6.8981622], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9090668, -6.8985815], [112.9089453, -6.8984724], [112.9089742, -6.8981622], [112.9091189, -6.8982024], [112.9092462, -6.8983805], [112.9090668, -6.8985815]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;61&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.1364445114368901, &quot;PC2&quot;: -0.0844976651804477, &quot;PC3&quot;: 0.1717689703365227, &quot;PC4&quot;: -0.1623675221790049, &quot;cluster&quot;: 1, &quot;id&quot;: 12, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9060306, -6.8957816, 112.9063778, -6.8950264], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9060917, -6.8957816], [112.9060306, -6.8950493], [112.9063778, -6.8950264], [112.9063463, -6.8955404], [112.9060917, -6.8957816]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;62&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.0425890041300987, &quot;PC2&quot;: -0.9553171338997452, &quot;PC3&quot;: 0.0341578251981812, &quot;PC4&quot;: 0.0096116981814265, &quot;cluster&quot;: 1, &quot;id&quot;: 13, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9053675, -6.8964412, 112.9056162, -6.8960736], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9055468, -6.8963666], [112.9053675, -6.8964412], [112.9054427, -6.8960736], [112.9056162, -6.8962057], [112.9055468, -6.8963666]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;63&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.2848423332202183, &quot;PC2&quot;: 0.194305272592401, &quot;PC3&quot;: 0.0695265490553694, &quot;PC4&quot;: 0.2286163653529768, &quot;cluster&quot;: 1, &quot;id&quot;: 14, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9041524, -6.8962057, 112.9045054, -6.8959185], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9042045, -6.8962057], [112.9041524, -6.8960506], [112.9043318, -6.8959185], [112.9045054, -6.8961023], [112.9042045, -6.8962057]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;64&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.3898035415241243, &quot;PC2&quot;: 0.227830819969233, &quot;PC3&quot;: 0.2587412441417392, &quot;PC4&quot;: 0.0159776382989569, &quot;cluster&quot;: 3, &quot;id&quot;: 15, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9071495, -6.8955624, 112.9076644, -6.8949708], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.907404, -6.8955624], [112.9071495, -6.895436], [112.9073462, -6.8949708], [112.9076644, -6.8949708], [112.907404, -6.8955624]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;65&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 3.364835130717776, &quot;PC2&quot;: -0.2934614655910133, &quot;PC3&quot;: -0.6426440490600588, &quot;PC4&quot;: -0.0485081079686631, &quot;cluster&quot;: 3, &quot;id&quot;: 16, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9080983, -6.8958151, 112.9086711, -6.8954705], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9086711, -6.8958037], [112.9084108, -6.8958151], [112.9080983, -6.8958037], [112.9081388, -6.8955337], [112.9086191, -6.8954705], [112.9086711, -6.8958037]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;66&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.084871319868573, &quot;PC2&quot;: 0.3422688394281619, &quot;PC3&quot;: -0.2762406034256375, &quot;PC4&quot;: 0.1441248355866026, &quot;cluster&quot;: 3, &quot;id&quot;: 17, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9046211, -6.8954705, 112.9050955, -6.8951259], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9046211, -6.8953154], [112.9047426, -6.8951259], [112.9050955, -6.8951431], [112.905055, -6.8954705], [112.9046211, -6.8953154]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;67&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.673640583066042, &quot;PC2&quot;: -0.2730944330892133, &quot;PC3&quot;: -1.1081568294558384, &quot;PC4&quot;: -0.1695988152360834, &quot;cluster&quot;: 3, &quot;id&quot;: 18, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9054256, -6.8960405, 112.9058017, -6.8957246], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9057554, -6.8960405], [112.9054835, -6.8960175], [112.9054256, -6.8959486], [112.9056513, -6.8957246], [112.9058017, -6.8957878], [112.9057554, -6.8960405]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;68&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.6762427217361221, &quot;PC2&quot;: -0.1209982102187737, &quot;PC3&quot;: -0.3168652198178316, &quot;PC4&quot;: 0.0349165707159432, &quot;cluster&quot;: 1, &quot;id&quot;: 19, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9063689, -6.8987375, 112.9068419, -6.8982205], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9063689, -6.8985548], [112.9065526, -6.8982205], [112.9068419, -6.8983009], [112.9067493, -6.8986858], [112.9065989, -6.8987375], [112.9063689, -6.8985548]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;69&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.4395411739632618, &quot;PC2&quot;: -0.3023056631236853, &quot;PC3&quot;: -0.1430531281830904, &quot;PC4&quot;: -0.0215106973977993, &quot;cluster&quot;: 1, &quot;id&quot;: 20, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9056385, -6.8986283, 112.9061363, -6.8982136], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9059743, -6.8986283], [112.9056385, -6.8985641], [112.9056883, -6.8982136], [112.9060784, -6.898255], [112.9061363, -6.8985192], [112.9059743, -6.8986283]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;70&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.5921920593046147, &quot;PC2&quot;: -1.2945842555364602, &quot;PC3&quot;: -0.2686383911615124, &quot;PC4&quot;: 0.0977730956752739, &quot;cluster&quot;: 1, &quot;id&quot;: 21, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9052277, -6.8981563, 112.9058815, -6.8978404], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9056211, -6.8981563], [112.9052277, -6.8980529], [112.9053724, -6.8978633], [112.9058815, -6.8978404], [112.9058063, -6.8980127], [112.9056211, -6.8981563]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;71&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.5071462894991081, &quot;PC2&quot;: -0.9999777755983872, &quot;PC3&quot;: -0.1965571619896647, &quot;PC4&quot;: 0.0317112385851581, &quot;cluster&quot;: 1, &quot;id&quot;: 22, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9049963, -6.8977944, 112.9056848, -6.8973923], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9049963, -6.8973923], [112.9056269, -6.8973923], [112.9056848, -6.8977944], [112.9051351, -6.8977944], [112.9049963, -6.8973923]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;72&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -4.957066054141131, &quot;PC2&quot;: 0.96593783388308, &quot;PC3&quot;: -0.5914677468696965, &quot;PC4&quot;: 0.0074960513832318, &quot;cluster&quot;: 0, &quot;id&quot;: 23, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9077031, -6.8954454, 112.9085305, -6.8949629], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9077119, -6.895442], [112.9077031, -6.8949744], [112.9084611, -6.8949629], [112.9085305, -6.8954454], [112.9077119, -6.895442]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;73&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.336497748584921, &quot;PC2&quot;: -1.7220827572445885, &quot;PC3&quot;: -0.1317160531569391, &quot;PC4&quot;: -0.1480292208034829, &quot;cluster&quot;: 3, &quot;id&quot;: 24, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.904532, -6.8988669, 112.9049544, -6.898597], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9045899, -6.8988669], [112.904532, -6.898597], [112.9049255, -6.8986487], [112.9049544, -6.8988497], [112.9045899, -6.8988669]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;74&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.6570391026666985, &quot;PC2&quot;: -0.5606970998400231, &quot;PC3&quot;: -0.5046718649249462, &quot;PC4&quot;: 0.1040350124927936, &quot;cluster&quot;: 1, &quot;id&quot;: 25, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9038908, -6.8989818, 112.904208, -6.8986372], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9040923, -6.8989818], [112.9038908, -6.8988983], [112.9040807, -6.8986372], [112.904208, -6.898775], [112.9040923, -6.8989818]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;75&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.4316784144608274, &quot;PC2&quot;: 0.3727609257045514, &quot;PC3&quot;: -0.1138601368855682, &quot;PC4&quot;: 0.196504326536916, &quot;cluster&quot;: 1, &quot;id&quot;: 26, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9069052, -6.8995244, 112.9074837, -6.8992717], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9069399, -6.8994497], [112.9069052, -6.8992946], [112.9074837, -6.8992717], [112.9074606, -6.8995244], [112.9069399, -6.8994497]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;76&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.441649316129936, &quot;PC2&quot;: -0.8220654434752991, &quot;PC3&quot;: 0.2801975778068151, &quot;PC4&quot;: 0.1109217761942824, &quot;cluster&quot;: 1, &quot;id&quot;: 27, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9023904, -6.8969696, 112.9027358, -6.8966476], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9023904, -6.8968226], [112.9026089, -6.8966476], [112.9027358, -6.8967526], [112.9026512, -6.8969696], [112.9023904, -6.8968226]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;77&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.5495735557172767, &quot;PC2&quot;: 0.9908367732663635, &quot;PC3&quot;: 1.1808588122097354, &quot;PC4&quot;: -0.102067837523091, &quot;cluster&quot;: 3, &quot;id&quot;: 28, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9021013, -6.8974525, 112.9025948, -6.8969416], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9024327, -6.8974525], [112.9021013, -6.8970186], [112.9024891, -6.8969416], [112.9025948, -6.8972146], [112.9024327, -6.8974525]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;78&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.4786385654727443, &quot;PC2&quot;: -0.9380837610631092, &quot;PC3&quot;: 0.1298151792316648, &quot;PC4&quot;: -0.0452318255901886, &quot;cluster&quot;: 1, &quot;id&quot;: 29, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9025562, -6.8961513, 112.9029652, -6.8956963], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9028523, -6.8961513], [112.9025562, -6.8960603], [112.9027043, -6.8956963], [112.9029652, -6.8957523], [112.9028523, -6.8961513]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;79&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.4860378150391038, &quot;PC2&quot;: -0.0200692743232667, &quot;PC3&quot;: -0.3048645510354987, &quot;PC4&quot;: -0.0833573403887874, &quot;cluster&quot;: 1, &quot;id&quot;: 30, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.90236, -6.8966289, 112.902728, -6.8962246], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.90236, -6.8963257], [112.902728, -6.8962246], [112.902681, -6.8966289], [112.9024931, -6.8965045], [112.90236, -6.8963257]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;80&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.5382840782392069, &quot;PC2&quot;: 0.9759646146302364, &quot;PC3&quot;: -0.0105548434698235, &quot;PC4&quot;: -0.1301063031261691, &quot;cluster&quot;: 3, &quot;id&quot;: 31, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9028633, -6.897131, 112.9030199, -6.8968822], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9028633, -6.897131], [112.9029025, -6.8968822], [112.9030199, -6.8970532], [112.9028633, -6.897131]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;81&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 5.000519114040688, &quot;PC2&quot;: 3.038771707348951, &quot;PC3&quot;: 0.1042616454523007, &quot;PC4&quot;: -0.1123100609256389, &quot;cluster&quot;: 2, &quot;id&quot;: 32, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9027693, -6.8986392, 112.9032862, -6.8980483], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9027693, -6.898336], [112.9032862, -6.8980483], [112.9032549, -6.8986392], [112.9030325, -6.8985487], [112.9027693, -6.898336]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;82&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.3782053847355116, &quot;PC2&quot;: 0.6638026091578291, &quot;PC3&quot;: 0.1450370051435955, &quot;PC4&quot;: 0.0241675898013681, &quot;cluster&quot;: 3, &quot;id&quot;: 33, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9023512, -6.89809, 112.9027506, -6.8977479], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9023512, -6.8979889], [112.902453, -6.8977479], [112.9027506, -6.8978878], [112.9026331, -6.89809], [112.9023512, -6.8979889]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;83&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.096607074600138, &quot;PC2&quot;: 0.7599077611040196, &quot;PC3&quot;: 0.2209392344876382, &quot;PC4&quot;: -0.0190500276691598, &quot;cluster&quot;: 3, &quot;id&quot;: 34, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9016464, -6.8985642, 112.9020849, -6.89809], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9016464, -6.8983077], [112.9019048, -6.89809], [112.9020849, -6.8981133], [112.9020614, -6.8985642], [112.9016464, -6.8983077]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;84&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.822327285413073, &quot;PC2&quot;: -1.5619720636755223, &quot;PC3&quot;: 0.3248976786714469, &quot;PC4&quot;: 0.0347272782193406, &quot;cluster&quot;: 1, &quot;id&quot;: 35, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9014193, -6.8979889, 112.9018422, -6.8971415], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9014193, -6.8977868], [112.9018422, -6.8971415], [112.9018108, -6.8979889], [112.9014193, -6.8977868]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;85&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.6036474135207313, &quot;PC2&quot;: 0.1980253152879121, &quot;PC3&quot;: 0.217704345888127, &quot;PC4&quot;: 0.0062841561019605, &quot;cluster&quot;: 1, &quot;id&quot;: 36, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9022415, -6.8990151, 112.902868, -6.8984087], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9024686, -6.8984398], [112.9027036, -6.8984087], [112.902868, -6.8988829], [112.9025783, -6.8990151], [112.9022415, -6.8986575], [112.9024686, -6.8984398]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;86&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -1.3690507781472052, &quot;PC2&quot;: -1.1436812977731667, &quot;PC3&quot;: -0.2114451575139393, &quot;PC4&quot;: -0.0618142546613358, &quot;cluster&quot;: 1, &quot;id&quot;: 37, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9017012, -6.8968072, 112.9023042, -6.8963641], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9021162, -6.8968072], [112.901709, -6.8967528], [112.9017012, -6.8965118], [112.9019596, -6.8963641], [112.9023042, -6.8965118], [112.9021162, -6.8968072]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;87&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.4710137109044272, &quot;PC2&quot;: -0.2413130504793607, &quot;PC3&quot;: 0.3448570805488166, &quot;PC4&quot;: 0.043169889247801, &quot;cluster&quot;: 3, &quot;id&quot;: 38, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9020031, -6.8959816, 112.9025982, -6.8954467], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9021162, -6.8954467], [112.9025826, -6.8955151], [112.9025982, -6.8958494], [112.9024416, -6.8959816], [112.9020031, -6.8957017], [112.9021162, -6.8954467]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;88&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.4733144808163055, &quot;PC2&quot;: -1.0551980568382535, &quot;PC3&quot;: -0.0090354191384511, &quot;PC4&quot;: 0.0429071191920539, &quot;cluster&quot;: 1, &quot;id&quot;: 39, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9091117, -6.8962517, 112.9098486, -6.8958738], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9091117, -6.8959837], [112.9095275, -6.8958738], [112.9098408, -6.896024], [112.9098486, -6.8962417], [112.909185, -6.8962517], [112.9091117, -6.8959837]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;89&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.3829630070514045, &quot;PC2&quot;: -0.4847548388989197, &quot;PC3&quot;: 0.3132973800940625, &quot;PC4&quot;: -0.0689531453395964, &quot;cluster&quot;: 1, &quot;id&quot;: 40, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9055045, -6.8949145, 112.9058804, -6.894347], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9055045, -6.8944247], [112.9058804, -6.894347], [112.9058569, -6.8948212], [112.9056063, -6.8949145], [112.9055045, -6.8944247]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;90&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.707723530515573, &quot;PC2&quot;: 0.0973758595661763, &quot;PC3&quot;: -0.3006046963638682, &quot;PC4&quot;: -0.083078598692297, &quot;cluster&quot;: 3, &quot;id&quot;: 41, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9050425, -6.8949611, 112.905481, -6.894689], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.905066, -6.894689], [112.9054732, -6.8947512], [112.905481, -6.8949611], [112.9050425, -6.8949145], [112.905066, -6.894689]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;91&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 0.8298842377600884, &quot;PC2&quot;: -1.4636012876150055, &quot;PC3&quot;: -0.2259212283594554, &quot;PC4&quot;: 0.0407979356760241, &quot;cluster&quot;: 1, &quot;id&quot;: 42, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9067399, -6.8948039, 112.907102, -6.8944869], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9067731, -6.8944869], [112.907102, -6.8945491], [112.9070923, -6.8948039], [112.9067399, -6.8948039], [112.9067731, -6.8944869]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;92&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.042173320965231, &quot;PC2&quot;: -1.8356725447998763, &quot;PC3&quot;: -0.2986425335560292, &quot;PC4&quot;: -0.068756386715454, &quot;cluster&quot;: 3, &quot;id&quot;: 43, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.909459, -6.8958295, 112.9098818, -6.8954408], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.909459, -6.8954562], [112.9097566, -6.8954408], [112.9098818, -6.8958295], [112.9094825, -6.8957751], [112.909459, -6.8954562]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;93&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.614598983170404, &quot;PC2&quot;: -0.4305726192656575, &quot;PC3&quot;: 0.0655791968588229, &quot;PC4&quot;: 0.010176948630113, &quot;cluster&quot;: 3, &quot;id&quot;: 44, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9097962, -6.8957278, 112.9103397, -6.8948697], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9097962, -6.8949943], [112.9103397, -6.8948697], [112.9103397, -6.8955412], [112.9100891, -6.8957278], [112.9097962, -6.8949943]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;94&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.099228473845853, &quot;PC2&quot;: -1.0046437358189293, &quot;PC3&quot;: 0.0299210072170172, &quot;PC4&quot;: -0.0819483434565857, &quot;cluster&quot;: 3, &quot;id&quot;: 45, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9088988, -6.8952496, 112.909306, -6.8948803], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9089144, -6.8948803], [112.909306, -6.8949075], [112.9091572, -6.8952496], [112.9088988, -6.8952107], [112.9089144, -6.8948803]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;95&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.4776020866951578, &quot;PC2&quot;: -1.0268811851411217, &quot;PC3&quot;: -0.4635882091346173, &quot;PC4&quot;: 0.1221401158445255, &quot;cluster&quot;: 3, &quot;id&quot;: 46, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.910418, -6.8961233, 112.9110914, -6.8953896], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.910418, -6.8955528], [112.9107625, -6.8953896], [112.9110914, -6.8953896], [112.9108984, -6.8961233], [112.910418, -6.8955528]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;96&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.9903848954546883, &quot;PC2&quot;: 0.330482023529559, &quot;PC3&quot;: -0.2353714785709679, &quot;PC4&quot;: -0.1227931120653758, &quot;cluster&quot;: 3, &quot;id&quot;: 47, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9102484, -6.8945063, 112.9106478, -6.8937755], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9102484, -6.8937988], [112.9105382, -6.8937755], [112.9106478, -6.8942964], [112.9102484, -6.8945063], [112.9102484, -6.8937988]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;97&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 2.2229491282680303, &quot;PC2&quot;: -0.9901597036518236, &quot;PC3&quot;: -0.4555261956447097, &quot;PC4&quot;: -0.0589901161294693, &quot;cluster&quot;: 3, &quot;id&quot;: 48, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9110707, -6.8965509, 112.9115797, -6.8962088], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9110707, -6.8962088], [112.9115797, -6.8963332], [112.9115249, -6.8965509], [112.9110942, -6.896411], [112.9110707, -6.8962088]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;98&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: 1.8965170140653216, &quot;PC2&quot;: 0.6137622911664259, &quot;PC3&quot;: -0.0675483737383258, &quot;PC4&quot;: -0.1353569205922175, &quot;cluster&quot;: 3, &quot;id&quot;: 49, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [112.9086155, -6.8974655, 112.9088739, -6.896688], &quot;geometry&quot;: {&quot;coordinates&quot;: [[[[112.9086938, -6.896688], [112.9088739, -6.8966958], [112.9088426, -6.8974655], [112.9086155, -6.8974421], [112.9086938, -6.896688]]]], &quot;type&quot;: &quot;MultiPolygon&quot;}, &quot;id&quot;: &quot;99&quot;, &quot;properties&quot;: {&quot;FID&quot;: null, &quot;PC1&quot;: -0.1598658574325928, &quot;PC2&quot;: -1.037488628851302, &quot;PC3&quot;: 0.1248702701435174, &quot;PC4&quot;: -0.0789942126859275, &quot;cluster&quot;: 1, &quot;id&quot;: 50, &quot;label&quot;: &quot;non sawah&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+
+        
+    
+    geo_json_763a0999e3e57836481cd6f5d3640096.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create(&#x27;div&#x27;);
+    
+    let handleObject = feature =&gt; {
+        if (feature === null) {
+            return &#x27;&#x27;;
+        } else if (typeof(feature)==&#x27;object&#x27;) {
+            return JSON.stringify(feature);
+        } else {
+            return feature;
+        }
+    }
+    let fields = [&quot;id&quot;, &quot;label&quot;, &quot;cluster&quot;, &quot;PC1&quot;, &quot;PC2&quot;];
+    let aliases = [&quot;ID&quot;, &quot;Label&quot;, &quot;Cluster&quot;, &quot;PC1&quot;, &quot;PC2&quot;];
+    let table = &#x27;&lt;table&gt;&#x27; +
+        String(
+        fields.map(
+        (v,i)=&gt;
+        `&lt;tr&gt;
+            &lt;th&gt;${aliases[i].toLocaleString()}&lt;/th&gt;
+            
+            &lt;td&gt;${handleObject(layer.feature.properties[v]).toLocaleString()}&lt;/td&gt;
+        &lt;/tr&gt;`).join(&#x27;&#x27;))
+    +&#x27;&lt;/table&gt;&#x27;;
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  &quot;sticky&quot;: true,
+  &quot;className&quot;: &quot;foliumtooltip&quot;,
+});
+                     
+    
+            geo_json_763a0999e3e57836481cd6f5d3640096.addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+    
+            var layer_control_2ec3acd4c3bfa8eeda2e8c1bf07ae02b_layers = {
+                base_layers : {
+                    &quot;openstreetmap&quot; : tile_layer_7634622abeef82438e919c6dd4f8f855,
+                },
+                overlays :  {
+                    &quot;Sawah&quot; : geo_json_341b694a7efbe5640780c63746f70b20,
+                    &quot;Non Sawah&quot; : geo_json_763a0999e3e57836481cd6f5d3640096,
+                },
+            };
+            let layer_control_2ec3acd4c3bfa8eeda2e8c1bf07ae02b = L.control.layers(
+                layer_control_2ec3acd4c3bfa8eeda2e8c1bf07ae02b_layers.base_layers,
+                layer_control_2ec3acd4c3bfa8eeda2e8c1bf07ae02b_layers.overlays,
+                {
+  &quot;position&quot;: &quot;topright&quot;,
+  &quot;collapsed&quot;: true,
+  &quot;autoZIndex&quot;: true,
+}
+            ).addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+
+        
+    
+            tile_layer_7634622abeef82438e919c6dd4f8f855.addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+    
+            geo_json_341b694a7efbe5640780c63746f70b20.addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+    
+            geo_json_763a0999e3e57836481cd6f5d3640096.addTo(map_faf0dde31b20bec45eeb1a4ca67cd590);
+        
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Peta interaktif berhasil dibuat:
+claustering_segmentasi/peta_100_sampel.html
+GeoJSON berhasil dibuat:
+claustering_segmentasi/hasil_pemetaan_100_sampel.geojson
+CSV berhasil dibuat:
+claustering_segmentasi/hasil_pemetaan_100_sampel.csv
+
+============================================================
+RINGKASAN TAHAP 4
+============================================================
+Total sampel: 100
+
+Distribusi label:
+label
+sawah        50
+non sawah    50
+Name: count, dtype: int64
+
+Distribusi cluster:
+cluster
+0    16
+1    57
+2     2
+3    25
+Name: count, dtype: int64
+
+Cross-tab label vs cluster:
+cluster     0   1  2   3
+label                   
+non sawah   2  24  1  23
+sawah      14  33  1   2
+
+File output:
+1. peta_sawah_non_sawah.png
+2. peta_cluster_kmeans.png
+3. peta_100_sampel.html
+4. hasil_pemetaan_100_sampel.geojson
+5. hasil_pemetaan_100_sampel.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="kesimpulan">
+<h1>KESIMPULAN<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h1>
+<p>Berdasarkan seluruh proses, berhasil dibentuk dataset sebanyak 100 sampel yang terdiri dari 50 sawah dan 50 non sawah menggunakan nilai rata-rata band Sentinel-2 B02, B03, B04, dan B08.</p>
+<p>PCA menghasilkan PC1 sebesar 75,74% dan PC2 sebesar 20,66%, sehingga kedua komponen tersebut menjelaskan sekitar 96,40% variasi data. Selanjutnya K-Means digunakan untuk melakukan clustering dan menghasilkan empat cluster.</p>
+<p>Pada tahap akhir, hasil clustering berhasil digabungkan dengan data spasial 100 polygon dan divisualisasikan dalam bentuk peta sawah dan non sawah, peta cluster K-Means, serta peta interaktif.</p>
+<p>Tahapan utama penelitian ini adalah pembentukan dataset, ekstraksi fitur Sentinel-2, PCA, K-Means, dan visualisasi spasial.</p>
+<p><a href="./peta_100_sampel.html" target="_blank">Buka peta interaktif hasil clustering</a>.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Tugas_3_Ekstraksi_lanjutan.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan">Tujuan</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-1-pembentukan-dataset-100-sampel">TAHAP 1 — PEMBENTUKAN DATASET 100 SAMPEL</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-tahap-1">Hasil Tahap 1</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-2-reduksi-dimensi-dengan-pca">TAHAP 2 — REDUKSI DIMENSI DENGAN PCA</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-tahap-2">Hasil Tahap 2</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-3-clustering-dengan-k-means">TAHAP 3 — CLUSTERING DENGAN K-MEANS</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-tahap-3">Hasil Tahap 3</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tahap-4-visualisasi-dan-pemetaan">TAHAP 4 — VISUALISASI DAN PEMETAAN</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">KESIMPULAN</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -37,6 +37,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c23772c6" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -229,9 +230,24 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas_3_Ekstraksi_lanjutan.html">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="clustering_segmentasi_sentinel2.html">LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2</a></li>
+
+
+
+
+
 </ul>
 
     </div>
@@ -525,13 +541,19 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mode lokal: 4 file CSV ditemukan.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mode lokal: 5 file CSV ditemukan.
 
 ============================================================
 Parameter : CH4
 File      : Sentinel-5P_CH4-CH4_VISUALIZED-2025-08-31T00_00_00_000Z-2026-08-31T23_59_59_999Z.csv
 Jumlah baris : 14
 Periode     : 2025-09-23 00:00:00 sampai 2026-08-26 00:00:00
+
+============================================================
+Parameter : CO
+File      : Sentinel-5P_CO-CO_VISUALIZED-2025-02-20T00_00_00_000Z-2026-02-20T23_59_59_999Z.csv
+Jumlah baris : 198
+Periode     : 2025-02-21 00:00:00 sampai 2026-02-20 00:00:00
 
 ============================================================
 Parameter : CO
@@ -1153,7 +1175,7 @@ SO2: 125 observasi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/3e4e37ed193ab65959cef0ce2c22a6263db6848281c46caefe41710313d92f72.png" src="_images/3e4e37ed193ab65959cef0ce2c22a6263db6848281c46caefe41710313d92f72.png" />
+<img alt="_images/15940a5b2833c34a56d5f8b3077d942ce8c40276516d40a528439abfeba13d60.png" src="_images/15940a5b2833c34a56d5f8b3077d942ce8c40276516d40a528439abfeba13d60.png" />
 </div>
 </div>
 <section id="interpretasi-co">
@@ -1186,7 +1208,7 @@ SO2: 125 observasi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7d71527dce56b0e6b46b6827ff101f2896004458828a31786f5b9ab2f19c5350.png" src="_images/7d71527dce56b0e6b46b6827ff101f2896004458828a31786f5b9ab2f19c5350.png" />
+<img alt="_images/b00dfe0c1b2e5ea37f5e4b89c7a4b8d826e9eaa5b5aa1928720ea6f1acb54784.png" src="_images/b00dfe0c1b2e5ea37f5e4b89c7a4b8d826e9eaa5b5aa1928720ea6f1acb54784.png" />
 </div>
 </div>
 <section id="interpretasi-no2">
@@ -1219,7 +1241,7 @@ SO2: 125 observasi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fc91f64685401e996a44d58cde2f63558a851cae7fc6e69dc7fa3d57028687c9.png" src="_images/fc91f64685401e996a44d58cde2f63558a851cae7fc6e69dc7fa3d57028687c9.png" />
+<img alt="_images/edf1b2abfe5f2015c7eb1cccc2cdcd421f0c13d76003caf33772302dc22785e5.png" src="_images/edf1b2abfe5f2015c7eb1cccc2cdcd421f0c13d76003caf33772302dc22785e5.png" />
 </div>
 </div>
 <section id="interpretasi-so2">
@@ -1252,7 +1274,7 @@ SO2: 125 observasi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/a0f60f753eed6c183413ae54fe9ce5899c69c55b6e71cb53865aed347ad05830.png" src="_images/a0f60f753eed6c183413ae54fe9ce5899c69c55b6e71cb53865aed347ad05830.png" />
+<img alt="_images/920e9b22fe9486f9106b29b6ec07b51969e2c522d1e6f08a7295da9c65651e67.png" src="_images/920e9b22fe9486f9106b29b6ec07b51969e2c522d1e6f08a7295da9c65651e67.png" />
 </div>
 </div>
 <section id="interpretasi-ch4">
@@ -1559,7 +1581,7 @@ SO2: 125 observasi
     </tr>
   </tbody>
 </table>
-</div></div><img alt="_images/b0bdfcda46f4c1ebd15d2356bdc24888d73db67e8a1576e923d7abbdd3b3ba24.png" src="_images/b0bdfcda46f4c1ebd15d2356bdc24888d73db67e8a1576e923d7abbdd3b3ba24.png" />
+</div></div><img alt="_images/7543d4aa16e9ad3ee4271dbde96a912eca5f8d0580c3848bb4b7ac4ffadbd82b.png" src="_images/7543d4aa16e9ad3ee4271dbde96a912eca5f8d0580c3848bb4b7ac4ffadbd82b.png" />
 </div>
 </div>
 </section>
@@ -1693,7 +1715,7 @@ SO2: 125 observasi
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_890e275cbec9ac505095bfd25ed6d322 {
+                #map_911a2e37513a8209e914dcdcf900ee1b {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1746,14 +1768,14 @@ SO2: 125 observasi
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_890e275cbec9ac505095bfd25ed6d322&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_911a2e37513a8209e914dcdcf900ee1b&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_890e275cbec9ac505095bfd25ed6d322 = L.map(
-                &quot;map_890e275cbec9ac505095bfd25ed6d322&quot;,
+            var map_911a2e37513a8209e914dcdcf900ee1b = L.map(
+                &quot;map_911a2e37513a8209e914dcdcf900ee1b&quot;,
                 {
                     center: [-6.9207315, 112.9157185],
                     crs: L.CRS.EPSG3857,
@@ -1770,7 +1792,7 @@ SO2: 125 observasi
 
         
     
-            var tile_layer_64ee368d23acd9c5218802c843cc546f = L.tileLayer(
+            var tile_layer_3c11f1330bb7ad244677260601aa1e7a = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -1787,38 +1809,38 @@ SO2: 125 observasi
             );
         
     
-            tile_layer_64ee368d23acd9c5218802c843cc546f.addTo(map_890e275cbec9ac505095bfd25ed6d322);
+            tile_layer_3c11f1330bb7ad244677260601aa1e7a.addTo(map_911a2e37513a8209e914dcdcf900ee1b);
         
     
-        function geo_json_fe3fb0c484631b01d35171af8fce42b2_styler(feature) {
+        function geo_json_d2284dc77e3f5f2a94a8d28479d2135d_styler(feature) {
             switch(feature.properties.nama) {
                 default:
                     return {&quot;color&quot;: &quot;#e65100&quot;, &quot;fillColor&quot;: &quot;#ff7800&quot;, &quot;fillOpacity&quot;: 0.3, &quot;weight&quot;: 2.5};
             }
         }
 
-        function geo_json_fe3fb0c484631b01d35171af8fce42b2_onEachFeature(feature, layer) {
+        function geo_json_d2284dc77e3f5f2a94a8d28479d2135d_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_fe3fb0c484631b01d35171af8fce42b2 = L.geoJson(null, {
-                onEachFeature: geo_json_fe3fb0c484631b01d35171af8fce42b2_onEachFeature,
+        var geo_json_d2284dc77e3f5f2a94a8d28479d2135d = L.geoJson(null, {
+                onEachFeature: geo_json_d2284dc77e3f5f2a94a8d28479d2135d_onEachFeature,
             
-                style: geo_json_fe3fb0c484631b01d35171af8fce42b2_styler,
+                style: geo_json_d2284dc77e3f5f2a94a8d28479d2135d_styler,
             ...{
 }
         });
 
-        function geo_json_fe3fb0c484631b01d35171af8fce42b2_add (data) {
-            geo_json_fe3fb0c484631b01d35171af8fce42b2
+        function geo_json_d2284dc77e3f5f2a94a8d28479d2135d_add (data) {
+            geo_json_d2284dc77e3f5f2a94a8d28479d2135d
                 .addData(data);
         }
-            geo_json_fe3fb0c484631b01d35171af8fce42b2_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_d2284dc77e3f5f2a94a8d28479d2135d_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.878389, -6.890926], [112.878389, -6.950537], [112.953048, -6.950537], [112.953048, -6.890926], [112.878389, -6.890926]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;kabupaten&quot;: &quot;Bangkalan&quot;, &quot;nama&quot;: &quot;AOI Klampis&quot;, &quot;provinsi&quot;: &quot;Jawa Timur&quot;, &quot;wilayah&quot;: &quot;Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_fe3fb0c484631b01d35171af8fce42b2.bindTooltip(
+    geo_json_d2284dc77e3f5f2a94a8d28479d2135d.bindTooltip(
     function(layer){
     let div = L.DomUtil.create(&#x27;div&#x27;);
     
@@ -1853,34 +1875,34 @@ SO2: 125 observasi
 });
                      
     
-            geo_json_fe3fb0c484631b01d35171af8fce42b2.addTo(map_890e275cbec9ac505095bfd25ed6d322);
+            geo_json_d2284dc77e3f5f2a94a8d28479d2135d.addTo(map_911a2e37513a8209e914dcdcf900ee1b);
         
     
-            var marker_b34f7481e66b8b02c79201ac70be801e = L.marker(
+            var marker_21ad90a1f50b63f7f05a6249d411e153 = L.marker(
                 [-6.9207315, 112.9157185],
                 {
 }
-            ).addTo(map_890e275cbec9ac505095bfd25ed6d322);
+            ).addTo(map_911a2e37513a8209e914dcdcf900ee1b);
         
     
-        var popup_ce646eb431eca93243aa7e674cdb4b16 = L.popup({
+        var popup_2bde247cfacc342e00a34b070fae7216 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_8a984eb6f979fa5c50e4aa6c33f1868d = $(`&lt;div id=&quot;html_8a984eb6f979fa5c50e4aa6c33f1868d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
-                popup_ce646eb431eca93243aa7e674cdb4b16.setContent(html_8a984eb6f979fa5c50e4aa6c33f1868d);
+                var html_d965373b147b3a80c9e5830a43c01f9d = $(`&lt;div id=&quot;html_d965373b147b3a80c9e5830a43c01f9d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Wilayah Klampis, Kabupaten Bangkalan, Jawa Timur&lt;/div&gt;`)[0];
+                popup_2bde247cfacc342e00a34b070fae7216.setContent(html_d965373b147b3a80c9e5830a43c01f9d);
             
         
 
-        marker_b34f7481e66b8b02c79201ac70be801e.bindPopup(popup_ce646eb431eca93243aa7e674cdb4b16)
+        marker_21ad90a1f50b63f7f05a6249d411e153.bindPopup(popup_2bde247cfacc342e00a34b070fae7216)
         ;
 
         
     
     
-            marker_b34f7481e66b8b02c79201ac70be801e.bindTooltip(
+            marker_21ad90a1f50b63f7f05a6249d411e153.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,
@@ -1890,23 +1912,23 @@ SO2: 125 observasi
             );
         
     
-            var layer_control_2045e037c0c4d965be07d3e270819eec_layers = {
+            var layer_control_9886a43108d92ebd565cb9216a1ed896_layers = {
                 base_layers : {
-                    &quot;openstreetmap&quot; : tile_layer_64ee368d23acd9c5218802c843cc546f,
+                    &quot;openstreetmap&quot; : tile_layer_3c11f1330bb7ad244677260601aa1e7a,
                 },
                 overlays :  {
-                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_fe3fb0c484631b01d35171af8fce42b2,
+                    &quot;Area of Interest (AOI) Klampis&quot; : geo_json_d2284dc77e3f5f2a94a8d28479d2135d,
                 },
             };
-            let layer_control_2045e037c0c4d965be07d3e270819eec = L.control.layers(
-                layer_control_2045e037c0c4d965be07d3e270819eec_layers.base_layers,
-                layer_control_2045e037c0c4d965be07d3e270819eec_layers.overlays,
+            let layer_control_9886a43108d92ebd565cb9216a1ed896 = L.control.layers(
+                layer_control_9886a43108d92ebd565cb9216a1ed896_layers.base_layers,
+                layer_control_9886a43108d92ebd565cb9216a1ed896_layers.overlays,
                 {
   &quot;position&quot;: &quot;topright&quot;,
   &quot;collapsed&quot;: true,
   &quot;autoZIndex&quot;: true,
 }
-            ).addTo(map_890e275cbec9ac505095bfd25ed6d322);
+            ).addTo(map_911a2e37513a8209e914dcdcf900ee1b);
 
         
 &lt;/script&gt;

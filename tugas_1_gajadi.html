@@ -37,6 +37,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c23772c6" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -229,9 +230,24 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tugas_3_Ekstraksi_lanjutan.html">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="clustering_segmentasi_sentinel2.html">LAPORAN CLUSTERING DAN SEGMENTASI DATA CITRA SENTINEL-2</a></li>
+
+
+
+
+
 </ul>
 
     </div>
@@ -786,7 +802,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_7b4e2422172edb8f6b6dff4b9bd77202 {
+                #map_615fec11d41b23a28bec37f61547c12e {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -823,14 +839,14 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_7b4e2422172edb8f6b6dff4b9bd77202&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_615fec11d41b23a28bec37f61547c12e&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_7b4e2422172edb8f6b6dff4b9bd77202 = L.map(
-                &quot;map_7b4e2422172edb8f6b6dff4b9bd77202&quot;,
+            var map_615fec11d41b23a28bec37f61547c12e = L.map(
+                &quot;map_615fec11d41b23a28bec37f61547c12e&quot;,
                 {
                     center: [-7.0615, 112.7393],
                     crs: L.CRS.EPSG3857,
@@ -847,7 +863,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 
         
     
-            var tile_layer_0390adf6c265894e07232771d217013c = L.tileLayer(
+            var tile_layer_9066975c952bc878b875eec65765cb98 = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -864,59 +880,59 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             );
         
     
-            tile_layer_0390adf6c265894e07232771d217013c.addTo(map_7b4e2422172edb8f6b6dff4b9bd77202);
+            tile_layer_9066975c952bc878b875eec65765cb98.addTo(map_615fec11d41b23a28bec37f61547c12e);
         
     
 
-        function geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_onEachFeature(feature, layer) {
+        function geo_json_c8d63eddfe74b4b253bf9c68c38176ab_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_eef0af4736c64e3e22e8bf1bd7c504f3 = L.geoJson(null, {
-                onEachFeature: geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_onEachFeature,
+        var geo_json_c8d63eddfe74b4b253bf9c68c38176ab = L.geoJson(null, {
+                onEachFeature: geo_json_c8d63eddfe74b4b253bf9c68c38176ab_onEachFeature,
             
             ...{
 }
         });
 
-        function geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_add (data) {
-            geo_json_eef0af4736c64e3e22e8bf1bd7c504f3
+        function geo_json_c8d63eddfe74b4b253bf9c68c38176ab_add (data) {
+            geo_json_c8d63eddfe74b4b253bf9c68c38176ab
                 .addData(data);
         }
-            geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
-        geo_json_eef0af4736c64e3e22e8bf1bd7c504f3.setStyle(function(feature) {return feature.properties.style;});
+            geo_json_c8d63eddfe74b4b253bf9c68c38176ab_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+        geo_json_c8d63eddfe74b4b253bf9c68c38176ab.setStyle(function(feature) {return feature.properties.style;});
 
         
     
-            geo_json_eef0af4736c64e3e22e8bf1bd7c504f3.addTo(map_7b4e2422172edb8f6b6dff4b9bd77202);
+            geo_json_c8d63eddfe74b4b253bf9c68c38176ab.addTo(map_615fec11d41b23a28bec37f61547c12e);
         
     
-            var marker_c1ed7ce1b8e7619136dccc1227f5e40f = L.marker(
+            var marker_e8c6716051f48c0361f573cf3922a724 = L.marker(
                 [-7.0615, 112.7393],
                 {
 }
-            ).addTo(map_7b4e2422172edb8f6b6dff4b9bd77202);
+            ).addTo(map_615fec11d41b23a28bec37f61547c12e);
         
     
-        var popup_7c0a6dd5127f034d4eb5e1e77e1796be = L.popup({
+        var popup_f5a3d59c1f8c560e721d79d89d437028 = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_b64cba2613bc6e1e9b232f0b4446ded3 = $(`&lt;div id=&quot;html_b64cba2613bc6e1e9b232f0b4446ded3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
-                popup_7c0a6dd5127f034d4eb5e1e77e1796be.setContent(html_b64cba2613bc6e1e9b232f0b4446ded3);
+                var html_f596812c179893f5f0a481050c057201 = $(`&lt;div id=&quot;html_f596812c179893f5f0a481050c057201&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
+                popup_f5a3d59c1f8c560e721d79d89d437028.setContent(html_f596812c179893f5f0a481050c057201);
             
         
 
-        marker_c1ed7ce1b8e7619136dccc1227f5e40f.bindPopup(popup_7c0a6dd5127f034d4eb5e1e77e1796be)
+        marker_e8c6716051f48c0361f573cf3922a724.bindPopup(popup_f5a3d59c1f8c560e721d79d89d437028)
         ;
 
         
     
     
-            marker_c1ed7ce1b8e7619136dccc1227f5e40f.bindTooltip(
+            marker_e8c6716051f48c0361f573cf3922a724.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,
@@ -1059,16 +1075,16 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
     </tr>
   </tbody>
 </table>
-</div></div><img alt="_images/a4ace9ae4faee9f84cac089c300b6a1bf4c5bbac1757baad923eaf1cbb9e7723.png" src="_images/a4ace9ae4faee9f84cac089c300b6a1bf4c5bbac1757baad923eaf1cbb9e7723.png" />
+</div></div><img alt="_images/ffb2bbf3f12a39fb44e8479e9ee1ca262112396191e11d2f833ffe6449e345d8.png" src="_images/ffb2bbf3f12a39fb44e8479e9ee1ca262112396191e11d2f833ffe6449e345d8.png" />
 <h3 class="rubric" id="penjelasan-grafik-co">Penjelasan Grafik CO</h3>
 <p>Konsentrasi CO menunjukkan fluktuasi yang cukup nyata. Nilai cenderung lebih tinggi pada beberapa periode tertentu, menandakan adanya variasi sumber emisi dan kondisi atmosfer yang memengaruhi konsentrasi gas.</p>
-<img alt="_images/959913d5bfadbe72dd4e82b676962118762382681837198c1f034adf5e393d0e.png" src="_images/959913d5bfadbe72dd4e82b676962118762382681837198c1f034adf5e393d0e.png" />
+<img alt="_images/e12db967676f4628005d1d80bfb2b370a11b0ff643f00f33a52032974246345a.png" src="_images/e12db967676f4628005d1d80bfb2b370a11b0ff643f00f33a52032974246345a.png" />
 <h3 class="rubric" id="penjelasan-grafik-no2">Penjelasan Grafik NO₂</h3>
 <p>NO₂ bervariasi sepanjang periode. Pada beberapa hari terlihat puncak konsentrasi, yang dapat terkait dengan aktivitas kendaraan dan pembakaran di wilayah sekitar.</p>
-<img alt="_images/47239dc03ca8f815ec66f94ba8530fdf8eeeeb671bfa7c4b9378c22feb4c5a2b.png" src="_images/47239dc03ca8f815ec66f94ba8530fdf8eeeeb671bfa7c4b9378c22feb4c5a2b.png" />
+<img alt="_images/c5d2cbf38981b35fa3e40ab96ba1434fc3d5d6ead0f1753215230e4ba3ab54eb.png" src="_images/c5d2cbf38981b35fa3e40ab96ba1434fc3d5d6ead0f1753215230e4ba3ab54eb.png" />
 <h3 class="rubric" id="penjelasan-grafik-so2">Penjelasan Grafik SO₂</h3>
 <p>SO₂ cenderung lebih stabil dibanding polutan lainnya, namun tetap menunjukkan variasi yang dapat dipengaruhi oleh aktivitas industri dan pembakaran bahan bakar.</p>
-<img alt="_images/de8504456fdc088d7453c2733470857a135233f17045293518eb941e75466d95.png" src="_images/de8504456fdc088d7453c2733470857a135233f17045293518eb941e75466d95.png" />
+<img alt="_images/f3c73e2f0623dca34b7722ef188743ce08312d90ce1b606d6d449207665132ab.png" src="_images/f3c73e2f0623dca34b7722ef188743ce08312d90ce1b606d6d449207665132ab.png" />
 <h3 class="rubric" id="penjelasan-grafik-o3">Penjelasan Grafik O₃</h3>
 <p>O₃ menunjukkan pola yang berbeda, dengan fluktuasi yang tergantung pada kondisi sinar matahari, reaksi kimia atmosfer, dan konsentrasi precursor seperti NOₓ.</p>
 </div>

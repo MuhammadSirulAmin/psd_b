@@ -1,0 +1,4 @@
+/* Keep Python inputs in the source notebook, but hide them in the published report. */
+div.cell_input {
+  display: none !important;
+}
