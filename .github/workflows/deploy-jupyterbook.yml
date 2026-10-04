@@ -36,10 +36,14 @@ jobs:
       - name: Build Jupyter Book
         run: |
           set -euxo pipefail
-          jupyter-book build --all --path-output pages-site pemrosesan-data-sains
-          test -s pages-site/_build/html/index.html
-          test -s pages-site/_build/html/laporan-clustering.html
-          test -s pages-site/_build/html/peta_100_sampel.html
+          publish_root="${GITHUB_WORKSPACE}/pages-site"
+          jupyter-book build --all --path-output "$publish_root" pemrosesan-data-sains
+          for file in index.html laporan-clustering.html peta_100_sampel.html; do
+            if [[ ! -s "$publish_root/_build/html/$file" ]]; then
+              echo "::error title=Missing deployment file::$publish_root/_build/html/$file"
+              exit 1
+            fi
+          done
 
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
