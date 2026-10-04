@@ -37,7 +37,19 @@ jobs:
         run: |
           set -euxo pipefail
           publish_root="${GITHUB_WORKSPACE}/pages-site"
-          jupyter-book build --all --path-output "$publish_root" pemrosesan-data-sains
+          build_log="$(mktemp)"
+          if jupyter-book build --all --path-output "$publish_root" pemrosesan-data-sains >"$build_log" 2>&1; then
+            cat "$build_log"
+          else
+            status=$?
+            cat "$build_log"
+            tail -n 8 "$build_log" | while IFS= read -r line; do
+              line="${line//'%'/'%25'}"
+              line="${line//$'\r'/'%0D'}"
+              echo "::error title=Jupyter Book build output::$line"
+            done
+            exit "$status"
+          fi
           for file in index.html laporan-clustering.html peta_100_sampel.html; do
             if [[ ! -s "$publish_root/_build/html/$file" ]]; then
               echo "::error title=Missing deployment file::$publish_root/_build/html/$file"
