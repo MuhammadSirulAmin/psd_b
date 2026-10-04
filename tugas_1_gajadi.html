@@ -34,10 +34,9 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=c23772c6" />
   
   <!-- So that users can add custom icons -->
   <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
@@ -230,18 +229,9 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="tugas_3.html">Tugas 3 - Preprocessing Data dan Ekstraksi Fitur TSFEL</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Tugas_3_Ekstraksi_lanjutan.html">Tugas 3 — Ekstraksi Fitur dan Clustering Data Time Series</a></li>
-
-
-
-
-
-
-
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
 </ul>
 
     </div>
@@ -796,7 +786,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
             &lt;style&gt;
-                #map_86d4736c97c44ca8164c307f64b1e8fe {
+                #map_7b4e2422172edb8f6b6dff4b9bd77202 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -833,14 +823,14 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 &lt;body&gt;
     
     
-            &lt;div class=&quot;folium-map&quot; id=&quot;map_86d4736c97c44ca8164c307f64b1e8fe&quot; &gt;&lt;/div&gt;
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_7b4e2422172edb8f6b6dff4b9bd77202&quot; &gt;&lt;/div&gt;
         
 &lt;/body&gt;
 &lt;script&gt;
     
     
-            var map_86d4736c97c44ca8164c307f64b1e8fe = L.map(
-                &quot;map_86d4736c97c44ca8164c307f64b1e8fe&quot;,
+            var map_7b4e2422172edb8f6b6dff4b9bd77202 = L.map(
+                &quot;map_7b4e2422172edb8f6b6dff4b9bd77202&quot;,
                 {
                     center: [-7.0615, 112.7393],
                     crs: L.CRS.EPSG3857,
@@ -857,7 +847,7 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
 
         
     
-            var tile_layer_5c4e66ac27557502e7975647882e63bf = L.tileLayer(
+            var tile_layer_0390adf6c265894e07232771d217013c = L.tileLayer(
                 &quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -874,59 +864,59 @@ Rentang waktu: 2025-09-01 00:00:00 sampai 2026-08-28 23:00:00
             );
         
     
-            tile_layer_5c4e66ac27557502e7975647882e63bf.addTo(map_86d4736c97c44ca8164c307f64b1e8fe);
+            tile_layer_0390adf6c265894e07232771d217013c.addTo(map_7b4e2422172edb8f6b6dff4b9bd77202);
         
     
 
-        function geo_json_d631d47d069e4eded54125784d067c30_onEachFeature(feature, layer) {
+        function geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_onEachFeature(feature, layer) {
 
             layer.on({
             });
         };
-        var geo_json_d631d47d069e4eded54125784d067c30 = L.geoJson(null, {
-                onEachFeature: geo_json_d631d47d069e4eded54125784d067c30_onEachFeature,
+        var geo_json_eef0af4736c64e3e22e8bf1bd7c504f3 = L.geoJson(null, {
+                onEachFeature: geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_onEachFeature,
             
             ...{
 }
         });
 
-        function geo_json_d631d47d069e4eded54125784d067c30_add (data) {
-            geo_json_d631d47d069e4eded54125784d067c30
+        function geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_add (data) {
+            geo_json_eef0af4736c64e3e22e8bf1bd7c504f3
                 .addData(data);
         }
-            geo_json_d631d47d069e4eded54125784d067c30_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
-        geo_json_d631d47d069e4eded54125784d067c30.setStyle(function(feature) {return feature.properties.style;});
+            geo_json_eef0af4736c64e3e22e8bf1bd7c504f3_add({&quot;features&quot;: [{&quot;geometry&quot;: {&quot;coordinates&quot;: [[[112.71, -7.08], [112.76, -7.08], [112.76, -7.05], [112.72, -7.045], [112.7, -7.055], [112.71, -7.08]]], &quot;type&quot;: &quot;Polygon&quot;}, &quot;properties&quot;: {&quot;name&quot;: &quot;Wilayah Klampis&quot;}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+        geo_json_eef0af4736c64e3e22e8bf1bd7c504f3.setStyle(function(feature) {return feature.properties.style;});
 
         
     
-            geo_json_d631d47d069e4eded54125784d067c30.addTo(map_86d4736c97c44ca8164c307f64b1e8fe);
+            geo_json_eef0af4736c64e3e22e8bf1bd7c504f3.addTo(map_7b4e2422172edb8f6b6dff4b9bd77202);
         
     
-            var marker_e06ff84eb52e42c6814b0092a2768432 = L.marker(
+            var marker_c1ed7ce1b8e7619136dccc1227f5e40f = L.marker(
                 [-7.0615, 112.7393],
                 {
 }
-            ).addTo(map_86d4736c97c44ca8164c307f64b1e8fe);
+            ).addTo(map_7b4e2422172edb8f6b6dff4b9bd77202);
         
     
-        var popup_ef30a99efd3a57476d891a8124b674ee = L.popup({
+        var popup_7c0a6dd5127f034d4eb5e1e77e1796be = L.popup({
   &quot;maxWidth&quot;: &quot;100%&quot;,
 });
 
         
             
-                var html_5f0e42a17826e1d1debc11cefa7abf5c = $(`&lt;div id=&quot;html_5f0e42a17826e1d1debc11cefa7abf5c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
-                popup_ef30a99efd3a57476d891a8124b674ee.setContent(html_5f0e42a17826e1d1debc11cefa7abf5c);
+                var html_b64cba2613bc6e1e9b232f0b4446ded3 = $(`&lt;div id=&quot;html_b64cba2613bc6e1e9b232f0b4446ded3&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;Klampis, Bangkalan&lt;/div&gt;`)[0];
+                popup_7c0a6dd5127f034d4eb5e1e77e1796be.setContent(html_b64cba2613bc6e1e9b232f0b4446ded3);
             
         
 
-        marker_e06ff84eb52e42c6814b0092a2768432.bindPopup(popup_ef30a99efd3a57476d891a8124b674ee)
+        marker_c1ed7ce1b8e7619136dccc1227f5e40f.bindPopup(popup_7c0a6dd5127f034d4eb5e1e77e1796be)
         ;
 
         
     
     
-            marker_e06ff84eb52e42c6814b0092a2768432.bindTooltip(
+            marker_c1ed7ce1b8e7619136dccc1227f5e40f.bindTooltip(
                 `&lt;div&gt;
                      Klampis
                  &lt;/div&gt;`,
