@@ -17,6 +17,8 @@ Materi dalam repository ini disusun berdasarkan pertemuan dan topik yang dipelaj
 
 Lihat juga [Laporan Clustering dan Segmentasi Data Citra Sentinel-2](https://muhammadsirulamin.github.io/psd_b/laporan-clustering.html) dengan peta interaktif hasil analisis.
 
+Lihat juga [Laporan Klasifikasi Tutupan Lahan Jawa Timur](./laporan-klasifikasi.html), dengan visualisasi dan peta interaktif hasil klasifikasi Sentinel-2.
+
 Materi dapat mencakup:
 
 - Konsep dasar pemrosesan data
