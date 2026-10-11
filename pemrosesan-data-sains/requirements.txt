@@ -1,6 +1,7 @@
 folium
 geopandas
 jupyter-book>=1.0.0,<2
+nbconvert
 matplotlib
 numpy
 pandas

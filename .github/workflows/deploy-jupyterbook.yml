@@ -56,6 +56,14 @@ jobs:
               exit 1
             fi
           done
+          jupyter nbconvert --to html --no-input \
+            --output-dir "$publish_root/_build/html" \
+            --output laporan-klasifikasi \
+            pemrosesan-data-sains/klasifikasi-tutupan-lahan/laporan_klasifikasi.ipynb
+          if [[ ! -s "$publish_root/_build/html/laporan-klasifikasi.html" ]]; then
+            echo "::error title=Missing deployment file::$publish_root/_build/html/laporan-klasifikasi.html"
+            exit 1
+          fi
 
       - name: Publish to GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
