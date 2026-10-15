@@ -7,14 +7,13 @@ import pandas as pd
 import rasterio
 import matplotlib.pyplot as plt
 
-from rasterio.enums import Resampling
 from rasterio.warp import transform
 from rasterio.transform import rowcol
 from streamlit_folium import st_folium
 
 from peta_interaktif import (
     build_landcover_map,
-    create_sentinel_rgb,
+    prepare_landcover_layers,
 )
 
 
@@ -95,17 +94,47 @@ with st.expander("Tujuan dan pemahaman data", expanded=True):
 # =========================================================
 
 @st.cache_data
-def calculate_statistics(raster_path, modified_time):
+def calculate_statistics(
+    raster_path,
+    scl_path,
+    raster_modified_time,
+    scl_modified_time,
+):
+    raster_path = Path(raster_path)
+    scl_path = Path(scl_path)
+    if (
+        raster_path.stat().st_mtime != raster_modified_time
+        or scl_path.stat().st_mtime != scl_modified_time
+    ):
+        raise RuntimeError(
+            "Raster berubah saat statistik sedang disiapkan; muat ulang."
+        )
+
     pixel_counts = {code: 0 for code in CLASSES}
     nodata_count = 0
 
-    with rasterio.open(raster_path) as src:
+    with rasterio.open(raster_path) as src, rasterio.open(
+        scl_path
+    ) as scl_src:
+        if (
+            src.width != scl_src.width
+            or src.height != scl_src.height
+            or src.crs != scl_src.crs
+            or src.transform != scl_src.transform
+        ):
+            raise ValueError(
+                "Grid SCL tidak sama dengan raster klasifikasi."
+            )
+
         pixel_area_m2 = abs(src.transform.a * src.transform.e)
         pixel_area_ha = pixel_area_m2 / 10000
 
         for _, window in src.block_windows(1):
             data = src.read(1, window=window)
+            scl = scl_src.read(1, window=window)
 
+            data[(data == 5) & (scl != 6)] = 0
+            data[scl == 6] = 5
             nodata_count += int(np.count_nonzero(data == 0))
 
             values, counts = np.unique(data, return_counts=True)
@@ -142,7 +171,12 @@ def calculate_statistics(raster_path, modified_time):
 
 
 stats, nodata_count, total_valid, pixel_area_ha = (
-    calculate_statistics(str(RASTER), RASTER.stat().st_mtime)
+    calculate_statistics(
+        str(RASTER),
+        str(SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif"),
+        RASTER.stat().st_mtime,
+        (SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif").stat().st_mtime,
+    )
 )
 
 total_area_ha = stats["Luas (ha)"].sum()
@@ -241,21 +275,17 @@ opacity = st.sidebar.slider(
 # =========================================================
 
 with rasterio.open(RASTER) as src:
-    max_dimension = 1200
-
-    scale = max(
-        1,
-        int(np.ceil(max(src.width, src.height) / max_dimension)),
-    )
-
-    out_h = max(1, int(np.ceil(src.height / scale)))
-    out_w = max(1, int(np.ceil(src.width / scale)))
-
-    landcover = src.read(
-        1,
-        out_shape=(out_h, out_w),
-        resampling=Resampling.nearest,
-    )
+    scl_path = SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif"
+    with rasterio.open(scl_path) as scl_src:
+        if (
+            src.width != scl_src.width
+            or src.height != scl_src.height
+            or src.crs != scl_src.crs
+            or src.transform != scl_src.transform
+        ):
+            raise ValueError(
+                "Grid SCL tidak sama dengan raster klasifikasi."
+            )
 
     raster_crs = src.crs
     raster_transform = src.transform
@@ -263,13 +293,12 @@ with rasterio.open(RASTER) as src:
     raster_height = src.height
 
 try:
-    sentinel_rgba, sentinel_bounds = create_sentinel_rgb(
+    landcover, sentinel_rgba, sentinel_bounds = prepare_landcover_layers(
         RASTER,
-        SENTINEL_BANDS_DIR,
-        (out_h, out_w),
+        scl_path,
     )
 except (FileNotFoundError, ValueError) as exc:
-    st.error(f"Citra Sentinel-2 tidak dapat disiapkan: {exc}")
+    st.error(f"Layer peta tidak dapat disiapkan: {exc}")
     st.stop()
 
 # =========================================================
@@ -345,6 +374,18 @@ if result and result.get("last_clicked"):
                     window=((row, row + 1), (col, col + 1)),
                 )[0, 0]
             )
+        with rasterio.open(scl_path) as scl_src:
+            scl_value = int(
+                scl_src.read(
+                    1,
+                    window=((row, row + 1), (col, col + 1)),
+                )[0, 0]
+            )
+
+        if scl_value == 6:
+            value = 5
+        elif value == 5:
+            value = 0
 
         if value in CLASSES:
             info = CLASSES[value]

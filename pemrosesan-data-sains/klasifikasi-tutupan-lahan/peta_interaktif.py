@@ -5,8 +5,12 @@ from pathlib import Path
 import folium
 import numpy as np
 import rasterio
+from affine import Affine
 from branca.element import MacroElement, Template
-from rasterio.warp import transform_bounds
+from rasterio.enums import Resampling
+from rasterio.features import sieve
+from rasterio.transform import from_bounds
+from rasterio.warp import reproject, transform_bounds
 
 
 CLASSES = {
@@ -22,6 +26,9 @@ MAP_VIEWS = {
     "Pulau Jawa": [[-9.2, 105.0], [-5.7, 115.0]],
     "Indonesia": [[-11.5, 94.5], [6.5, 141.1]],
 }
+
+MAP_MAX_DIMENSION = 1800
+MIN_DISPLAY_PATCH_PIXELS = 5
 
 
 def add_responsive_resize_handler(map_object: folium.Map) -> None:
@@ -48,13 +55,8 @@ def add_responsive_resize_handler(map_object: folium.Map) -> None:
 
 def create_sentinel_rgb(
     reference_raster: Path,
-    bands_dir: Path,
     output_shape: tuple[int, int],
 ) -> tuple[np.ndarray, list[list[float]]]:
-    """
-    Membaca preview RGB PNG yang ringan.
-    Tidak lagi membutuhkan raster B04, B03, dan B02 asli.
-    """
     from PIL import Image
 
     preview_path = (
@@ -66,21 +68,151 @@ def create_sentinel_rgb(
             f"Preview RGB tidak ditemukan: {preview_path}"
         )
 
-    with rasterio.open(reference_raster) as reference:
-        bounds = transform_bounds(
-            reference.crs,
-            "EPSG:4326",
-            *reference.bounds,
-            densify_pts=21,
-        )
-
     with Image.open(preview_path) as image:
         rgba = np.array(image.convert("RGBA"))
 
-    west, south, east, north = bounds
+    with rasterio.open(reference_raster) as reference:
+        target_bounds = transform_bounds(
+            reference.crs,
+            "EPSG:3857",
+            *reference.bounds,
+            densify_pts=21,
+        )
+        source_transform = reference.transform * Affine.scale(
+            reference.width / rgba.shape[1],
+            reference.height / rgba.shape[0],
+        )
+        target_transform = from_bounds(
+            *target_bounds,
+            width=output_shape[1],
+            height=output_shape[0],
+        )
+
+        projected_rgba = np.zeros(
+            (*output_shape, 4),
+            dtype=np.uint8,
+        )
+        for channel in range(4):
+            reproject(
+                source=rgba[:, :, channel],
+                destination=projected_rgba[:, :, channel],
+                src_transform=source_transform,
+                src_crs=reference.crs,
+                dst_transform=target_transform,
+                dst_crs="EPSG:3857",
+                resampling=Resampling.nearest,
+            )
+
+    west, south, east, north = transform_bounds(
+        "EPSG:3857",
+        "EPSG:4326",
+        *target_bounds,
+        densify_pts=21,
+    )
     geographic_bounds = [[south, west], [north, east]]
 
-    return rgba, geographic_bounds
+    return projected_rgba, geographic_bounds
+
+
+def reproject_landcover(
+    landcover: np.ndarray,
+    reference_raster: Path,
+) -> np.ndarray:
+    with rasterio.open(reference_raster) as reference:
+        target_bounds = transform_bounds(
+            reference.crs,
+            "EPSG:3857",
+            *reference.bounds,
+            densify_pts=21,
+        )
+        source_transform = reference.transform * Affine.scale(
+            reference.width / landcover.shape[1],
+            reference.height / landcover.shape[0],
+        )
+        target_transform = from_bounds(
+            *target_bounds,
+            width=landcover.shape[1],
+            height=landcover.shape[0],
+        )
+
+        projected_landcover = np.zeros_like(landcover)
+        reproject(
+            source=landcover,
+            destination=projected_landcover,
+            src_transform=source_transform,
+            src_crs=reference.crs,
+            dst_transform=target_transform,
+            dst_crs="EPSG:3857",
+            resampling=Resampling.nearest,
+        )
+
+    return projected_landcover
+
+
+def prepare_landcover_layers(
+    classification_raster: Path,
+    scl_raster: Path,
+    max_dimension: int = MAP_MAX_DIMENSION,
+) -> tuple[np.ndarray, np.ndarray, list[list[float]]]:
+    if max_dimension < 1:
+        raise ValueError("Ukuran maksimum peta harus lebih besar dari nol.")
+
+    with rasterio.open(classification_raster) as classification, rasterio.open(
+        scl_raster
+    ) as scl:
+        if (
+            classification.width != scl.width
+            or classification.height != scl.height
+            or classification.crs != scl.crs
+            or classification.transform != scl.transform
+        ):
+            raise ValueError(
+                "Grid SCL tidak sama dengan raster klasifikasi."
+            )
+
+        scale = max(
+            1,
+            int(
+                np.ceil(
+                    max(classification.width, classification.height)
+                    / max_dimension
+                )
+            ),
+        )
+        output_shape = (
+            max(1, int(np.ceil(classification.height / scale))),
+            max(1, int(np.ceil(classification.width / scale))),
+        )
+        landcover = classification.read(
+            1,
+            out_shape=output_shape,
+            resampling=Resampling.mode,
+        )
+        scl_preview = scl.read(
+            1,
+            out_shape=output_shape,
+            resampling=Resampling.mode,
+        )
+
+    water_mask = (scl_preview == 6).astype(np.uint8)
+    landcover = reproject_landcover(landcover, classification_raster)
+    water_mask = reproject_landcover(water_mask, classification_raster) > 0
+    landcover[(landcover == 5) & ~water_mask] = 0
+    landcover[water_mask] = 5
+    landcover = sieve(
+        landcover,
+        size=MIN_DISPLAY_PATCH_PIXELS,
+        mask=np.isin(landcover, (1, 2, 3, 4)),
+        connectivity=8,
+    )
+    landcover[(landcover == 5) & ~water_mask] = 0
+    landcover[water_mask] = 5
+    sentinel_rgb, bounds = create_sentinel_rgb(
+        classification_raster,
+        output_shape,
+    )
+
+    return landcover, sentinel_rgb, bounds
 
 
 def build_landcover_map(
@@ -111,7 +243,7 @@ def build_landcover_map(
         control_scale=True,
     )
 
-    folium.TileLayer(
+    satellite_layer = folium.TileLayer(
         tiles=(
             "https://server.arcgisonline.com/ArcGIS/rest/services/"
             "World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -120,13 +252,15 @@ def build_landcover_map(
         name="Citra satelit global (Esri)",
         overlay=False,
         show=False,
+        max_zoom=19,
     ).add_to(map_object)
 
-    folium.TileLayer(
+    road_layer = folium.TileLayer(
         "OpenStreetMap",
         name="Peta jalan (OpenStreetMap)",
         overlay=False,
         show=True,
+        max_zoom=19,
     ).add_to(map_object)
 
     # Preview RGB memiliki resolusi lebih kecil daripada raster klasifikasi.
@@ -153,6 +287,12 @@ def build_landcover_map(
 
     if sample_geojson_dir is not None:
         add_sample_layers(map_object, sample_geojson_dir)
+
+    add_basemap_error_fallback(
+        map_object,
+        satellite_layer,
+        road_layer,
+    )
 
     legend_items = "".join(
         f"""
@@ -188,6 +328,68 @@ def build_landcover_map(
     return map_object
 
 
+def add_basemap_error_fallback(
+    map_object: folium.Map,
+    satellite_layer: folium.TileLayer,
+    road_layer: folium.TileLayer,
+) -> None:
+    fallback = MacroElement()
+    fallback.satellite_layer = satellite_layer
+    fallback.road_layer = road_layer
+    fallback._template = Template(
+        """
+        {% macro script(this, kwargs) %}
+        (() => {
+          const map = {{ this._parent.get_name() }};
+          const satellite = {{ this.satellite_layer.get_name() }};
+          const roads = {{ this.road_layer.get_name() }};
+          let failures = 0;
+          let firstFailure = 0;
+          let switched = false;
+
+          const showNotice = () => {
+            let notice = document.getElementById("basemap-load-notice");
+            if (!notice) {
+              notice = document.createElement("div");
+              notice.id = "basemap-load-notice";
+              notice.style.cssText =
+                "position:absolute;top:10px;left:50px;z-index:1000;" +
+                "max-width:360px;padding:8px 12px;background:#fff3cd;" +
+                "border:1px solid #e0b44c;border-radius:4px;" +
+                "color:#493b12;font:13px sans-serif;box-shadow:0 1px 4px #777;";
+              map.getContainer().appendChild(notice);
+            }
+            notice.textContent =
+              "Tile peta dasar gagal dimuat. Periksa koneksi internet " +
+              "atau pilih basemap lain.";
+          };
+
+          const registerErrors = (layer, alternative) => {
+            layer.on("tileerror", () => {
+              if (!map.hasLayer(layer)) return;
+              const now = Date.now();
+              if (!firstFailure || now - firstFailure > 4000) {
+                firstFailure = now;
+                failures = 0;
+              }
+              failures += 1;
+              if (failures < 4 || switched) return;
+              switched = true;
+              map.removeLayer(layer);
+              map.addLayer(alternative);
+              showNotice();
+            });
+          };
+
+          registerErrors(satellite, roads);
+          registerErrors(roads, satellite);
+        })();
+        {% endmacro %}
+        """
+    )
+    map_object.add_child(fallback)
+
+
 def add_sample_layers(
     map_object: folium.Map,
     geojson_dir: Path,
@@ -221,7 +423,7 @@ def add_sample_layers(
                 "fillColor": color,
                 "fillOpacity": 0.15,
             },
-            show=True,
+            show=False,
             overlay=True,
             control=True,
         ).add_to(map_object)
