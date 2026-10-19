@@ -1,3 +1,4 @@
+
 folium
 geopandas
 joblib
@@ -7,5 +8,6 @@ pandas
 pillow
 rasterio
 scikit-learn
-streamlit
+streamlit>=1.40,<2.0
 streamlit-folium
+altair>=5.0,<6.0
