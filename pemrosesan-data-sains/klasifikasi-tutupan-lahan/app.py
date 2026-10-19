@@ -101,10 +101,10 @@ def calculate_statistics(
     scl_modified_time,
 ):
     raster_path = Path(raster_path)
-    scl_path = Path(scl_path)
+    scl_path = Path(scl_path) if scl_path else None
     if (
         raster_path.stat().st_mtime != raster_modified_time
-        or scl_path.stat().st_mtime != scl_modified_time
+        or (scl_path and scl_path.is_file() and scl_path.stat().st_mtime != scl_modified_time)
     ):
         raise RuntimeError(
             "Raster berubah saat statistik sedang disiapkan; muat ulang."
@@ -113,37 +113,31 @@ def calculate_statistics(
     pixel_counts = {code: 0 for code in CLASSES}
     nodata_count = 0
 
-    with rasterio.open(raster_path) as src, rasterio.open(
-        scl_path
-    ) as scl_src:
-        if (
-            src.width != scl_src.width
-            or src.height != scl_src.height
-            or src.crs != scl_src.crs
-            or src.transform != scl_src.transform
-        ):
-            raise ValueError(
-                "Grid SCL tidak sama dengan raster klasifikasi."
-            )
-
+    has_scl = scl_path is not None and scl_path.is_file()
+    with rasterio.open(raster_path) as src:
         pixel_area_m2 = abs(src.transform.a * src.transform.e)
         pixel_area_ha = pixel_area_m2 / 10000
 
-        for _, window in src.block_windows(1):
-            data = src.read(1, window=window)
-            scl = scl_src.read(1, window=window)
+        scl_src = rasterio.open(scl_path) if has_scl else None
+        try:
+            for _, window in src.block_windows(1):
+                data = src.read(1, window=window)
+                if scl_src is not None:
+                    scl = scl_src.read(1, window=window)
+                    data[(data == 5) & (scl != 6)] = 0
+                    data[scl == 6] = 5
+                nodata_count += int(np.count_nonzero(data == 0))
 
-            data[(data == 5) & (scl != 6)] = 0
-            data[scl == 6] = 5
-            nodata_count += int(np.count_nonzero(data == 0))
+                values, counts = np.unique(data, return_counts=True)
 
-            values, counts = np.unique(data, return_counts=True)
+                for value, count in zip(values, counts):
+                    value = int(value)
 
-            for value, count in zip(values, counts):
-                value = int(value)
-
-                if value in pixel_counts:
-                    pixel_counts[value] += int(count)
+                    if value in pixel_counts:
+                        pixel_counts[value] += int(count)
+        finally:
+            if scl_src is not None:
+                scl_src.close()
 
     total_valid = sum(pixel_counts.values())
     rows = []
@@ -170,12 +164,16 @@ def calculate_statistics(
     )
 
 
+scl_file_candidate = SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif"
+scl_path_str = str(scl_file_candidate) if scl_file_candidate.is_file() else None
+scl_mtime = scl_file_candidate.stat().st_mtime if scl_file_candidate.is_file() else 0
+
 stats, nodata_count, total_valid, pixel_area_ha = (
     calculate_statistics(
         str(RASTER),
-        str(SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif"),
+        scl_path_str,
         RASTER.stat().st_mtime,
-        (SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif").stat().st_mtime,
+        scl_mtime,
     )
 )
 
@@ -276,16 +274,19 @@ opacity = st.sidebar.slider(
 
 with rasterio.open(RASTER) as src:
     scl_path = SENTINEL_BANDS_DIR / "SCL_20m_mosaic.tif"
-    with rasterio.open(scl_path) as scl_src:
-        if (
-            src.width != scl_src.width
-            or src.height != scl_src.height
-            or src.crs != scl_src.crs
-            or src.transform != scl_src.transform
-        ):
-            raise ValueError(
-                "Grid SCL tidak sama dengan raster klasifikasi."
-            )
+    if scl_path.is_file():
+        with rasterio.open(scl_path) as scl_src:
+            if (
+                src.width != scl_src.width
+                or src.height != scl_src.height
+                or src.crs != scl_src.crs
+                or src.transform != scl_src.transform
+            ):
+                raise ValueError(
+                    "Grid SCL tidak sama dengan raster klasifikasi."
+                )
+    else:
+        scl_path = None
 
     raster_crs = src.crs
     raster_transform = src.transform

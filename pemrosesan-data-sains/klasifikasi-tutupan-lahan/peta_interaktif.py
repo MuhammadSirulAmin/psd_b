@@ -151,25 +151,13 @@ def reproject_landcover(
 
 def prepare_landcover_layers(
     classification_raster: Path,
-    scl_raster: Path,
+    scl_raster: Path | None = None,
     max_dimension: int = MAP_MAX_DIMENSION,
 ) -> tuple[np.ndarray, np.ndarray, list[list[float]]]:
     if max_dimension < 1:
         raise ValueError("Ukuran maksimum peta harus lebih besar dari nol.")
 
-    with rasterio.open(classification_raster) as classification, rasterio.open(
-        scl_raster
-    ) as scl:
-        if (
-            classification.width != scl.width
-            or classification.height != scl.height
-            or classification.crs != scl.crs
-            or classification.transform != scl.transform
-        ):
-            raise ValueError(
-                "Grid SCL tidak sama dengan raster klasifikasi."
-            )
-
+    with rasterio.open(classification_raster) as classification:
         scale = max(
             1,
             int(
@@ -188,25 +176,91 @@ def prepare_landcover_layers(
             out_shape=output_shape,
             resampling=Resampling.mode,
         )
-        scl_preview = scl.read(
-            1,
-            out_shape=output_shape,
-            resampling=Resampling.mode,
-        )
 
-    water_mask = (scl_preview == 6).astype(np.uint8)
+    water_mask = None
+    if scl_raster is not None:
+        scl_file = Path(scl_raster)
+        if scl_file.is_file():
+            with rasterio.open(scl_file) as scl:
+                if (
+                    classification.width == scl.width
+                    and classification.height == scl.height
+                    and classification.crs == scl.crs
+                    and classification.transform == scl.transform
+                ):
+                    scl_preview = scl.read(
+                        1,
+                        out_shape=output_shape,
+                        resampling=Resampling.mode,
+                    )
+                    water_mask = (scl_preview == 6).astype(np.uint8)
+                    water_mask = reproject_landcover(water_mask, classification_raster) > 0
+
     landcover = reproject_landcover(landcover, classification_raster)
-    water_mask = reproject_landcover(water_mask, classification_raster) > 0
-    landcover[(landcover == 5) & ~water_mask] = 0
-    landcover[water_mask] = 5
+
+    if water_mask is not None:
+        landcover[(landcover == 5) & ~water_mask] = 0
+        landcover[water_mask] = 5
+
+    # Filter ekologis: Mangrove hanya berada di wilayah pesisir pantai & muara sungai
+    coastline_path = (
+        classification_raster.parents[1]
+        / "labels_clean"
+        / "east_java_coastline.geojson"
+    )
+    if coastline_path.is_file():
+        try:
+            import geopandas as gpd
+            from rasterio.features import rasterize
+            from scipy.ndimage import distance_transform_edt
+
+            coast_gdf = gpd.read_file(coastline_path)
+            with rasterio.open(classification_raster) as ref:
+                coast_utm = gpd.GeoSeries(
+                    [coast_gdf.union_all()], crs="EPSG:4326"
+                ).to_crs(ref.crs).iloc[0]
+                coast_buffer = coast_utm.buffer(3500) # Buffer pesisir/muara 3,5 km
+                coastal_mask = rasterize(
+                    [(coast_buffer, 1)],
+                    out_shape=output_shape,
+                    transform=ref.transform * Affine.scale(scale, scale),
+                    fill=0,
+                    dtype="uint8",
+                ) == 1
+                coastal_mask = (
+                    reproject_landcover(
+                        coastal_mask.astype(np.uint8), classification_raster
+                    )
+                    > 0
+                )
+
+            # Jika ada piksel mangrove di luar zona pesisir/muara, reklasifikasi ke kelas terdekat
+            inland_mangrove = (landcover == 4) & (~coastal_mask)
+            if np.any(inland_mangrove):
+                valid_land = np.isin(landcover, (1, 2, 3))
+                if np.any(valid_land):
+                    _, (r_idx, c_idx) = distance_transform_edt(
+                        ~valid_land, return_indices=True
+                    )
+                    landcover[inland_mangrove] = landcover[
+                        r_idx[inland_mangrove], c_idx[inland_mangrove]
+                    ]
+                else:
+                    landcover[inland_mangrove] = 3
+        except Exception:
+            pass
+
     landcover = sieve(
         landcover,
         size=MIN_DISPLAY_PATCH_PIXELS,
         mask=np.isin(landcover, (1, 2, 3, 4)),
         connectivity=8,
     )
-    landcover[(landcover == 5) & ~water_mask] = 0
-    landcover[water_mask] = 5
+
+    if water_mask is not None:
+        landcover[(landcover == 5) & ~water_mask] = 0
+        landcover[water_mask] = 5
+
     sentinel_rgb, bounds = create_sentinel_rgb(
         classification_raster,
         output_shape,
